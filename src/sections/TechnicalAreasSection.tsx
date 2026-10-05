@@ -77,6 +77,7 @@ function Envoltoria({ front }: { front: TechnicalFront }) {
           src={front.photo.src}
           alt={front.photo.alt}
           caption={front.photo.caption}
+          imageStyle={{ objectPosition: front.photo.position }}
           scene={<RoofScene />}
           labelPosition="top"
           className="-mx-5 aspect-[4/3] md:mx-0 lg:col-span-7 lg:-mb-5 lg:-ml-24 lg:-mt-9 lg:aspect-auto"

@@ -11,7 +11,7 @@ export type TechnicalFront = {
   risks: string[]
   services: { name: string; detail: string }[]
   norms: string[]
-  photo: { src: string | null; alt: string; caption: string }
+  photo: { src: string | null; alt: string; caption: string; position?: string }
   miniCase: { title: string; summary: string; caseId: string | null }
 }
 
@@ -34,7 +34,7 @@ export const fronts: TechnicalFront[] = [
       { name: 'Pintura industrial', detail: 'Preparação de superfície e proteção de estruturas e fachadas.' },
     ],
     norms: [],
-    photo: { src: null, alt: 'Registro de campo: serviço em cobertura industrial', caption: 'Registro de campo · cobertura' },
+    photo: { src: '/images/envoltoria/cobertura.jpg', alt: 'Técnico com EPI fazendo anotações em prancheta sobre cobertura industrial, com equipe ao fundo', caption: 'Registro de campo · cobertura', position: '100% 50%' },
     miniCase: { title: '[CASE A CONFIRMAR]', summary: TBC, caseId: null },
   },
   {
