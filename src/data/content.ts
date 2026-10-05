@@ -15,11 +15,11 @@ export const hero = {
   headlineLead: 'Infraestrutura crítica',
   headlineAccent: 'não para.',
   subheadline: 'Manutenção integrada para operações que não podem falhar.',
-  scrollHint: 'Role para começar',
+  scrollHint: 'Role para explorar',
   deckHint: 'Avance com → ou espaço',
   media: {
-    videoSrc: null as string | null,
-    posterSrc: null as string | null,
+    videoSrc: '/videos/hero.mp4',
+    posterSrc: '/videos/hero-poster.jpg',
   },
 }
 

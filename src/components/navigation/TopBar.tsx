@@ -19,7 +19,7 @@ export function TopBar() {
 
   return (
     <header className={`pointer-events-none fixed inset-x-0 top-0 z-40 transition-colors duration-500 lg:hidden ${dark ? 'theme-dark' : ''}`}>
-      <div className="pointer-events-none absolute inset-0 h-16 border-b border-line bg-paper/95" />
+      <div className={`pointer-events-none absolute inset-0 h-16 border-b transition-colors duration-500 ${active === 'inicio' ? 'border-transparent bg-transparent' : 'border-line bg-paper/95'}`} />
       <div className="relative mx-auto flex h-16 max-w-[1520px] items-center gap-6 px-5 md:px-10">
         <a
           href="#capa"

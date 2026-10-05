@@ -1,6 +1,5 @@
 import { lazy, type ComponentType } from 'react'
 import type { Slide } from './components/deck/Deck'
-import { hasWebGL } from './hooks/useDeviceCapabilities'
 import { fronts, type TechnicalFront } from './data/services'
 import { CoverSection } from './sections/CoverSection'
 import { HeroSection } from './sections/HeroSection'
@@ -39,7 +38,7 @@ function slide(id: string, entry: ReturnType<typeof deferred>, steps?: number): 
 
 export const slides: Slide[] = [
   { id: 'capa', node: <CoverSection /> },
-  { id: 'inicio', node: <HeroSection />, steps: 2, preload: () => (hasWebGL() ? import('./components/three/HeroStage') : Promise.resolve()) },
+  { id: 'inicio', node: <HeroSection />, steps: 2 },
   slide('quem-somos', sections.about),
   slide('video', sections.video),
   slide('desafio', sections.fragmentation, 2),

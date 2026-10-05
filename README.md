@@ -37,9 +37,9 @@ Mídia: colocar arquivos em `public/media/` e apontar o caminho (ex.: `video.src
 
 Three.js + React Three Fiber + drei, carregados só depois que a página fica ociosa (chunk próprio).
 
-- **Abertura:** uma peça de engenharia abstrata (`HeroObject3D`: pilar e vigas em perfil I, chapas e parafusos, tubulação flangeada, motor, eletrocalha e eletrodutos) em câmera próxima, cortada pelas bordas da tela, atrás do título. Luz lateral forte, contraluz, preenchimento mínimo e pequenos pontos laranja. O ponteiro desloca a câmera e a luz e inclina a peça no máximo 3°; as peças se movem em frações diferentes. Flutuação lenta, luz deslizando, poeira e linhas técnicas ocasionais. O primeiro avanço (no deck) ou os primeiros ~20% de rolagem (no mobile) aproximam a câmera, separam algumas peças em poucos centímetros e sobem o título (`lib/three/heroRig.ts`). Sem WebGL acelerado, aparece um quadro estático da mesma cena (`public/media/hero-object*.jpg`).
+- **Abertura:** sem 3D. Vídeo real em tela cheia (`public/videos/hero.mp4`, pôster `hero-poster.jpg`, apontados em `hero.media` de `content.ts`), mudo, em loop, sem controles; um único `<video>`, que só baixa depois que a página fica ociosa e pausa fora da tela. Entrada e saída em GSAP: no deck, o primeiro avanço aproxima o vídeo (escala 1,04), escurece e esmaece o texto antes de trocar de slide; no mobile, o mesmo efeito acompanha os primeiros 30% de rolagem da seção. Com movimento reduzido, só fades e nenhum movimento ligado ao scroll.
 - **Mapa da operação:** a mesma instalação em vista isométrica, 7 etapas (estrutura → cobertura → claraboias → elétrica → mecânica → reservatórios → espaços confinados). Grupos inativos esmaecem; o ativo recebe luz, hotspot com linha e rótulo. Clique/toque nos hotspots destaca a área.
-- **Mapa no deck e no mobile:** no deck, o mapa usa um canvas sobre o palco (`Stage3DLayer`); a abertura tem canvas próprio, dentro do slide. No mobile, cada cena é embutida na seção e as etapas do mapa acompanham o scroll (cena fixa por sticky, sem sequestrar a rolagem).
+- **Mapa no deck e no mobile:** no deck, o mapa usa um canvas sobre o palco (`Stage3DLayer`). No mobile, cada cena é embutida na seção e as etapas do mapa acompanham o scroll (cena fixa por sticky, sem sequestrar a rolagem).
 - **Grupos nomeados:** `structure`, `roof`, `skylights`, `electrical`, `mechanical`, `utilities`, `reservoir`, `confined`.
 - **Modelos GLB:** opcionais em `public/models/` (`industrial-facility.glb`, `airport-terminal.glb`), ativados em `src/data/models.ts`. O GLB precisa ter os mesmos nomes de grupo. Para Draco, copie `node_modules/three/examples/jsm/libs/draco/gltf/` para `public/draco/`; Meshopt já funciona.
 - **Proteções:** sem WebGL acelerado (renderização por software) a apresentação usa a versão 2D; se o aparelho não sustentar ~22 FPS, a cena congela num quadro estático; com movimento reduzido, nada reage ao ponteiro e a câmera não viaja. `?force3d` força o 3D para testes.
@@ -56,9 +56,8 @@ src/
     navigation/  TopBar, MobileDrawer, MobileCTA, ProgressBar (modo mobile)
     motion/      Reveal, WordReveal, StepReveal, Preloader, CustomCursor
     ui/          Headline, MediaFrame, Logo, Pending, PhotoSlot
-    technical/   HeroScene, SystemGraph, AirportStage, desenhos e cenas SVG, VideoPlayer, ART
-    three/       SceneCanvas, HeroStage/HeroScene3D/HeroObject3D (abertura), IndustrialSystem3D, IndustrialScene,
-                 ReactiveCamera, ReactiveLighting, TechnicalHotspot, Stage3DLayer (deck), InlineScene (mobile),
+    technical/   SystemGraph, AirportStage, desenhos e cenas SVG, VideoPlayer, ART
+    three/       SceneCanvas, IndustrialSystem3D, IndustrialScene, ReactiveCamera, ReactiveLighting, TechnicalHotspot, Stage3DLayer (deck), InlineScene (mobile),
                  FrameGuard, WebGLFallback
     cases/       CaseStudyView, BeforeAfter
   sections/      um componente por slide (FrontScreen gera as quatro frentes)
