@@ -1,0 +1,193 @@
+@import "tailwindcss";
+
+@theme {
+  --color-ink: #0e1114;
+  --color-ink-2: #12161a;
+  --color-surface: #1b2127;
+  --color-surface-2: #232a31;
+  --color-fg: #f1f3f4;
+  --color-muted: #8a949b;
+  --color-faint: #5d666d;
+  --color-accent: #ff5a1f;
+  --color-blueprint: #4fa3d9;
+  --color-alert: #d93a2b;
+  --color-line: rgb(241 243 244 / 0.09);
+  --color-line-strong: rgb(241 243 244 / 0.18);
+
+  --font-display: "Archivo", "Arial Narrow", system-ui, sans-serif;
+  --font-sans: "Inter", system-ui, -apple-system, "Segoe UI", sans-serif;
+  --font-mono: "IBM Plex Mono", ui-monospace, "SFMono-Regular", Menlo, monospace;
+
+  --ease-mech: cubic-bezier(0.65, 0, 0.35, 1);
+  --ease-out-mech: cubic-bezier(0.16, 1, 0.3, 1);
+
+  --breakpoint-xs: 26rem;
+}
+
+@layer base {
+  html {
+    background: var(--color-ink);
+    color: var(--color-fg);
+    -webkit-text-size-adjust: 100%;
+    scroll-padding-top: 0;
+  }
+
+  body {
+    background: var(--color-ink);
+    font-family: var(--font-sans);
+    font-feature-settings: "ss01", "cv11";
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    text-rendering: optimizeLegibility;
+    overflow-x: clip;
+  }
+
+  @media (min-width: 64rem) {
+    html {
+      scroll-snap-type: y proximity;
+    }
+  }
+
+  @media (prefers-reduced-motion: no-preference) {
+    html {
+      scroll-behavior: smooth;
+    }
+  }
+
+  ::selection {
+    background: var(--color-accent);
+    color: var(--color-ink);
+  }
+
+  :focus-visible {
+    outline: 2px solid var(--color-accent);
+    outline-offset: 3px;
+    border-radius: 1px;
+  }
+
+  button {
+    cursor: pointer;
+  }
+
+  button:disabled,
+  [aria-disabled="true"] {
+    cursor: not-allowed;
+  }
+}
+
+@layer components {
+  .font-display {
+    font-stretch: 82%;
+    word-spacing: 0.06em;
+  }
+
+  .display-xl {
+    font-family: var(--font-display);
+    font-stretch: 80%;
+    font-weight: 700;
+    font-size: clamp(3rem, 7.6vw, 9rem);
+    line-height: 0.9;
+    letter-spacing: -0.035em;
+    word-spacing: 0.06em;
+    text-wrap: balance;
+  }
+
+  .display-lg {
+    font-family: var(--font-display);
+    font-stretch: 82%;
+    font-weight: 700;
+    font-size: clamp(2.5rem, 5.4vw, 6.25rem);
+    line-height: 0.93;
+    letter-spacing: -0.03em;
+    word-spacing: 0.06em;
+    text-wrap: balance;
+  }
+
+  .display-md {
+    font-family: var(--font-display);
+    font-stretch: 85%;
+    font-weight: 650;
+    font-size: clamp(1.875rem, 3.2vw, 3.5rem);
+    line-height: 0.98;
+    letter-spacing: -0.025em;
+    word-spacing: 0.05em;
+    text-wrap: balance;
+  }
+
+  .lede {
+    font-size: clamp(1.05rem, 1.35vw, 1.375rem);
+    line-height: 1.45;
+    color: var(--color-muted);
+    text-wrap: pretty;
+  }
+
+  .label-mono {
+    font-family: var(--font-mono);
+    font-size: 0.6875rem;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    line-height: 1.4;
+  }
+
+  .blueprint-grid {
+    background-image:
+      linear-gradient(to right, rgb(79 163 217 / 0.07) 1px, transparent 1px),
+      linear-gradient(to bottom, rgb(79 163 217 / 0.07) 1px, transparent 1px),
+      linear-gradient(to right, rgb(79 163 217 / 0.035) 1px, transparent 1px),
+      linear-gradient(to bottom, rgb(79 163 217 / 0.035) 1px, transparent 1px);
+    background-size:
+      96px 96px,
+      96px 96px,
+      24px 24px,
+      24px 24px;
+    background-position: -1px -1px;
+  }
+
+  .hatch {
+    background-image: repeating-linear-gradient(
+      -45deg,
+      rgb(241 243 244 / 0.06) 0 1px,
+      transparent 1px 7px
+    );
+  }
+
+  .tbc {
+    font-family: var(--font-mono);
+    font-size: 0.75em;
+    letter-spacing: 0.08em;
+    color: var(--color-muted);
+    border: 1px dashed var(--color-line-strong);
+    padding: 0.1em 0.45em;
+    white-space: nowrap;
+  }
+}
+
+@layer utilities {
+  .pb-mobile-cta {
+    padding-bottom: calc(5.25rem + env(safe-area-inset-bottom));
+  }
+
+  @media (min-width: 64rem) {
+    .pb-mobile-cta {
+      padding-bottom: 0;
+    }
+  }
+}
+
+@keyframes scan {
+  from {
+    transform: translateY(0);
+  }
+  to {
+    transform: translateY(100svh);
+  }
+}
+
+@keyframes drop {
+  from {
+    transform: translateY(-100%);
+  }
+  to {
+    transform: translateY(200%);
+  }
+}
