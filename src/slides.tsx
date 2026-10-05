@@ -38,7 +38,7 @@ function slide(id: string, entry: ReturnType<typeof deferred>, steps?: number): 
 
 export const slides: Slide[] = [
   { id: 'capa', node: <CoverSection /> },
-  { id: 'inicio', node: <HeroSection />, steps: 2 },
+  { id: 'inicio', node: <HeroSection /> },
   slide('quem-somos', sections.about),
   slide('video', sections.video),
   slide('desafio', sections.fragmentation, 2),

@@ -2,7 +2,7 @@
 
 Apresentação executiva em slides (20 slides, 8 atos). React 19 + Vite + TypeScript + Tailwind 4 + Framer Motion.
 
-- **Desktop (≥1024px):** modo slides. Palco 16:9 de 1600×900 escalado para a tela. Avança com → ↓ PageDown espaço, roda do mouse, swipe ou controles no canto; Home/End; índice; tela cheia. Cada slide tem endereço próprio (`#metodo`). Alguns slides têm **passos internos** (abertura, fragmentação, modelo, mapa, método, ARTs, cases, grandes operações): cada avanço move a cena antes de trocar de slide.
+- **Desktop (≥1024px):** modo slides. Palco 16:9 de 1600×900 escalado para a tela. Avança com → ↓ PageDown espaço, roda do mouse, swipe ou controles no canto; Home/End; índice; tela cheia. Cada slide tem endereço próprio (`#metodo`). Alguns slides têm **passos internos** (fragmentação, modelo, mapa, método, ARTs, cases, grandes operações): cada avanço move a cena antes de trocar de slide.
 - **Mobile:** os mesmos slides empilhados em rolagem vertical; as cenas com passos acompanham o scroll (GSAP ScrollTrigger). Cada slide só é montado quando se aproxima da tela.
 
 ```bash
@@ -37,7 +37,7 @@ Mídia: colocar arquivos em `public/media/` e apontar o caminho (ex.: `video.src
 
 Three.js + React Three Fiber + drei, carregados só depois que a página fica ociosa (chunk próprio).
 
-- **Abertura:** sem 3D. Vídeo real em tela cheia (`public/videos/hero.mp4`, pôster `hero-poster.jpg`, apontados em `hero.media` de `content.ts`), mudo, em loop, sem controles; um único `<video>`, que só baixa depois que a página fica ociosa e pausa fora da tela. Entrada e saída em GSAP: no deck, o primeiro avanço aproxima o vídeo (escala 1,04), escurece e esmaece o texto antes de trocar de slide; no mobile, o mesmo efeito acompanha os primeiros 30% de rolagem da seção. Com movimento reduzido, só fades e nenhum movimento ligado ao scroll.
+- **Abertura:** sem 3D. Vídeo real em tela cheia (`public/videos/hero.mp4`, pôster `hero-poster.jpg`, apontados em `hero.media` de `content.ts`), mudo, em loop, sem controles; um único `<video>`, que só baixa depois que a página fica ociosa e pausa fora da tela. Entrada em GSAP; no deck, um avanço já troca de slide; no mobile, os primeiros 30% de rolagem da seção aproximam o vídeo (escala 1,04), escurecem e esmaecem o texto. Com movimento reduzido, só fades e nenhum movimento ligado ao scroll.
 - **Mapa da operação:** a mesma instalação em vista isométrica, 7 etapas (estrutura → cobertura → claraboias → elétrica → mecânica → reservatórios → espaços confinados). Grupos inativos esmaecem; o ativo recebe luz, hotspot com linha e rótulo. Clique/toque nos hotspots destaca a área.
 - **Mapa no deck e no mobile:** no deck, o mapa usa um canvas sobre o palco (`Stage3DLayer`). No mobile, cada cena é embutida na seção e as etapas do mapa acompanham o scroll (cena fixa por sticky, sem sequestrar a rolagem).
 - **Grupos nomeados:** `structure`, `roof`, `skylights`, `electrical`, `mechanical`, `utilities`, `reservoir`, `confined`.

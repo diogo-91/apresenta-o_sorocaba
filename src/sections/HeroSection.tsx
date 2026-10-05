@@ -3,7 +3,6 @@ import { useReducedMotion } from 'framer-motion'
 import { hero } from '../data/content'
 import { Screen, titleId } from '../components/layout/Screen'
 import { useIdleMount } from '../hooks/useIdleMount'
-import { useSlideStep } from '../hooks/useDeckPosition'
 import { usePresentationMode } from '../hooks/usePresentationMode'
 import { gsap, ScrollTrigger } from '../lib/gsap'
 
@@ -23,7 +22,6 @@ function useAutoplay(video: React.RefObject<HTMLVideoElement | null>, src: strin
 export function HeroSection() {
   const deck = usePresentationMode() === 'deck'
   const reduced = useReducedMotion() ?? false
-  const step = useSlideStep()
   const ready = useIdleMount(800)
   const src = ready ? hero.media.videoSrc : undefined
 
@@ -36,7 +34,6 @@ export function HeroSection() {
   const headline = useRef<HTMLDivElement>(null)
   const sub = useRef<HTMLDivElement>(null)
   const hint = useRef<HTMLDivElement>(null)
-  const exit = useRef<gsap.core.Timeline | null>(null)
 
   useAutoplay(video, src)
 
@@ -59,6 +56,7 @@ export function HeroSection() {
   }, [reduced])
 
   useLayoutEffect(() => {
+    if (deck || reduced) return
     const ctx = gsap.context(() => {
       const tl = gsap
         .timeline({ paused: true, defaults: { ease: 'none' } })
@@ -68,28 +66,10 @@ export function HeroSection() {
         .to(headline.current, { y: -48, autoAlpha: 0.15, duration: 0.9 }, 0.05)
         .to(sub.current, { y: -28, autoAlpha: 0, duration: 0.6 }, 0.3)
         .to(eyebrow.current, { y: -20, autoAlpha: 0, duration: 0.5 }, 0.5)
-      exit.current = tl
-      if (!deck && !reduced) ScrollTrigger.create({ trigger: area.current, start: 'top top', end: '30% top', scrub: 0.6, animation: tl })
+      ScrollTrigger.create({ trigger: area.current, start: 'top top', end: '30% top', scrub: 0.6, animation: tl })
     }, root)
-    return () => {
-      exit.current = null
-      ctx.revert()
-    }
+    return () => ctx.revert()
   }, [deck, reduced])
-
-  useEffect(() => {
-    const tl = exit.current
-    if (!deck || !tl) return
-    const target = step >= 1 ? 1 : 0
-    if (reduced) {
-      tl.progress(target)
-      return
-    }
-    const tween = gsap.to(tl, { progress: target, duration: 1.4, ease: 'power2.inOut' })
-    return () => {
-      tween.kill()
-    }
-  }, [deck, step, reduced])
 
   return (
     <Screen
