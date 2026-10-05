@@ -2,7 +2,7 @@
 
 Apresentação executiva em slides (16 slides, 8 atos). React 19 + Vite + TypeScript + Tailwind 4 + Framer Motion.
 
-- **Desktop (≥1024px):** modo slides. Palco 16:9 de 1600×900 escalado para a tela. Avança com → ↓ PageDown espaço, roda do mouse, swipe ou controles no canto; Home/End; índice; tela cheia. Cada slide tem endereço próprio (`#metodo`). Alguns slides têm **passos internos** (quem somos, fragmentação, modelo, método, ARTs, cases, grandes operações): cada avanço move a cena antes de trocar de slide.
+- **Desktop (≥1024px):** modo slides. Palco 16:9 de 1600×900 escalado para a tela. Avança com → ↓ PageDown espaço, roda do mouse, swipe ou controles no canto; Home/End; índice; tela cheia. Cada slide tem endereço próprio (`#metodo`). Alguns slides têm **passos internos** (quem somos, fragmentação, modelo, sistemas, método, ARTs, cases, grandes operações): cada avanço move a cena antes de trocar de slide.
 - **Mobile:** os mesmos slides empilhados em rolagem vertical; as cenas com passos acompanham o scroll (GSAP ScrollTrigger). Cada slide só é montado quando se aproxima da tela.
 
 ```bash
@@ -25,13 +25,14 @@ Todo texto e dado variável está em `src/data/`. Valor não confirmado aparece 
 | Ordem dos slides | `src/slides.tsx` (deve seguir `src/data/screens.ts`; há teste) |
 | Logo | `src/assets/logo-srcb.png` (branca; escurecida via CSS no fundo claro) |
 | Frentes técnicas (slides 8–11), fotos, normas, mini cases | `src/data/services.ts` |
+| Fluxo energia → movimento (frente Sistemas) e fotos das 8 etapas | `src/data/systemsFlow.ts` (arquivos em `public/images/systems/`) |
 | Camadas do corte técnico (quem somos) | `operationLayers` em `src/data/content.ts` |
 | Segurança e referências a NRs (`validated: false` até validação) | `src/data/safety.ts` |
 | ARTs (slots `placeholder: true`) | `src/data/arts.ts` |
 | Cases e fotos antes/depois | `src/data/cases.ts` |
 | Sistemas do ambiente aeroportuário | `src/data/airport.ts` |
 
-Mídia: colocar arquivos em `public/media/` e apontar o caminho (ex.: `hero.media.videoSrc`, `photo.src` de cada frente, `photo` de cada EPI em `safety.ts`). Enquanto `src` for `null`, aparece uma cena técnica desenhada com o aviso **foto a inserir**. Áudio ambiente: `ambient.audioSrc` em `content.ts` (o botão de som só aparece quando houver arquivo).
+Mídia: colocar arquivos em `public/media/` e apontar o caminho (ex.: `hero.media.videoSrc`, `photo.src` de cada frente, `photo` de cada EPI em `safety.ts`). Enquanto `src` for `null`, aparece uma cena técnica desenhada com o aviso **foto a inserir**. No fluxo da frente Sistemas, coloque `power.webp`, `panel.webp`, `control.webp`, `lighting.webp`, `motor.webp`, `drive.webp`, `transmission.webp` e `machine.webp` em `public/images/systems/` e preencha `image` de cada etapa (ex.: `image: '/images/systems/motor.webp'`). Áudio ambiente: `ambient.audioSrc` em `content.ts` (o botão de som só aparece quando houver arquivo).
 
 ## Roteiro (uma pergunta por tela)
 

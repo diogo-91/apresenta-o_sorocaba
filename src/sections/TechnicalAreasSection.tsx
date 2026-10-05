@@ -2,7 +2,10 @@ import type { TechnicalFront } from '../data/services'
 import { Screen, titleId } from '../components/layout/Screen'
 import { FrontGlyph } from '../components/technical/FrontGlyph'
 import { MachineScene, ReservoirScene, RoofScene } from '../components/technical/Scenes'
-import { SystemsDiagram } from '../components/technical/SystemsDiagram'
+import { FLOW_FINAL, SystemsFlowDeck, SystemsFlowMobile } from '../components/technical/SystemsFlow'
+import { systemsCopy } from '../data/systemsFlow'
+import { useSlideStep } from '../hooks/useDeckPosition'
+import { usePresentationMode } from '../hooks/usePresentationMode'
 import { Headline } from '../components/ui/Headline'
 import { MediaFrame } from '../components/ui/MediaFrame'
 import { Pending } from '../components/ui/Pending'
@@ -35,9 +38,9 @@ function Services({ front, compact = false }: { front: TechnicalFront; compact?:
   )
 }
 
-function Facts({ front, layout = 'row', maxRisks = 3 }: { front: TechnicalFront; layout?: 'row' | 'stack'; maxRisks?: number }) {
+function Facts({ front, layout = 'row', maxRisks = 3, quiet = false }: { front: TechnicalFront; layout?: 'row' | 'stack'; maxRisks?: number; quiet?: boolean }) {
   return (
-    <Reveal delay={0.5} className={`grid gap-x-6 gap-y-4 border-t border-line pt-4 ${layout === 'row' ? 'sm:grid-cols-[2fr_1fr_1fr]' : 'grid-cols-2 [&>div:first-child]:col-span-2'}`}>
+    <Reveal delay={0.5} className={`grid gap-x-6 gap-y-4 border-t border-line ${quiet ? 'pt-3 opacity-80 [&_li]:text-xs [&_p]:text-xs' : 'pt-4'} ${layout === 'row' ? 'sm:grid-cols-[2fr_1fr_1fr]' : 'grid-cols-2 [&>div:first-child]:col-span-2'}`}>
       <div>
         <h3 className="label-mono text-alert">Riscos evitados</h3>
         <ul className="mt-2 flex flex-col gap-1.5">
@@ -97,31 +100,43 @@ function Envoltoria({ front }: { front: TechnicalFront }) {
 }
 
 function Sistemas({ front }: { front: TechnicalFront }) {
+  const deck = usePresentationMode() === 'deck'
+  const step = useSlideStep()
+  const final = step >= FLOW_FINAL
   return (
     <Screen id={front.id} tone="deep" grid>
-      <FrontTag front={front} />
-      <div className="mt-6 grid gap-6 lg:grid-cols-12 lg:items-end">
-        <Headline id={titleId(front.id)} size="lg" text={front.headline} className="max-w-[20ch] lg:col-span-8 lg:text-[3.75rem]" />
+      <div className="grid gap-5 lg:grid-cols-12 lg:items-end">
+        <div className="lg:col-span-8">
+          <FrontTag front={front} />
+          <h2 id={titleId(front.id)} aria-label={front.headline} className="display-lg mt-5 lg:text-[3.25rem]">
+            {systemsCopy.headline.map((line, i) => (
+              <span key={line} aria-hidden="true" className={`block ${i === 1 ? 'text-muted' : ''}`}>
+                {line}
+              </span>
+            ))}
+          </h2>
+        </div>
         <Reveal className="lg:col-span-4" delay={0.2}>
           <p className="lede">{front.description}</p>
         </Reveal>
       </div>
-      <Reveal delay={0.3} className="relative mt-6 border-y border-line py-3 max-lg:overflow-x-auto">
-        <div className="min-w-[760px] lg:mx-auto lg:max-w-[1040px]">
-          <SystemsDiagram />
-        </div>
-        <div className="mt-3 grid grid-cols-[10fr_3fr] gap-6 max-lg:min-w-[760px]">
-          {front.services.map((service, i) => (
-            <div key={service.name} className={i === 0 ? 'text-fg' : 'text-fg'}>
-              <p className={`label-mono ${i === 0 ? 'text-accent-ink' : 'text-blueprint'}`}>{service.name}</p>
-              <p className="mt-1 text-sm text-muted">{service.detail}</p>
-            </div>
-          ))}
-        </div>
-      </Reveal>
-      <div className="mt-auto pt-4">
-        <Facts front={front} maxRisks={2} />
-      </div>
+      {deck ? (
+        <>
+          <div className="mt-5">
+            <SystemsFlowDeck stage={step} />
+          </div>
+          <div className={`mt-auto pt-3 transition-opacity duration-700 motion-reduce:opacity-100 ${final ? 'opacity-100' : 'opacity-0'}`} aria-hidden={!final}>
+            <Facts front={front} maxRisks={2} quiet />
+          </div>
+        </>
+      ) : (
+        <>
+          <SystemsFlowMobile />
+          <div className="mt-10">
+            <Facts front={front} maxRisks={2} quiet />
+          </div>
+        </>
+      )}
     </Screen>
   )
 }
