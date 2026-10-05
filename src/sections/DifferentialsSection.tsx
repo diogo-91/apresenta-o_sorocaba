@@ -37,7 +37,7 @@ export function DifferentialsSection() {
           <div className="relative">
             <span aria-hidden="true" className="absolute bottom-0 top-0 w-[3px] bg-accent" style={{ left: 'calc((100% + 1.5rem) * 7 / 12)' }} />
             {comparisonRows.map((row, i) => (
-              <div role="row" key={row.id} className="grid grid-cols-12 items-center gap-6 border-b border-line py-3">
+              <div role="row" key={row.id} className="grid grid-cols-12 items-center gap-6 border-b border-line py-4">
                 <span role="rowheader" className="col-span-3 font-display text-xl font-semibold leading-tight tracking-tight">
                   {row.criterion}
                 </span>

@@ -1,6 +1,8 @@
 import { useCallback, useEffect, useLayoutEffect, useRef, useState } from 'react'
 import { useReducedMotion } from 'framer-motion'
+import { ArrowRight } from 'lucide-react'
 import { about, operationLayers, type OperationLayerId } from '../data/content'
+import { frontById } from '../data/services'
 import { company } from '../data/company'
 import { pad2 } from '../data/screens'
 import { Screen, titleId } from '../components/layout/Screen'
@@ -78,6 +80,16 @@ function LayerIndex({ stage }: { stage: number }) {
   )
 }
 
+function FrontLink({ layerIndex, focusable = true }: { layerIndex: number; focusable?: boolean }) {
+  const front = frontById(operationLayers[layerIndex].front)
+  return (
+    <a href={`#${front.id}`} tabIndex={focusable ? undefined : -1} className="link-underline label-mono inline-flex items-center gap-2 text-blueprint">
+      {front.code} · {front.name}
+      <ArrowRight size={14} aria-hidden="true" />
+    </a>
+  )
+}
+
 function LayerPanel({ index, visible }: { index: number; visible: boolean }) {
   const layer = operationLayers[index]
   return (
@@ -95,6 +107,9 @@ function LayerPanel({ index, visible }: { index: number; visible: boolean }) {
           </li>
         ))}
       </ul>
+      <div className="mt-5">
+        <FrontLink layerIndex={index} focusable={visible} />
+      </div>
     </div>
   )
 }
@@ -245,6 +260,9 @@ function FlowLayout() {
                     </li>
                   ))}
                 </ul>
+                <div className="mt-4">
+                  <FrontLink layerIndex={i} />
+                </div>
               </li>
             )
           })}

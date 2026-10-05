@@ -5,7 +5,7 @@ import { EngineeringButton } from './EngineeringButton'
 
 export function MobileCTA() {
   const active = useActiveScreen()
-  const visible = active !== 'parceria' && active !== 'encerramento'
+  const visible = active !== 'parceria'
 
   return (
     <AnimatePresence>

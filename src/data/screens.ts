@@ -26,10 +26,8 @@ export const screens: ScreenDef[] = [
   { id: 'capa', label: 'Capa', group: 'inicio' },
   { id: 'inicio', label: 'Abertura', group: 'inicio' },
   { id: 'quem-somos', label: 'Quem somos', group: 'quem-somos' },
-  { id: 'video', label: 'Vídeo institucional', group: 'quem-somos' },
   { id: 'desafio', label: 'Fragmentação', group: 'desafio' },
   { id: 'modelo', label: 'Modelo centralizado', group: 'modelo' },
-  { id: 'mapa', label: 'Mapa da operação', group: 'modelo' },
   { id: 'envoltoria', label: 'Envoltória', group: 'frentes' },
   { id: 'sistemas', label: 'Sistemas', group: 'frentes' },
   { id: 'ativos-pesados', label: 'Ativos pesados', group: 'frentes' },
@@ -38,11 +36,9 @@ export const screens: ScreenDef[] = [
   { id: 'metodo', label: 'Método', group: 'seguranca' },
   { id: 'arts', label: 'ARTs', group: 'provas' },
   { id: 'cases', label: 'Cases', group: 'provas' },
-  { id: 'diferenciais', label: 'Diferenciais', group: 'provas' },
   { id: 'grandes-operacoes', label: 'Grandes operações', group: 'grandes-operacoes' },
-  { id: 'preparacao', label: 'Preparação', group: 'grandes-operacoes' },
-  { id: 'parceria', label: 'Parceria', group: 'parceria' },
-  { id: 'encerramento', label: 'Encerramento', group: 'parceria' },
+  { id: 'diferenciais', label: 'Diferenciais', group: 'parceria' },
+  { id: 'parceria', label: 'Próximo passo', group: 'parceria' },
 ]
 
 export const TOTAL_SCREENS = screens.length

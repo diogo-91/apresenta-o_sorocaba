@@ -1,6 +1,5 @@
 import { airport } from '../data/content'
-import { airportSystems, airportTour, TERMINAL_SIZE } from '../data/airport'
-import { frontById } from '../data/services'
+import { airportConditions, airportSystems, airportTour, TERMINAL_SIZE } from '../data/airport'
 import { Screen, titleId } from '../components/layout/Screen'
 import { AirportStage } from '../components/technical/AirportStage'
 import { TerminalDrawing } from '../components/technical/TerminalDrawing'
@@ -17,17 +16,17 @@ function Intro() {
       </Eyebrow>
       <Headline id={titleId('grandes-operacoes')} size="md" text={airport.headline} className="max-w-[15ch]" />
       <p className="lede mt-5">{airport.subheadline}</p>
-      <ol className="mt-8 flex flex-col border-t border-line">
-        {airportTour.map((id, i) => {
-          const s = airportSystems.find((x) => x.id === id)!
-          return (
-            <li key={id} className="flex items-baseline gap-4 border-b border-line py-2.5">
-              <span className="label-mono text-faint">{String(i + 1).padStart(2, '0')}</span>
-              <span className="font-display text-lg font-semibold tracking-tight">{s.label}</span>
-              <span aria-hidden="true" className="ml-auto label-mono text-faint">→</span>
-            </li>
-          )
-        })}
+      <p className="label-mono mt-7 text-faint">{airport.conditionsTitle}</p>
+      <ol className="mt-3 flex flex-col border-t border-line">
+        {airportConditions.map((c, i) => (
+          <li key={c.id} className="flex items-baseline gap-4 border-b border-line py-2">
+            <span className="label-mono text-faint">{String(i + 1).padStart(2, '0')}</span>
+            <span>
+              <span className="block font-display text-lg font-semibold tracking-tight">{c.title}</span>
+              <span className="mt-0.5 block text-sm text-muted lg:hidden">{c.text}</span>
+            </span>
+          </li>
+        ))}
       </ol>
       <p className="label-mono mt-auto border-l-2 border-blueprint pl-3 leading-relaxed text-muted">{airport.disclaimer}</p>
     </div>
@@ -62,18 +61,19 @@ export function AirportSection() {
         </svg>
       </Reveal>
       <ol className="mt-8 border-t border-line">
-        {airportSystems.map((s, i) => (
-          <li key={s.id} className="grid grid-cols-[2rem_1fr] gap-3 border-b border-line py-4">
-            <span className="label-mono pt-1 text-faint">{String(i + 1).padStart(2, '0')}</span>
-            <div>
-              <h3 className="font-display text-xl font-bold tracking-tight">{s.label}</h3>
-              <p className="mt-1 text-sm text-muted">{s.competence}</p>
-              <p className="label-mono mt-2 text-blueprint">
-                {frontById(s.front).code} · {frontById(s.front).name}
-              </p>
-            </div>
-          </li>
-        ))}
+        {airportTour.map((id, i) => {
+          const s = airportSystems.find((x) => x.id === id)!
+          return (
+            <li key={s.id} className="grid grid-cols-[2rem_1fr] gap-3 border-b border-line py-4">
+              <span className="label-mono pt-1 text-faint">{String(i + 1).padStart(2, '0')}</span>
+              <div>
+                <h3 className="font-display text-xl font-bold tracking-tight">{s.label}</h3>
+                <p className="label-mono mt-2 text-faint">{airport.preparationLabel}</p>
+                <p className="mt-1 text-sm text-muted">{s.preparation}.</p>
+              </div>
+            </li>
+          )
+        })}
       </ol>
     </Screen>
   )

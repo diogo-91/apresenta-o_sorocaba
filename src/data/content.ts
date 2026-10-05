@@ -1,10 +1,12 @@
+import type { FrontId } from './services'
+
 export const ambient = {
   audioSrc: null as string | null,
 }
 
 export const cover = {
   eyebrow: 'Apresentação técnica',
-  subtitle: 'Manutenção, infraestrutura e serviços especiais sob uma única responsabilidade técnica.',
+  subtitle: 'Manutenção, infraestrutura e serviços especiais para operações críticas.',
   documentLabel: 'Apresentação técnica',
   disciplines: ['Manutenção', 'Infraestrutura', 'Serviços especiais'],
 }
@@ -26,19 +28,20 @@ export const hero = {
 export const about = {
   headline: 'Da cobertura ao chão de fábrica.',
   statement: 'Do ponto mais alto da cobertura ao coração da produção.',
-  support: 'Uma operação. Múltiplas disciplinas. Uma única gestão.',
-  closing: ['Uma única gestão', 'para todas as frentes.'],
+  support: 'Empresa técnica multidisciplinar.',
+  closing: ['Uma empresa técnica', 'em todas as camadas.'],
   drawingNote: 'Corte A-A · instalação genérica · cotas ilustrativas',
 }
 
 export type OperationLayerId = 'roof' | 'structure' | 'systems' | 'production' | 'reservoirs'
 
-export const operationLayers: { id: OperationLayerId; title: string; short: string; elevation: string; services: string[] }[] = [
+export const operationLayers: { id: OperationLayerId; title: string; short: string; elevation: string; front: FrontId; services: string[] }[] = [
   {
     id: 'roof',
     title: 'Cobertura e claraboias',
     short: 'Cobertura',
     elevation: 'EL. +12,00',
+    front: 'envoltoria',
     services: ['Manutenção de cobertura', 'Troca de claraboias', 'Inspeção', 'Pintura', 'Recuperação'],
   },
   {
@@ -46,6 +49,7 @@ export const operationLayers: { id: OperationLayerId; title: string; short: stri
     title: 'Estrutura e fachada',
     short: 'Estrutura',
     elevation: 'EL. +08,00',
+    front: 'envoltoria',
     services: ['Manutenção', 'Recuperação', 'Pintura', 'Adequações'],
   },
   {
@@ -53,6 +57,7 @@ export const operationLayers: { id: OperationLayerId; title: string; short: stri
     title: 'Utilidades e sistemas',
     short: 'Sistemas',
     elevation: 'EL. +04,00',
+    front: 'sistemas',
     services: ['Elétrica', 'Mecânica', 'Manutenção técnica', 'Sistemas auxiliares'],
   },
   {
@@ -60,6 +65,7 @@ export const operationLayers: { id: OperationLayerId; title: string; short: stri
     title: 'Área produtiva e máquinas',
     short: 'Máquinas',
     elevation: 'EL. ±0,00',
+    front: 'ativos-pesados',
     services: ['Mudança de máquinas', 'Movimentação', 'Instalação', 'Manutenção mecânica'],
   },
   {
@@ -67,23 +73,10 @@ export const operationLayers: { id: OperationLayerId; title: string; short: stri
     title: 'Reservatórios e espaços confinados',
     short: 'Reservatórios',
     elevation: 'EL. −3,00',
+    front: 'utilidades',
     services: ['Reforma de caixas d’água', 'Pintura', 'Manutenção', 'Trabalho em espaço confinado'],
   },
 ]
-
-export const video = {
-  headline: 'Sorocaba Motores em 90 segundos.',
-  subheadline: 'Equipe. Campo. Método.',
-  src: null as string | null,
-  posterSrc: null as string | null,
-  durationLabel: '01:30',
-  fileHint: 'public/media/institucional.mp4',
-  chapters: [
-    { id: 'estrutura', label: 'Estrutura', startSeconds: null as number | null },
-    { id: 'operacao', label: 'Operação', startSeconds: null as number | null },
-    { id: 'seguranca', label: 'Segurança', startSeconds: null as number | null },
-  ],
-}
 
 export const fragmentation = {
   headline: 'Cada fornecedor a mais é uma interface a mais para falhar.',
@@ -93,39 +86,30 @@ export const fragmentation = {
 }
 
 export const unified = {
-  headline: 'Um parceiro. Múltiplas especialidades. Uma única responsabilidade.',
-  subheadline:
-    'Um ponto de contato, planejamento integrado e responsabilidade técnica documentada.',
+  headline: 'Um parceiro. Uma responsabilidade.',
+  subheadline: 'Três mecanismos substituem a coordenação entre fornecedores.',
   pillars: [
     {
       id: 'contato',
       title: 'Contato único',
-      text: 'Uma interlocução técnica para todas as frentes. Sem triangulação entre fornecedores.',
+      text: 'Um interlocutor técnico para o cliente, do levantamento à entrega.',
     },
     {
       id: 'planejamento',
       title: 'Planejamento integrado',
-      text: 'Cronograma, acessos e permissões pensados para todas as especialidades ao mesmo tempo.',
+      text: 'Cronograma, acessos e permissões das especialidades definidos juntos.',
     },
     {
       id: 'responsabilidade',
       title: 'Responsabilidade técnica',
-      text: 'Cada serviço vinculado a quem responde por ele, com documentação rastreável.',
+      text: 'Cada serviço com responsável técnico definido e documentado.',
     },
   ],
 }
 
-export const operationsMap = {
-  headline: 'Toda a operação. Um único escopo.',
-  subheadline: 'Da cobertura ao subsolo, diferentes especialidades sob uma mesma gestão.',
-  drawingLabel: 'Corte esquemático · instalação industrial',
-  hint: 'Selecione uma zona para ver o escopo',
-}
-
 export const safety = {
   headline: 'Trabalhar no risco é nossa especialidade. Gerar risco, nunca.',
-  subheadline: 'Planejamento, controle e documentação antes da execução.',
-  sequence: ['Planejamento', 'Controle', 'Documentação', 'Execução'],
+  subheadline: 'Pessoas, áreas e fontes de energia sob controle antes de qualquer intervenção.',
 }
 
 export const method = {
@@ -143,20 +127,20 @@ export const cases = {
 }
 
 export const differentials = {
-  headline: 'O que muda quando o parceiro é um só.',
-  subheadline: 'Menos interfaces. Menos risco. Mais velocidade de resposta.',
+  headline: 'Menos interfaces. Mais controle.',
+  subheadline: 'O que muda na rotina de quem contrata.',
   columns: { fragmented: 'Modelo fragmentado', unified: 'Sorocaba Motores' },
 }
 
 export const airport = {
   eyebrow: 'Competências aplicáveis a operações aeroportuárias',
-  headline: 'Preparados para operar onde a operação não pode parar.',
-  subheadline: 'Competências industriais aplicadas a ambientes de alta criticidade.',
+  headline: 'Mesmas competências. Novas regras.',
+  subheadline: 'Capacidades da indústria, preparadas para uma operação aeroportuária.',
   drawingLabel: 'Terminal · instalação crítica · esquema',
   disclaimer:
     'Competências aplicáveis a ambientes aeroportuários. Escopo definido após levantamento técnico local.',
-  preparationTitle: 'Como nos preparamos para operar no seu ambiente.',
-  preparationLede: 'Antes da primeira intervenção, a operação do cliente define o ritmo, os acessos e as regras.',
+  conditionsTitle: 'O que a operação exige',
+  preparationLabel: 'Como nos preparamos',
 }
 
 export const cta = {

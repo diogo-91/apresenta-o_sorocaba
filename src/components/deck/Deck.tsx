@@ -1,4 +1,4 @@
-import { lazy, Suspense, useCallback, useEffect, useMemo, useRef, useState, type ReactNode } from 'react'
+import { Suspense, useCallback, useEffect, useMemo, useRef, useState, type ReactNode } from 'react'
 import { AnimatePresence, m, useReducedMotion, type Variants } from 'framer-motion'
 import { advance, clampIndex, createWheelGate, keyAction, slideIndexFromHash, type DeckPosition } from '../../lib/deck'
 import { DURATION, EASE_MECH } from '../../lib/motion'
@@ -7,10 +7,6 @@ import { DeckPositionContext, SlideStepContext } from '../../hooks/useDeckPositi
 import { DeckControls } from './DeckControls'
 import { DeckIndex } from './DeckIndex'
 import { GraphLayer } from './GraphLayer'
-import { hasWebGL } from '../../hooks/useDeviceCapabilities'
-import { useIdleMount } from '../../hooks/useIdleMount'
-
-const Stage3DLayer = lazy(() => import('../three/Stage3DLayer'))
 
 export const STAGE = { width: 1600, height: 900 }
 
@@ -59,8 +55,6 @@ export function Deck({ slides }: { slides: Slide[] }) {
   const steps = useRef(stepsPerSlide)
   steps.current = stepsPerSlide
   const scale = useStageScale()
-  const idle = useIdleMount()
-  const webgl = useMemo(() => hasWebGL(), [])
   const index = position.index
 
   const moveTo = useCallback((next: DeckPosition) => {
@@ -181,11 +175,6 @@ export function Deck({ slides }: { slides: Slide[] }) {
             </m.div>
           </AnimatePresence>
           <GraphLayer />
-          {webgl && idle && (
-            <Suspense fallback={null}>
-              <Stage3DLayer />
-            </Suspense>
-          )}
         </div>
 
         <div aria-hidden="true" className="fixed inset-x-0 top-0 z-40 h-[3px] bg-line">

@@ -1,6 +1,7 @@
 import { useEffect, useRef, useState, type ReactNode } from 'react'
 import { AnimatePresence, m, useReducedMotion } from 'framer-motion'
 import { airportSystems, airportTour, TERMINAL_SIZE } from '../../data/airport'
+import { airport } from '../../data/content'
 import { frontById } from '../../data/services'
 import { useSlideStep } from '../../hooks/useDeckPosition'
 import { cameraFor } from '../../lib/camera'
@@ -78,7 +79,7 @@ export function AirportStage({ intro }: { intro: ReactNode }) {
                     <g
                       role="button"
                       tabIndex={0}
-                      aria-label={`${s.label}: ${s.competence}`}
+                      aria-label={`${s.label}: ${s.preparation}`}
                       aria-pressed={active}
                       className="cursor-pointer outline-none [&:focus-visible>circle:first-child]:stroke-accent"
                       onClick={() => setOverride(s.id)}
@@ -121,8 +122,8 @@ export function AirportStage({ intro }: { intro: ReactNode }) {
                 {tourIndex >= 0 ? `${pad2(tourIndex + 1)} / ${pad2(airportTour.length)}` : 'Sistema crítico'}
               </p>
               <h3 className="mt-4 font-display text-[4.25rem] font-bold leading-[0.9] tracking-tight [font-stretch:80%]">{system.label}</h3>
-              <p className="label-mono mt-10 text-faint">Competência aplicável</p>
-              <p className="mt-2 text-xl leading-snug text-fg">{system.competence}</p>
+              <p className="label-mono mt-10 text-faint">{airport.preparationLabel}</p>
+              <p className="mt-2 text-xl leading-snug text-fg">{system.preparation}.</p>
               <p className="label-mono mt-6 text-blueprint">
                 {frontById(system.front).code} · {frontById(system.front).name}
               </p>

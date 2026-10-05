@@ -1,8 +1,8 @@
 # Sorocaba Motores — Apresentação técnica
 
-Apresentação executiva em slides (20 slides, 8 atos). React 19 + Vite + TypeScript + Tailwind 4 + Framer Motion.
+Apresentação executiva em slides (16 slides, 8 atos). React 19 + Vite + TypeScript + Tailwind 4 + Framer Motion.
 
-- **Desktop (≥1024px):** modo slides. Palco 16:9 de 1600×900 escalado para a tela. Avança com → ↓ PageDown espaço, roda do mouse, swipe ou controles no canto; Home/End; índice; tela cheia. Cada slide tem endereço próprio (`#metodo`). Alguns slides têm **passos internos** (quem somos, fragmentação, modelo, mapa, método, ARTs, cases, grandes operações): cada avanço move a cena antes de trocar de slide.
+- **Desktop (≥1024px):** modo slides. Palco 16:9 de 1600×900 escalado para a tela. Avança com → ↓ PageDown espaço, roda do mouse, swipe ou controles no canto; Home/End; índice; tela cheia. Cada slide tem endereço próprio (`#metodo`). Alguns slides têm **passos internos** (quem somos, fragmentação, modelo, método, ARTs, cases, grandes operações): cada avanço move a cena antes de trocar de slide.
 - **Mobile:** os mesmos slides empilhados em rolagem vertical; as cenas com passos acompanham o scroll (GSAP ScrollTrigger). Cada slide só é montado quando se aproxima da tela.
 
 ```bash
@@ -25,25 +25,34 @@ Todo texto e dado variável está em `src/data/`. Valor não confirmado aparece 
 | Ordem dos slides | `src/slides.tsx` (deve seguir `src/data/screens.ts`; há teste) |
 | Logo | `src/assets/logo-srcb.png` (branca; escurecida via CSS no fundo claro) |
 | Frentes técnicas (slides 8–11), fotos, normas, mini cases | `src/data/services.ts` |
-| Zonas do mapa da operação | `src/data/facility.ts` |
+| Camadas do corte técnico (quem somos) | `operationLayers` em `src/data/content.ts` |
 | Segurança e referências a NRs (`validated: false` até validação) | `src/data/safety.ts` |
 | ARTs (slots `placeholder: true`) | `src/data/arts.ts` |
 | Cases e fotos antes/depois | `src/data/cases.ts` |
 | Sistemas do ambiente aeroportuário | `src/data/airport.ts` |
 
-Mídia: colocar arquivos em `public/media/` e apontar o caminho (ex.: `video.src = '/media/institucional.mp4'`, `hero.media.videoSrc`, `photo.src` de cada frente, `photo` de cada EPI em `safety.ts`). Enquanto `src` for `null`, aparece uma cena técnica desenhada com o aviso **foto a inserir**. Áudio ambiente: `ambient.audioSrc` em `content.ts` (o botão de som só aparece quando houver arquivo).
+Mídia: colocar arquivos em `public/media/` e apontar o caminho (ex.: `hero.media.videoSrc`, `photo.src` de cada frente, `photo` de cada EPI em `safety.ts`). Enquanto `src` for `null`, aparece uma cena técnica desenhada com o aviso **foto a inserir**. Áudio ambiente: `ambient.audioSrc` em `content.ts` (o botão de som só aparece quando houver arquivo).
 
-## Camada 3D (WebGL)
+## Roteiro (uma pergunta por tela)
 
-Three.js + React Three Fiber + drei, carregados só depois que a página fica ociosa (chunk próprio).
+| # | Tela | Pergunta |
+| --- | --- | --- |
+| 01 | Capa | Que documento é este? (único lugar do slogan) |
+| 02 | Abertura | Por que isso importa? |
+| 03 | Quem somos | Que empresa é e onde atua? Corte em 5 camadas, cada uma liga à sua frente técnica |
+| 04 | O desafio | Qual problema? |
+| 05 | O modelo | Qual solução? |
+| 06–09 | Frentes F-01…F-04 | O que executa? |
+| 10 | Segurança | Como controla risco? |
+| 11 | Método | Como executa? |
+| 12 | ARTs | Existe responsabilidade formal? |
+| 13 | Cases | Já foi executado de verdade? |
+| 14 | Grandes operações | Como isso se aplica a um aeroporto? (como nos preparamos, sem afirmar experiência prévia) |
+| 15 | Diferenciais | O que muda para quem contrata? |
+| 16 | Próximo passo | E agora? |
 
-- **Abertura:** sem 3D. Vídeo real em tela cheia (`public/videos/hero.mp4`, pôster `hero-poster.jpg`, apontados em `hero.media` de `content.ts`), mudo, em loop, sem controles; um único `<video>`, que só baixa depois que a página fica ociosa e pausa fora da tela. Entrada em GSAP; no deck, um avanço já troca de slide; no mobile, os primeiros 30% de rolagem da seção aproximam o vídeo (escala 1,04), escurecem e esmaecem o texto. Com movimento reduzido, só fades e nenhum movimento ligado ao scroll.
-- **Mapa da operação:** a mesma instalação em vista isométrica, 7 etapas (estrutura → cobertura → claraboias → elétrica → mecânica → reservatórios → espaços confinados). Grupos inativos esmaecem; o ativo recebe luz, hotspot com linha e rótulo. Clique/toque nos hotspots destaca a área.
-- **Mapa no deck e no mobile:** no deck, o mapa usa um canvas sobre o palco (`Stage3DLayer`). No mobile, cada cena é embutida na seção e as etapas do mapa acompanham o scroll (cena fixa por sticky, sem sequestrar a rolagem).
-- **Grupos nomeados:** `structure`, `roof`, `skylights`, `electrical`, `mechanical`, `utilities`, `reservoir`, `confined`.
-- **Modelos GLB:** opcionais em `public/models/` (`industrial-facility.glb`, `airport-terminal.glb`), ativados em `src/data/models.ts`. O GLB precisa ter os mesmos nomes de grupo. Para Draco, copie `node_modules/three/examples/jsm/libs/draco/gltf/` para `public/draco/`; Meshopt já funciona.
-- **Proteções:** sem WebGL acelerado (renderização por software) a apresentação usa a versão 2D; se o aparelho não sustentar ~22 FPS, a cena congela num quadro estático; com movimento reduzido, nada reage ao ponteiro e a câmera não viaja. `?force3d` força o 3D para testes.
-- **Orçamento atual:** ~2,4 mil triângulos e 27 draw calls (peças estáticas fundidas por grupo e material); DPR máx. 1,75 no desktop e 1,25 no mobile; sem sombras e spot no mobile.
+- **Abertura:** vídeo real em tela cheia (`public/videos/hero.mp4`, pôster `hero-poster.jpg`, apontados em `hero.media` de `content.ts`), mudo, em loop, sem controles; um único `<video>`, que só baixa depois que a página fica ociosa e pausa fora da tela. Entrada em GSAP; no deck, um avanço já troca de slide; no mobile, os primeiros 30% de rolagem da seção aproximam o vídeo (escala 1,04), escurecem e esmaecem o texto. Com movimento reduzido, só fades e nenhum movimento ligado ao scroll.
+- **Sem 3D:** a apresentação não usa Three.js; os desenhos técnicos são SVG.
 
 ## Estrutura
 
@@ -56,15 +65,13 @@ src/
     navigation/  TopBar, MobileDrawer, MobileCTA, ProgressBar (modo mobile)
     motion/      Reveal, WordReveal, StepReveal, Preloader, CustomCursor
     ui/          Headline, MediaFrame, Logo, Pending, PhotoSlot
-    technical/   SystemGraph, AirportStage, desenhos e cenas SVG, VideoPlayer, ART
-    three/       SceneCanvas, IndustrialSystem3D, IndustrialScene, ReactiveCamera, ReactiveLighting, TechnicalHotspot, Stage3DLayer (deck), InlineScene (mobile),
-                 FrameGuard, WebGLFallback
+    technical/   SystemGraph, AirportStage, OperationBlueprint, desenhos e cenas SVG, ART
     cases/       CaseStudyView, BeforeAfter
   sections/      um componente por slide (FrontScreen gera as quatro frentes)
   data/          conteúdo
   hooks/         slide ativo, passo, modo de apresentação, cenas (GSAP), diálogo acessível
-  lib/           lógica pura e testada: navegação do deck, grafo quadro a quadro, câmera,
-                 roteiro de câmera 3D por slide/etapa e limites de inclinação (lib/three)
+  lib/           lógica pura e testada: navegação do deck, grafo quadro a quadro, câmera do terminal,
+                 destaque das camadas do corte
 ```
 
 ## Decisões técnicas

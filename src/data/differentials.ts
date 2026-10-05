@@ -6,11 +6,10 @@ export type ComparisonRow = {
 }
 
 export const comparisonRows: ComparisonRow[] = [
-  { id: 'interfaces', criterion: 'Quantidade de interfaces', fragmented: 'Uma por fornecedor, somadas às interfaces entre eles', unified: 'Uma interface técnica para todas as frentes' },
-  { id: 'seguranca', criterion: 'Integração de segurança', fragmented: 'Cada equipe com seu próprio planejamento de risco', unified: 'Análise de risco e permissões integradas' },
-  { id: 'responsavel', criterion: 'Responsável pelo resultado', fragmented: 'Diluído entre contratos', unified: 'Um único responsável técnico pelo conjunto' },
-  { id: 'cronograma', criterion: 'Conflitos de cronograma', fragmented: 'Frentes disputando a mesma janela e o mesmo acesso', unified: 'Sequenciamento planejado entre especialidades' },
-  { id: 'documentacao', criterion: 'Documentação', fragmented: 'Formatos e padrões diferentes por fornecedor', unified: 'Padrão único, rastreável e vinculado ao serviço' },
-  { id: 'gestao', criterion: 'Gestão', fragmented: 'Cliente coordena os fornecedores', unified: 'Coordenação técnica assumida pelo parceiro' },
-  { id: 'comunicacao', criterion: 'Comunicação', fragmented: 'Múltiplos canais e versões da informação', unified: 'Um canal, uma versão da informação' },
+  { id: 'contratos', criterion: 'Contratos', fragmented: 'Um contrato por especialidade', unified: 'Um contrato para o conjunto das frentes' },
+  { id: 'integracoes', criterion: 'Integrações', fragmented: 'O cliente integra as equipes entre si', unified: 'Integração entre especialidades resolvida pelo parceiro' },
+  { id: 'cronograma', criterion: 'Cronograma', fragmented: 'Frentes disputando a mesma janela e o mesmo acesso', unified: 'Sequência planejada entre as especialidades' },
+  { id: 'documentacao', criterion: 'Documentação', fragmented: 'Formatos diferentes por fornecedor', unified: 'Documentação centralizada em um padrão' },
+  { id: 'responsavel', criterion: 'Responsável', fragmented: 'Diluído entre contratos', unified: 'Um responsável técnico pelo conjunto' },
+  { id: 'comunicacao', criterion: 'Comunicação', fragmented: 'Vários canais e versões da informação', unified: 'Um canal, uma versão da informação' },
 ]

@@ -6,9 +6,6 @@ export const company = {
   name: 'Sorocaba Motores',
   brandName: 'SRCB — Sorocaba Motores Elétricos e Serviços Industriais',
   slogan: 'Um parceiro. Toda a operação.',
-  concept: 'Sem fragmentação.',
-  positioning:
-    'A Sorocaba Motores é o parceiro técnico que assume, sob uma única responsabilidade, as frentes de manutenção, infraestrutura e serviços especiais que operações críticas costumam dividir entre vários fornecedores.',
   legalName: TBC,
   cnpj: TBC,
   documentRevision: 'REV. 00',
