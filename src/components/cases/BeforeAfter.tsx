@@ -4,7 +4,7 @@ import { PhotoSlot } from '../ui/PhotoSlot'
 
 type Image = { src: string | null; alt: string }
 
-export function BeforeAfter({ before, after, code }: { before: Image; after: Image; code: string }) {
+export function BeforeAfter({ before, after, code, className = 'aspect-[4/3] lg:aspect-[16/10]' }: { before: Image; after: Image; code: string; className?: string }) {
   const [split, setSplit] = useState(50)
   const frame = useRef<HTMLDivElement>(null)
   const dragging = useRef(false)
@@ -27,7 +27,7 @@ export function BeforeAfter({ before, after, code }: { before: Image; after: Ima
   return (
     <div
       ref={frame}
-      className="relative aspect-[4/3] touch-pan-y select-none overflow-hidden lg:aspect-[16/10]"
+      className={`relative touch-pan-y select-none overflow-hidden ${className}`}
       onPointerDown={(e) => {
         dragging.current = true
         e.currentTarget.setPointerCapture(e.pointerId)

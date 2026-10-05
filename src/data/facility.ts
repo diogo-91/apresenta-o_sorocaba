@@ -22,3 +22,14 @@ export const facilityZones: MapZone[] = [
   { id: 'area-produtiva', code: 'Z-08', label: 'Área produtiva', level: 'Térreo', front: 'ativos-pesados', services: ['Mudança de máquinas', 'Movimentação', 'Instalação', 'Apoio mecânico'], x: 470, y: 500 },
   { id: 'espacos-confinados', code: 'Z-09', label: 'Espaços confinados', level: 'Subsolo', front: 'utilidades', services: ['Serviços técnicos especiais', 'Manutenção de reservatórios enterrados'], x: 420, y: 622 },
 ]
+
+export type FacilityLayer = { id: string; label: string; zones: string[] }
+
+export const facilityLayers: FacilityLayer[] = [
+  { id: 'estrutura', label: 'Estrutura', zones: ['estrutura', 'fachada'] },
+  { id: 'cobertura', label: 'Cobertura', zones: ['cobertura', 'claraboias'] },
+  { id: 'sistemas', label: 'Sistemas', zones: ['utilidades', 'casa-de-maquinas'] },
+  { id: 'equipamentos', label: 'Equipamentos', zones: ['area-produtiva'] },
+  { id: 'reservatorios', label: 'Reservatórios', zones: ['reservatorios'] },
+  { id: 'confinados', label: 'Espaços confinados', zones: ['espacos-confinados'] },
+]

@@ -18,7 +18,7 @@ export function UnifiedModelSection() {
         <Eyebrow tone="accent" className="mb-6">
           Sem fragmentação
         </Eyebrow>
-        <h2 id={titleId('modelo')} className="display-lg lg:text-[3.6rem]">
+        <h2 id={titleId('modelo')} className="display-lg lg:text-[3.4rem]">
           {lines.map((line, i) => (
             <span key={line} className={`block ${i === 0 ? 'text-fg' : i === 1 ? 'text-muted' : 'text-fg'}`}>
               <WordReveal text={line} delay={0.5 + i * 0.25} />

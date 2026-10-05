@@ -19,9 +19,9 @@ export function FragmentationSection() {
         <Eyebrow tone="accent" className="mb-6">
           O problema
         </Eyebrow>
-        <Headline id={titleId('desafio')} text={fragmentation.headline} className="max-w-[14ch]" />
+        <Headline id={titleId('desafio')} text={fragmentation.headline} className="max-w-[15ch] lg:text-[4rem]" />
         <Reveal delay={0.3}>
-          <p className="lede mt-7 max-w-[40ch]">{fragmentation.subheadline}</p>
+          <p className="lede mt-6 max-w-[40ch]">{fragmentation.subheadline}</p>
         </Reveal>
 
         {!deck && (
@@ -30,8 +30,8 @@ export function FragmentationSection() {
           </div>
         )}
 
-        <StepReveal at={1} className="mt-10 flex items-end gap-6 border-t border-line pt-6 lg:mt-auto">
-          <span className="font-display text-[6rem] font-bold leading-[0.8] tracking-tighter text-alert [font-stretch:78%] lg:text-[9rem]">
+        <StepReveal at={1} className="mt-10 flex items-end gap-6 border-t border-line pt-4 lg:mt-auto">
+          <span className="font-display text-[6rem] font-bold leading-[0.8] tracking-tighter text-alert [font-stretch:78%] lg:text-[6.5rem]">
             {interfaceCount(n)}
           </span>
           <span className="label-mono max-w-[22ch] pb-2 text-muted">

@@ -1,65 +1,112 @@
+import { useState } from 'react'
+import { AnimatePresence, m } from 'framer-motion'
 import { safety } from '../data/content'
-import { safetyDomains, type NormReference } from '../data/safety'
+import { safetyDomains, safetyGear, type NormReference } from '../data/safety'
 import { Screen, titleId } from '../components/layout/Screen'
+import { GearIllustration } from '../components/technical/Scenes'
 import { Headline } from '../components/ui/Headline'
 import { Reveal } from '../components/motion/Reveal'
+import { DURATION, EASE_OUT } from '../lib/motion'
 
-function NormBadge({ norm }: { norm: NormReference | null }) {
-  if (!norm) return <span className="label-mono text-faint">Procedimento interno · a documentar</span>
-  if (norm.validated) return <span className="label-mono border border-line-strong px-2 py-1 text-fg">{norm.code}</span>
+const BOARD_LAYOUT = [
+  'lg:col-span-3 lg:row-span-2',
+  'lg:col-span-2 lg:row-span-1',
+  'lg:col-span-2 lg:row-span-2',
+  'lg:col-span-3 lg:row-span-1',
+  'lg:col-span-2 lg:row-span-1',
+  'lg:col-span-3 lg:row-span-1',
+]
+
+function NormTag({ norm }: { norm: NormReference | null }) {
+  if (!norm) return <span className="label-mono text-faint">Procedimento</span>
   return (
-    <span className="label-mono inline-flex items-center gap-2 border border-dashed border-line-strong px-2 py-1 text-muted" title="Referência temática. Não representa certificação.">
+    <span className="font-mono text-xs tracking-wider text-muted" title="Referência temática a validar. Não representa certificação.">
       {norm.code}
-      <span className="text-faint">· referência a validar</span>
+      {!norm.validated && <span className="text-faint">*</span>}
     </span>
   )
 }
 
 export function SafetySection() {
+  const [selected, setSelected] = useState(safetyDomains[0].id)
+  const domain = safetyDomains.find((d) => d.id === selected)!
+
   return (
-    <Screen id="seguranca" grid>
-      <div className="grid gap-8 lg:grid-cols-12 lg:items-end">
-        <Headline id={titleId('seguranca')} size="md" text={safety.headline} className="max-w-[24ch] lg:col-span-8" />
-        <Reveal className="lg:col-span-4" delay={0.15}>
-          <p className="lede">{safety.subheadline}</p>
-        </Reveal>
-      </div>
-
-      <Reveal delay={0.2} className="mt-6">
-        <ol className="flex flex-wrap items-center gap-x-3 gap-y-2" aria-label="Sequência de controle">
-          {safety.sequence.map((step, i) => (
-            <li key={step} className="flex items-center gap-3">
-              <span className={`label-mono ${i === safety.sequence.length - 1 ? 'text-accent-ink' : 'text-fg'}`}>
-                {String(i + 1).padStart(2, '0')} {step}
-              </span>
-              {i < safety.sequence.length - 1 && <span aria-hidden="true" className="h-px w-8 bg-line-strong sm:w-14" />}
-            </li>
-          ))}
-        </ol>
-      </Reveal>
-
-      <ul className="mt-6 grid flex-1 border-l border-t border-line sm:grid-cols-2 lg:grid-cols-3">
-        {safetyDomains.map((domain, i) => (
-          <Reveal as="li" key={domain.id} delay={0.05 * i} className="flex flex-col border-b border-r border-line bg-paper p-5">
-            <div className="flex items-start justify-between gap-4">
-              <span className="label-mono text-faint">{domain.code}</span>
-              <span aria-hidden="true" className="h-px w-10 translate-y-2 bg-line-strong" />
-            </div>
-            <h3 className="mt-3 font-display text-2xl font-bold tracking-tight">{domain.title}</h3>
-            <ul className="mt-3 flex flex-1 flex-col gap-1.5">
-              {domain.controls.map((c) => (
-                <li key={c} className="flex gap-2.5 text-sm leading-snug text-muted">
-                  <span aria-hidden="true" className="mt-[0.5rem] h-px w-3 shrink-0 bg-fg/40" />
-                  {c}
-                </li>
-              ))}
-            </ul>
-            <div className="mt-4 border-t border-line pt-3">
-              <NormBadge norm={domain.norm} />
-            </div>
+    <Screen id="seguranca" theme="dark" className="grain">
+      <div className="grid flex-1 gap-10 lg:grid-cols-12">
+        <div className="flex flex-col lg:col-span-5">
+          <Headline id={titleId('seguranca')} size="md" text={safety.headline} className="max-w-[17ch]" />
+          <Reveal delay={0.2}>
+            <p className="lede mt-4">{safety.subheadline}</p>
           </Reveal>
-        ))}
-      </ul>
+
+          <ul className="mt-7 border-t border-line" aria-label="Domínios de risco">
+            {safetyDomains.map((d) => (
+              <li key={d.id}>
+                <button
+                  type="button"
+                  aria-pressed={d.id === selected}
+                  onClick={() => setSelected(d.id)}
+                  onMouseEnter={() => setSelected(d.id)}
+                  className={`flex w-full items-baseline gap-4 border-b border-line py-2.5 text-left transition-colors duration-300 ${d.id === selected ? 'text-fg' : 'text-muted hover:text-fg'}`}
+                >
+                  <span className={`label-mono w-10 ${d.id === selected ? 'text-accent-ink' : 'text-faint'}`}>{d.code}</span>
+                  <span className="font-display text-lg font-semibold tracking-tight">{d.title}</span>
+                  <span className="ml-auto">
+                    <NormTag norm={d.norm} />
+                  </span>
+                </button>
+              </li>
+            ))}
+          </ul>
+
+          <div className="mt-4 min-h-[6.5rem]" aria-live="polite">
+            <AnimatePresence mode="wait">
+              <m.ul key={domain.id} initial={{ opacity: 0, y: 8 }} animate={{ opacity: 1, y: 0 }} exit={{ opacity: 0 }} transition={{ duration: DURATION.fast, ease: EASE_OUT }} className="flex flex-col gap-1.5">
+                {domain.controls.map((c) => (
+                  <li key={c} className="flex gap-3 text-sm text-fg/85">
+                    <span aria-hidden="true" className="mt-2 h-px w-4 shrink-0 bg-accent" />
+                    {c}
+                  </li>
+                ))}
+              </m.ul>
+            </AnimatePresence>
+          </div>
+          <p className="label-mono mt-auto text-faint">* Referências normativas a validar · não representam certificação</p>
+        </div>
+
+        <ul className="grid gap-3 sm:grid-cols-2 lg:col-span-7 lg:-mr-24 lg:grid-cols-5 lg:grid-rows-4" aria-label="Equipamentos de proteção">
+          {safetyGear.map((gear, i) => {
+            const related = gear.domain === selected
+            const code = safetyDomains.find((d) => d.id === gear.domain)!.code
+            return (
+              <Reveal as="li" key={gear.id} delay={0.2 + i * 0.07} className={`${BOARD_LAYOUT[i]} min-h-40 lg:min-h-0`}>
+                <button
+                  type="button"
+                  data-cursor="explore"
+                  onMouseEnter={() => setSelected(gear.domain)}
+                  onFocus={() => setSelected(gear.domain)}
+                  onClick={() => setSelected(gear.domain)}
+                  aria-label={`${gear.label} · ${code} (foto a inserir)`}
+                  className={`group relative block size-full overflow-hidden border bg-paper-2 text-left transition-[opacity,border-color] duration-500 ${related ? 'border-accent/60 opacity-100' : 'border-line opacity-45'}`}
+                >
+                  <div className="absolute inset-[18%] text-fg/70 transition-transform duration-[1200ms] ease-out-mech group-hover:scale-[1.03]">
+                    <GearIllustration id={gear.id} />
+                  </div>
+                  <svg aria-hidden="true" className="absolute inset-0 size-full" preserveAspectRatio="none" viewBox="0 0 100 100">
+                    <path d="M62 46 L40 22 H12" vectorEffect="non-scaling-stroke" className={related ? 'stroke-accent' : 'stroke-faint'} fill="none" strokeWidth="1" />
+                    <circle cx="62" cy="46" r="1" className={related ? 'fill-accent' : 'fill-faint'} />
+                  </svg>
+                  <span className="label-mono absolute left-3 top-3 text-fg">
+                    {String(i + 1).padStart(2, '0')} {gear.label}
+                  </span>
+                  <span className="label-mono absolute bottom-3 right-3 text-faint">{code} · foto a inserir</span>
+                </button>
+              </Reveal>
+            )
+          })}
+        </ul>
+      </div>
     </Screen>
   )
 }

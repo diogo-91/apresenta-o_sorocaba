@@ -1,6 +1,7 @@
 import { useRef, useState } from 'react'
 import { Maximize, Pause, Play, Volume2, VolumeX } from 'lucide-react'
 import { CornerMarks } from '../ui/CornerMarks'
+import { BlueprintPlant } from './BlueprintPlant'
 
 export type Chapter = { id: string; label: string; startSeconds: number | null }
 
@@ -43,7 +44,7 @@ export function VideoPlayer({ src, poster, title, durationLabel, fileHint, chapt
 
   return (
     <div className="flex flex-col gap-4">
-      <div ref={frame} className="relative aspect-[4/5] overflow-hidden bg-paper-2 sm:aspect-video">
+      <div ref={frame} data-cursor="explore" className="relative aspect-[4/5] overflow-hidden bg-paper-2 sm:aspect-video lg:aspect-auto lg:h-[470px]">
         {available ? (
           <video
             ref={video}
@@ -60,8 +61,10 @@ export function VideoPlayer({ src, poster, title, durationLabel, fileHint, chapt
             onClick={toggle}
           />
         ) : (
-          <div className="blueprint-grid absolute inset-0" aria-hidden="true">
-            <div className="absolute inset-0 bg-gradient-to-br from-transparent via-paper/40 to-paper" />
+          <div className="absolute inset-0" aria-hidden="true">
+            <div className="blueprint-grid absolute inset-0 opacity-60" />
+            <BlueprintPlant className="absolute inset-0 size-full text-blueprint opacity-30 motion-safe:animate-[kenburns_36s_ease-in-out_infinite_alternate]" />
+            <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_center,transparent_30%,var(--color-paper)_95%)]" />
           </div>
         )}
         <CornerMarks className="border-fg/50" size="size-4" />
@@ -121,7 +124,7 @@ export function VideoPlayer({ src, poster, title, durationLabel, fileHint, chapt
         </div>
       </div>
 
-      <ol className="grid grid-cols-3 border-t border-line" aria-label="Capítulos do vídeo">
+      <ol className="grid grid-cols-3 border-t border-line lg:mx-24" aria-label="Capítulos do vídeo">
         {chapters.map((chapter, i) => {
           const seekable = available && chapter.startSeconds != null
           return (

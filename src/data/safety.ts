@@ -56,3 +56,14 @@ export const safetyDomains: SafetyDomain[] = [
     norm: null,
   },
 ]
+
+export type SafetyGear = { id: string; label: string; domain: SafetyDomain['id']; photo: string | null }
+
+export const safetyGear: SafetyGear[] = [
+  { id: 'mosquetao', label: 'Mosquetão', domain: 'altura', photo: null },
+  { id: 'trava-quedas', label: 'Trava-quedas', domain: 'altura', photo: null },
+  { id: 'detector', label: 'Detector de gases', domain: 'confinado', photo: null },
+  { id: 'ferramentas', label: 'Ferramentas isoladas', domain: 'eletrica', photo: null },
+  { id: 'capacete', label: 'Capacete', domain: 'maquinas', photo: null },
+  { id: 'cabo', label: 'Cabo e linha de vida', domain: 'altura', photo: null },
+]

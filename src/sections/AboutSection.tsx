@@ -2,49 +2,59 @@ import { about } from '../data/content'
 import { company } from '../data/company'
 import { pad2 } from '../data/screens'
 import { Screen, titleId } from '../components/layout/Screen'
-import { Headline } from '../components/ui/Headline'
-import { Indicator } from '../components/ui/Indicator'
+import { Pending } from '../components/ui/Pending'
 import { Reveal } from '../components/motion/Reveal'
+import { WordReveal } from '../components/motion/WordReveal'
+import { isPending } from '../lib/placeholder'
+
+function Figure({ value, label, index }: { value: string; label: string; index: number }) {
+  const pending = isPending(value)
+  return (
+    <Reveal delay={0.4 + index * 0.12} className="flex flex-col border-l border-line pl-5 first:border-l-0 first:pl-0 lg:pl-8">
+      <span className="label-mono text-faint">IND-{pad2(index + 1)}</span>
+      {pending ? (
+        <span aria-hidden="true" className="mt-3 font-display text-[5.5rem] font-bold leading-[0.8] tracking-tighter text-transparent [-webkit-text-stroke:1.5px_var(--color-line-strong)] [font-stretch:75%] lg:text-[10rem]">
+          —
+        </span>
+      ) : (
+        <span className="mt-3 font-display text-[5.5rem] font-bold leading-[0.8] tracking-tighter [font-stretch:75%] lg:text-[10rem]">{value}</span>
+      )}
+      <span className="mt-4 font-display text-lg font-bold uppercase leading-[1.05] tracking-tight [font-stretch:85%] lg:text-xl">
+        {label.split(' ').map((word) => (
+          <span key={word} className="block">
+            {word}
+          </span>
+        ))}
+      </span>
+      {pending && <Pending value={value} className="mt-3 self-start text-[0.625rem]" />}
+    </Reveal>
+  )
+}
 
 export function AboutSection() {
   return (
     <Screen id="quem-somos" grid>
-      <div className="grid gap-12 lg:grid-cols-12 lg:gap-10">
-        <div className="lg:col-span-6">
-          <Headline id={titleId('quem-somos')} text={about.headline} className="max-w-[12ch]" />
-          <Reveal delay={0.2}>
-            <p className="lede mt-7 max-w-[40ch]">{about.subheadline}</p>
-          </Reveal>
-        </div>
-
-        <Reveal className="lg:col-span-6" delay={0.15}>
-          <figure aria-label="Níveis de atuação, da cobertura ao subsolo">
-            <ol>
-              {about.levels.map((level, i) => (
-                <li key={level.elevation} className="grid grid-cols-[6.5rem_1fr] items-center gap-4 border-t border-line py-3.5 last:border-b">
-                  <span className="label-mono flex items-center gap-2 text-blueprint">
-                    <svg width="10" height="8" viewBox="0 0 10 8" aria-hidden="true" className="fill-current">
-                      <path d="M0 0h10L5 8z" />
-                    </svg>
-                    {level.elevation}
-                  </span>
-                  <span className="flex items-baseline justify-between gap-3">
-                    <span className="font-display text-xl font-semibold tracking-tight text-fg lg:text-2xl">{level.label}</span>
-                    <span className="label-mono text-faint">N{pad2(about.levels.length - i)}</span>
-                  </span>
-                </li>
-              ))}
-            </ol>
-            <figcaption className="label-mono mt-3 text-faint">{about.levelsNote}</figcaption>
-          </figure>
+      <div className="grid gap-10 lg:grid-cols-12">
+        <h2 id={titleId('quem-somos')} className="display-xl lg:col-span-8 lg:text-[7.5rem]">
+          <WordReveal text={about.headline} />
+        </h2>
+        <Reveal delay={0.3} className="flex flex-col justify-end lg:col-span-4">
+          <p className="lede">{about.subheadline}</p>
+          <ol className="mt-6 border-t border-line" aria-label="Níveis de atuação">
+            {about.levels.map((level) => (
+              <li key={level.elevation} className="flex items-baseline gap-3 border-b border-line py-1.5">
+                <span className="label-mono w-24 shrink-0 text-blueprint">{level.elevation}</span>
+                <span className="text-sm text-fg/85">{level.label}</span>
+              </li>
+            ))}
+          </ol>
+          <p className="label-mono mt-2 text-faint">{about.levelsNote}</p>
         </Reveal>
       </div>
 
-      <div className="mt-14 grid grid-cols-2 gap-x-4 gap-y-10 lg:mt-auto lg:grid-cols-4 lg:gap-6">
+      <div className="mt-12 grid grid-cols-2 gap-y-10 lg:mt-auto lg:grid-cols-4">
         {company.metrics.map((metric, i) => (
-          <Reveal key={metric.id} delay={0.08 * i}>
-            <Indicator code={`IND-${pad2(i + 1)}`} label={metric.label} value={metric.value} />
-          </Reveal>
+          <Figure key={metric.id} value={metric.value} label={metric.label} index={i} />
         ))}
       </div>
     </Screen>

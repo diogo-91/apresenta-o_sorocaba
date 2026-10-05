@@ -43,7 +43,7 @@ export function HeroSection() {
   return (
     <Screen id="inicio" theme="dark" tone="none" background={<MediaBackground />}>
       <div className="flex flex-1 flex-col justify-end">
-        <m.div className="mb-8 flex items-start gap-4 lg:mb-10" {...fadeIn(0.6)}>
+        <m.div className="mb-8 flex items-start gap-4 lg:mb-8" {...fadeIn(0.6)}>
           <span aria-hidden="true" className="mt-1 h-9 w-[3px] bg-accent" />
           <p className="label-mono flex flex-col gap-1 text-fg">
             <span>{hero.eyebrow[0]}</span>
@@ -73,7 +73,7 @@ export function HeroSection() {
           {hero.subheadline}
         </m.p>
 
-        <m.div className="mt-10 flex flex-wrap items-center justify-between gap-4 border-t border-line pt-5 lg:mt-12" {...fadeIn(2.2)}>
+        <m.div className="mt-10 flex flex-wrap items-center justify-between gap-4 border-t border-line pt-4 lg:mt-9" {...fadeIn(2.2)}>
           <p className="flex items-center gap-4 text-fg">
             {deck ? (
               <span aria-hidden="true" className="relative flex h-9 w-6 justify-center rounded-full border border-line-strong">

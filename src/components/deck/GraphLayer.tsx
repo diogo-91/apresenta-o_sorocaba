@@ -12,13 +12,13 @@ export function GraphLayer() {
       {keyframes && (
         <m.div
           key="system-graph"
-          className="pointer-events-none absolute bottom-[80px] right-24 top-[136px] z-10 flex w-[640px] items-center"
+          className="pointer-events-none absolute bottom-[78px] right-24 top-[150px] z-10 flex w-[640px] items-center"
           initial={{ opacity: 0 }}
           animate={{ opacity: 1 }}
           exit={{ opacity: 0 }}
           transition={{ duration: DURATION.base }}
         >
-          <SystemGraph target={keyframes[Math.min(step, keyframes.length - 1)]} className="mx-auto w-[520px]" />
+          <SystemGraph target={keyframes[Math.min(step, keyframes.length - 1)]} className="mx-auto w-[500px]" />
         </m.div>
       )}
     </AnimatePresence>

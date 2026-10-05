@@ -212,6 +212,19 @@
 }
 
 @layer utilities {
+  .link-underline {
+    background-image: linear-gradient(currentColor, currentColor);
+    background-size: 0% 1px;
+    background-position: 0 100%;
+    background-repeat: no-repeat;
+    transition: background-size 0.5s var(--ease-mech);
+  }
+
+  .link-underline:hover,
+  .link-underline:focus-visible {
+    background-size: 100% 1px;
+  }
+
   .pb-mobile-cta {
     padding-bottom: calc(5.25rem + env(safe-area-inset-bottom));
   }
@@ -304,4 +317,39 @@
 [class*="animate-[ping-soft"] {
   transform-box: fill-box;
   transform-origin: center;
+}
+
+.draw-layer [data-draw] {
+  stroke-dasharray: 1;
+  stroke-dashoffset: 1;
+  transition: stroke-dashoffset 1.6s var(--ease-mech);
+}
+
+.draw-layer[data-on="true"] [data-draw] {
+  stroke-dashoffset: 0;
+}
+
+.draw-layer [data-fade] {
+  opacity: 0;
+  transition: opacity 0.8s ease 0.6s;
+}
+
+.draw-layer[data-on="true"] [data-fade] {
+  opacity: 1;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .draw-layer [data-draw],
+  .draw-layer [data-fade] {
+    transition-duration: 0.01ms;
+  }
+}
+
+@keyframes grow {
+  from {
+    transform: scaleX(0);
+  }
+  to {
+    transform: scaleX(1);
+  }
 }
