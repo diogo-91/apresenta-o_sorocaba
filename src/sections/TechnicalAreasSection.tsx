@@ -3,7 +3,7 @@ import { Screen, titleId } from '../components/layout/Screen'
 import { FrontGlyph } from '../components/technical/FrontGlyph'
 import { ReservoirScene, RoofScene } from '../components/technical/Scenes'
 import { SystemsDeck, SystemsMobile } from '../components/technical/SystemsStage'
-import { HeavyDeck, HeavyHeadline, HeavyMobile } from '../components/technical/HeavyVideoStage'
+import { HeavyDeck, HeavyMobile } from '../components/technical/HeavyVideoStage'
 import { HEAVY_FINAL } from '../data/heavyMove'
 import { systemsCopy, SYSTEMS_FINAL } from '../data/systemsFlow'
 import { useSlideStep } from '../hooks/useDeckPosition'
@@ -146,25 +146,8 @@ function Sistemas({ front }: { front: TechnicalFront }) {
 function AtivosPesados({ front }: { front: TechnicalFront }) {
   const deck = usePresentationMode() === 'deck'
   const step = useSlideStep()
-  const intro = (
-    <>
-      <FrontTag front={front} />
-      <HeavyHeadline id={titleId(front.id)} label={front.headline} />
-    </>
-  )
-  return (
-    <Screen id={front.id} grid>
-      {deck ? <HeavyDeck stage={Math.min(step, HEAVY_FINAL)} intro={intro} /> : (
-        <>
-          {intro}
-          <HeavyMobile />
-        </>
-      )}
-      <div className={deck ? 'mt-auto pt-4' : 'mt-10'}>
-        <Facts front={front} maxRisks={4} quiet />
-      </div>
-    </Screen>
-  )
+  const props = { id: titleId(front.id), label: front.headline, tag: <FrontTag front={front} /> }
+  return <Screen id={front.id} grid>{deck ? <HeavyDeck stage={Math.min(step, HEAVY_FINAL)} {...props} /> : <HeavyMobile {...props} />}</Screen>
 }
 
 function Utilidades({ front }: { front: TechnicalFront }) {
