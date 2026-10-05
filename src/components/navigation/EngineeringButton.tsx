@@ -8,6 +8,7 @@ export function EngineeringButton({ className = '' }: { className?: string }) {
       href={href ?? '#parceria'}
       target={href ? '_blank' : undefined}
       rel={href ? 'noopener noreferrer' : undefined}
+      data-magnetic
       className={`group inline-flex min-h-11 items-center gap-3 border border-line-strong bg-paper/70 px-4 text-sm font-medium text-fg transition-colors duration-300 ease-mech hover:border-fg ${className}`}
     >
       <span className="relative flex size-2">

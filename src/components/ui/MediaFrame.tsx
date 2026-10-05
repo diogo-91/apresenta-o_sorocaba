@@ -1,4 +1,6 @@
 import type { ReactNode } from 'react'
+import { m, useReducedMotion } from 'framer-motion'
+import { EASE_MECH, VIEWPORT_ONCE } from '../../lib/motion'
 
 type Props = {
   src: string | null
@@ -11,8 +13,16 @@ type Props = {
 }
 
 export function MediaFrame({ src, alt, caption, scene, className = '', labelPosition = 'bottom', fill = false }: Props) {
+  const reduced = useReducedMotion()
   return (
-    <figure data-cursor="explore" className={`group overflow-hidden ${fill ? 'absolute inset-0' : 'relative'} ${className}`}>
+    <m.figure
+      data-cursor="explore"
+      className={`group overflow-hidden ${fill ? 'absolute inset-0' : 'relative'} ${className}`}
+      initial={reduced ? { opacity: 0 } : { clipPath: 'inset(0 0 100% 0)' }}
+      whileInView={reduced ? { opacity: 1 } : { clipPath: 'inset(0 0 0% 0)' }}
+      viewport={VIEWPORT_ONCE}
+      transition={{ duration: 1.2, ease: EASE_MECH }}
+    >
       {src ? (
         <img
           src={src}
@@ -33,6 +43,6 @@ export function MediaFrame({ src, alt, caption, scene, className = '', labelPosi
         {caption}
         {!src && <span className="text-faint">· foto a inserir</span>}
       </figcaption>
-    </figure>
+    </m.figure>
   )
 }

@@ -8,6 +8,8 @@ import { MobileCTA } from './components/navigation/MobileCTA'
 import { ProgressBar } from './components/navigation/ProgressBar'
 import { TopBar } from './components/navigation/TopBar'
 import { slides } from './slides'
+import { CustomCursor } from './components/motion/CustomCursor'
+import { Preloader, usePreload } from './components/motion/Preloader'
 
 function Flow() {
   return (
@@ -29,12 +31,15 @@ function Flow() {
 
 export default function App() {
   const deck = useMediaQuery(DESKTOP_QUERY)
+  const preload = usePreload()
 
   return (
     <MotionConfig reducedMotion="user">
       <LazyMotion features={domAnimation} strict>
         <PresentationModeContext.Provider value={deck ? 'deck' : 'flow'}>
-          {deck ? <Deck slides={slides} /> : <Flow />}
+          <Preloader progress={preload.progress} done={preload.ready} visible={preload.visible} />
+          {preload.ready && (deck ? <Deck slides={slides} /> : <Flow />)}
+          <CustomCursor />
         </PresentationModeContext.Provider>
       </LazyMotion>
     </MotionConfig>

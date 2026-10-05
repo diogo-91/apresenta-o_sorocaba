@@ -1,3 +1,7 @@
+export const ambient = {
+  audioSrc: null as string | null,
+}
+
 export const cover = {
   eyebrow: 'Apresentação técnica',
   subtitle: 'Manutenção, infraestrutura e serviços especiais sob uma única responsabilidade técnica.',

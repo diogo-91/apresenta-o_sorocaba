@@ -1,6 +1,7 @@
 import { useEffect, useState } from 'react'
 import { ChevronLeft, ChevronRight, LayoutGrid, Maximize, Minimize } from 'lucide-react'
 import { pad2 } from '../../data/screens'
+import { SoundToggle } from './SoundToggle'
 
 type Props = {
   index: number
@@ -54,6 +55,7 @@ export function DeckControls({ index, total, step, steps, onPrev, onNext, onOpen
       <button type="button" onClick={onOpenIndex} aria-label="Índice de slides" aria-haspopup="dialog" className={button}>
         <LayoutGrid size={16} aria-hidden="true" />
       </button>
+      <SoundToggle className={button} />
       <button type="button" onClick={toggleFullscreen} aria-label={fullscreen ? 'Sair da tela cheia' : 'Tela cheia'} className={button}>
         {fullscreen ? <Minimize size={16} aria-hidden="true" /> : <Maximize size={16} aria-hidden="true" />}
       </button>
