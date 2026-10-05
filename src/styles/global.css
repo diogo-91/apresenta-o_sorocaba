@@ -17,8 +17,8 @@
   --color-line: rgb(14 17 20 / 0.1);
   --color-line-strong: rgb(14 17 20 / 0.2);
 
-  --font-display: "Archivo", "Arial Narrow", system-ui, sans-serif;
-  --font-sans: "Inter", system-ui, -apple-system, "Segoe UI", sans-serif;
+  --font-display: "Archivo Variable", "Arial Narrow", system-ui, sans-serif;
+  --font-sans: "Inter Variable", system-ui, -apple-system, "Segoe UI", sans-serif;
   --font-mono: "IBM Plex Mono", ui-monospace, "SFMono-Regular", Menlo, monospace;
 
   --ease-mech: cubic-bezier(0.65, 0, 0.35, 1);
@@ -28,6 +28,31 @@
 }
 
 @layer base {
+  .theme-dark {
+    --color-paper: #0b0e11;
+    --color-paper-2: #101418;
+    --color-surface: #171d22;
+    --color-surface-2: #20272e;
+    --color-fg: #f1f3f4;
+    --color-muted: #a3adb4;
+    --color-faint: #848e95;
+    --color-accent-ink: #ff7a45;
+    --color-blueprint: #5fb0e6;
+    --color-alert: #ef5a4a;
+    --color-line: rgb(241 243 244 / 0.1);
+    --color-line-strong: rgb(241 243 244 / 0.22);
+    color: var(--color-fg);
+    color-scheme: dark;
+  }
+
+  .logo-auto {
+    filter: brightness(0);
+  }
+
+  .theme-dark .logo-auto {
+    filter: none;
+  }
+
   html {
     background: var(--color-paper);
     color-scheme: light;
@@ -157,6 +182,16 @@
     background-position: -1px -1px;
   }
 
+  .grain::after {
+    content: "";
+    position: absolute;
+    inset: 0;
+    pointer-events: none;
+    opacity: 0.07;
+    mix-blend-mode: overlay;
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='160' height='160'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='2' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+  }
+
   .hatch {
     background-image: repeating-linear-gradient(
       -45deg,
@@ -195,4 +230,78 @@
   to {
     transform: translateY(200%);
   }
+}
+
+@keyframes drift {
+  from {
+    transform: translate3d(-1.5%, 0, 0) scale(1);
+  }
+  to {
+    transform: translate3d(1.5%, -1%, 0) scale(1.04);
+  }
+}
+
+@keyframes kenburns {
+  from {
+    transform: scale(1);
+  }
+  to {
+    transform: scale(1.06) translate3d(-1%, 0.5%, 0);
+  }
+}
+
+@keyframes flow {
+  to {
+    stroke-dashoffset: -160;
+  }
+}
+
+@keyframes scanline {
+  from {
+    transform: translateY(-2%);
+  }
+  to {
+    transform: translateY(102%);
+  }
+}
+
+@keyframes run {
+  from {
+    transform: translateX(-100%);
+  }
+  to {
+    transform: translateX(400%);
+  }
+}
+
+@keyframes wheel {
+  0% {
+    transform: translateY(0);
+    opacity: 1;
+  }
+  70% {
+    transform: translateY(12px);
+    opacity: 0;
+  }
+  100% {
+    transform: translateY(0);
+    opacity: 0;
+  }
+}
+
+@keyframes ping-soft {
+  0% {
+    transform: scale(1);
+    opacity: 0.8;
+  }
+  80%,
+  100% {
+    transform: scale(1.9);
+    opacity: 0;
+  }
+}
+
+[class*="animate-[ping-soft"] {
+  transform-box: fill-box;
+  transform-origin: center;
 }

@@ -5,6 +5,8 @@ import { pad2 } from '../../data/screens'
 type Props = {
   index: number
   total: number
+  step: number
+  steps: number
   onPrev: () => void
   onNext: () => void
   onOpenIndex: () => void
@@ -13,7 +15,7 @@ type Props = {
 const button =
   'flex size-10 items-center justify-center text-fg transition-colors duration-300 ease-mech hover:bg-fg hover:text-paper disabled:pointer-events-none disabled:text-faint/50'
 
-export function DeckControls({ index, total, onPrev, onNext, onOpenIndex }: Props) {
+export function DeckControls({ index, total, step, steps, onPrev, onNext, onOpenIndex }: Props) {
   const [fullscreen, setFullscreen] = useState(false)
 
   useEffect(() => {
@@ -29,14 +31,23 @@ export function DeckControls({ index, total, onPrev, onNext, onOpenIndex }: Prop
 
   return (
     <nav aria-label="Controles da apresentação" className="fixed bottom-4 right-4 z-40 flex items-center border border-line-strong bg-paper/95 shadow-sm">
-      <button type="button" onClick={onPrev} disabled={index === 0} aria-label="Slide anterior" className={button}>
+      <button type="button" onClick={onPrev} disabled={index === 0 && step === 0} aria-label="Anterior" className={button}>
         <ChevronLeft size={18} aria-hidden="true" />
       </button>
-      <span className="label-mono min-w-[4.5rem] text-center tabular-nums text-fg" aria-live="polite">
-        {pad2(index + 1)}
-        <span className="text-faint"> / {pad2(total)}</span>
+      <span className="label-mono flex min-w-[4.5rem] flex-col items-center text-center tabular-nums text-fg" aria-live="polite">
+        <span>
+          {pad2(index + 1)}
+          <span className="text-faint"> / {pad2(total)}</span>
+        </span>
+        {steps > 1 && (
+          <span className="mt-1 flex justify-center gap-1" aria-label={`Passo ${step + 1} de ${steps}`}>
+            {Array.from({ length: steps }, (_, i) => (
+              <span key={i} className={`h-0.5 w-2.5 transition-colors duration-300 ${i <= step ? 'bg-accent' : 'bg-line-strong'}`} />
+            ))}
+          </span>
+        )}
       </span>
-      <button type="button" onClick={onNext} disabled={index === total - 1} aria-label="Próximo slide" className={button}>
+      <button type="button" onClick={onNext} disabled={index === total - 1 && step === steps - 1} aria-label="Próximo" className={button}>
         <ChevronRight size={18} aria-hidden="true" />
       </button>
       <span className="h-6 w-px bg-line-strong" aria-hidden="true" />

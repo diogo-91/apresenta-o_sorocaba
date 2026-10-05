@@ -14,6 +14,7 @@ type Props = {
   className?: string
   innerClassName?: string
   background?: ReactNode
+  theme?: 'light' | 'dark'
 }
 
 const tones = {
@@ -27,14 +28,14 @@ export function titleId(id: string) {
   return `${id}-title`
 }
 
-export function Screen({ id, children, tone = 'paper', grid = false, meta = true, className = '', innerClassName = '', background }: Props) {
+export function Screen({ id, children, tone = 'paper', grid = false, meta = true, className = '', innerClassName = '', background, theme = 'light' }: Props) {
   const deck = usePresentationMode() === 'deck'
   return (
     <section
       id={id}
       data-screen
       aria-labelledby={titleId(id)}
-      className={`relative ${deck ? 'h-full w-full overflow-hidden' : 'min-h-svh'} ${tones[tone]} ${className}`}
+      className={`relative ${deck ? 'h-full w-full overflow-hidden' : 'min-h-svh overflow-hidden'} ${theme === 'dark' ? 'theme-dark' : ''} ${tones[tone]} ${className}`}
     >
       {background}
       {grid && (

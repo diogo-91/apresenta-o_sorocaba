@@ -49,3 +49,18 @@ export function createWheelGate({ threshold, cooldown }: { threshold: number; co
     return direction
   }
 }
+
+export type DeckPosition = { index: number; step: number }
+
+export function advance(position: DeckPosition, stepsPerSlide: number[], delta: 1 | -1): DeckPosition {
+  const { index, step } = position
+  const steps = stepsPerSlide[index]
+  if (delta === 1) {
+    if (step < steps - 1) return { index, step: step + 1 }
+    if (index < stepsPerSlide.length - 1) return { index: index + 1, step: 0 }
+    return position
+  }
+  if (step > 0) return { index, step: step - 1 }
+  if (index > 0) return { index: index - 1, step: stepsPerSlide[index - 1] - 1 }
+  return position
+}

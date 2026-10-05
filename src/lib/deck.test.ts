@@ -1,5 +1,5 @@
 import { describe, expect, it } from 'vitest'
-import { clampIndex, createWheelGate, keyAction, slideIndexFromHash } from './deck'
+import { advance, clampIndex, createWheelGate, keyAction, slideIndexFromHash } from './deck'
 
 describe('clampIndex', () => {
   it('mantém o índice dentro do intervalo de slides', () => {
@@ -66,5 +66,27 @@ describe('createWheelGate', () => {
     const gate = createWheelGate({ threshold: 50, cooldown: 800 })
     expect(gate(40, 0)).toBe(0)
     expect(gate(40, 2000)).toBe(0)
+  })
+})
+
+describe('advance', () => {
+  const steps = [1, 3, 2]
+
+  it('percorre os passos internos do slide antes de trocar de slide', () => {
+    expect(advance({ index: 1, step: 0 }, steps, 1)).toEqual({ index: 1, step: 1 })
+    expect(advance({ index: 1, step: 2 }, steps, 1)).toEqual({ index: 2, step: 0 })
+  })
+
+  it('ao voltar para um slide com passos, chega no último passo dele', () => {
+    expect(advance({ index: 2, step: 0 }, steps, -1)).toEqual({ index: 1, step: 2 })
+  })
+
+  it('volta um passo dentro do slide antes de trocar de slide', () => {
+    expect(advance({ index: 1, step: 2 }, steps, -1)).toEqual({ index: 1, step: 1 })
+  })
+
+  it('não passa do primeiro nem do último passo da apresentação', () => {
+    expect(advance({ index: 0, step: 0 }, steps, -1)).toEqual({ index: 0, step: 0 })
+    expect(advance({ index: 2, step: 1 }, steps, 1)).toEqual({ index: 2, step: 1 })
   })
 })

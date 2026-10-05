@@ -6,8 +6,10 @@ export const cover = {
 }
 
 export const hero = {
-  eyebrow: 'Apresentação técnica',
+  eyebrow: ['Sorocaba Motores', 'Soluções técnicas integradas'],
   headline: 'Infraestrutura crítica não para.',
+  headlineLines: ['Infraestrutura', 'crítica'],
+  headlineAccent: 'não para.',
   subheadline: 'Quem cuida dela também não pode.',
   scrollHint: 'Role para começar',
   deckHint: 'Avance com → ou espaço',
@@ -110,6 +112,7 @@ export const differentials = {
 }
 
 export const airport = {
+  eyebrow: 'Competências aplicáveis a operações aeroportuárias',
   headline: 'Preparados para operar onde a operação não pode parar.',
   subheadline: 'Competências industriais aplicadas a ambientes de alta criticidade.',
   drawingLabel: 'Terminal · instalação crítica · esquema',

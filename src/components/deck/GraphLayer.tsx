@@ -1,23 +1,24 @@
 import { AnimatePresence, m } from 'framer-motion'
+import { useDeckPosition } from '../../hooks/useDeckPosition'
 import { DURATION } from '../../lib/motion'
+import { GRAPH_KEYFRAMES } from '../../lib/systemGraph'
 import { SystemGraph } from '../technical/SystemGraph'
 
-const STATES: Record<string, 'fragmented' | 'unified'> = { desafio: 'fragmented', modelo: 'unified' }
-
-export function GraphLayer({ activeId }: { activeId: string }) {
-  const state = STATES[activeId]
+export function GraphLayer() {
+  const { id, step } = useDeckPosition()
+  const keyframes = id === 'desafio' || id === 'modelo' ? GRAPH_KEYFRAMES[id] : null
   return (
     <AnimatePresence>
-      {state && (
+      {keyframes && (
         <m.div
           key="system-graph"
-          className="pointer-events-none absolute bottom-[76px] right-24 top-[118px] flex w-[620px] items-center"
+          className="pointer-events-none absolute bottom-[80px] right-24 top-[136px] z-10 flex w-[640px] items-center"
           initial={{ opacity: 0 }}
           animate={{ opacity: 1 }}
           exit={{ opacity: 0 }}
           transition={{ duration: DURATION.base }}
         >
-          <SystemGraph state={state} className="mx-auto w-[560px]" />
+          <SystemGraph target={keyframes[Math.min(step, keyframes.length - 1)]} className="mx-auto w-[520px]" />
         </m.div>
       )}
     </AnimatePresence>

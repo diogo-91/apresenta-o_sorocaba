@@ -1,20 +1,29 @@
 import { useCallback, useEffect, useRef, useState, type ReactNode } from 'react'
-import { AnimatePresence, m, type Variants } from 'framer-motion'
-import { clampIndex, createWheelGate, keyAction, slideIndexFromHash } from '../../lib/deck'
+import { AnimatePresence, m, useReducedMotion, type Variants } from 'framer-motion'
+import { advance, clampIndex, createWheelGate, keyAction, slideIndexFromHash, type DeckPosition } from '../../lib/deck'
 import { DURATION, EASE_MECH } from '../../lib/motion'
 import { ActiveScreenContext } from '../../hooks/useActiveScreen'
+import { DeckPositionContext, SlideStepContext } from '../../hooks/useDeckPosition'
 import { DeckControls } from './DeckControls'
 import { DeckIndex } from './DeckIndex'
 import { GraphLayer } from './GraphLayer'
 
 export const STAGE = { width: 1600, height: 900 }
 
-export type Slide = { id: string; node: ReactNode }
+export type Slide = { id: string; node: ReactNode; steps?: number }
 
-const variants: Variants = {
-  enter: (dir: number) => ({ opacity: 0, x: dir * 48 }),
-  center: { opacity: 1, x: 0, transition: { duration: DURATION.base, ease: EASE_MECH } },
-  exit: (dir: number) => ({ opacity: 0, x: dir * -48, transition: { duration: DURATION.fast, ease: EASE_MECH } }),
+const WIPE = { duration: 1, ease: EASE_MECH }
+
+const wipe: Variants = {
+  enter: (dir: number) => ({ clipPath: dir > 0 ? 'inset(0 0 0 100%)' : 'inset(0 100% 0 0)' }),
+  center: { clipPath: 'inset(0 0 0 0%)', transition: WIPE },
+  exit: (dir: number) => ({ x: dir * -80, transition: WIPE }),
+}
+
+const fade: Variants = {
+  enter: { opacity: 0 },
+  center: { opacity: 1, transition: { duration: DURATION.base } },
+  exit: { opacity: 0, transition: { duration: DURATION.fast } },
 }
 
 function useStageScale() {
@@ -37,22 +46,27 @@ function isInteractiveTarget(target: EventTarget | null) {
 export function Deck({ slides }: { slides: Slide[] }) {
   const ids = slides.map((s) => s.id)
   const total = slides.length
-  const [index, setIndex] = useState(() => slideIndexFromHash(window.location.hash, ids))
+  const stepsPerSlide = slides.map((s) => s.steps ?? 1)
+  const reduced = useReducedMotion()
+  const [position, setPosition] = useState<DeckPosition>(() => ({ index: slideIndexFromHash(window.location.hash, ids), step: 0 }))
   const [direction, setDirection] = useState(1)
   const [indexOpen, setIndexOpen] = useState(false)
-  const current = useRef(index)
+  const current = useRef(position)
+  const steps = useRef(stepsPerSlide)
+  steps.current = stepsPerSlide
   const scale = useStageScale()
+  const index = position.index
 
-  const go = useCallback(
-    (target: number) => {
-      const next = clampIndex(target, total)
-      if (next === current.current) return
-      setDirection(next > current.current ? 1 : -1)
-      current.current = next
-      setIndex(next)
-    },
-    [total],
-  )
+  const moveTo = useCallback((next: DeckPosition) => {
+    const prev = current.current
+    if (next.index === prev.index && next.step === prev.step) return
+    if (next.index !== prev.index) setDirection(next.index > prev.index ? 1 : -1)
+    current.current = next
+    setPosition(next)
+  }, [])
+
+  const go = useCallback((target: number) => moveTo({ index: clampIndex(target, total), step: 0 }), [moveTo, total])
+  const step = useCallback((delta: 1 | -1) => moveTo(advance(current.current, steps.current, delta)), [moveTo])
 
   useEffect(() => {
     history.replaceState(null, '', `#${ids[index]}`)
@@ -84,8 +98,8 @@ export function Deck({ slides }: { slides: Slide[] }) {
       if (target?.getAttribute('role') === 'slider' || ['INPUT', 'TEXTAREA', 'SELECT'].includes(target?.tagName ?? '')) return
       if (e.key === ' ' && isInteractiveTarget(target)) return
       e.preventDefault()
-      if (action === 'next') go(current.current + 1)
-      else if (action === 'prev') go(current.current - 1)
+      if (action === 'next') step(1)
+      else if (action === 'prev') step(-1)
       else if (action === 'first') go(0)
       else go(total - 1)
     }
@@ -93,8 +107,8 @@ export function Deck({ slides }: { slides: Slide[] }) {
     function onWheel(e: WheelEvent) {
       if (blocked() || e.ctrlKey) return
       const delta = Math.abs(e.deltaY) >= Math.abs(e.deltaX) ? e.deltaY : e.deltaX
-      const step = gate(delta, performance.now())
-      if (step) go(current.current + step)
+      const dir = gate(delta, performance.now())
+      if (dir) step(dir)
     }
 
     let touchStart: { x: number; y: number } | null = null
@@ -106,7 +120,7 @@ export function Deck({ slides }: { slides: Slide[] }) {
       const dx = e.changedTouches[0].clientX - touchStart.x
       const dy = e.changedTouches[0].clientY - touchStart.y
       touchStart = null
-      if (Math.abs(dx) > 60 && Math.abs(dx) > Math.abs(dy) * 1.5) go(current.current + (dx < 0 ? 1 : -1))
+      if (Math.abs(dx) > 60 && Math.abs(dx) > Math.abs(dy) * 1.5) step(dx < 0 ? 1 : -1)
     }
 
     window.addEventListener('keydown', onKey)
@@ -119,13 +133,14 @@ export function Deck({ slides }: { slides: Slide[] }) {
       window.removeEventListener('touchstart', onTouchStart)
       window.removeEventListener('touchend', onTouchEnd)
     }
-  }, [go, total])
+  }, [go, step, total])
 
   const closeIndex = useCallback(() => setIndexOpen(false), [])
   const slide = slides[index]
 
   return (
     <ActiveScreenContext.Provider value={slide.id}>
+      <DeckPositionContext.Provider value={{ id: slide.id, step: position.step, steps: stepsPerSlide[index] }}>
       <div className="fixed inset-0 overflow-hidden bg-surface">
         <div
           className="absolute left-1/2 top-1/2 overflow-hidden bg-paper shadow-[0_20px_60px_-20px_rgb(14_17_20/0.25)]"
@@ -137,32 +152,47 @@ export function Deck({ slides }: { slides: Slide[] }) {
               key={slide.id}
               className="absolute inset-0"
               custom={direction}
-              variants={variants}
+              variants={reduced ? fade : wipe}
               initial="enter"
               animate="center"
               exit="exit"
               aria-roledescription="slide"
               aria-label={`${index + 1} de ${total}`}
             >
-              {slide.node}
+              <SlideStepContext.Provider value={position.step}>{slide.node}</SlideStepContext.Provider>
+              {!reduced && (
+                <m.span
+                  aria-hidden="true"
+                  className="pointer-events-none absolute inset-y-0 z-30 w-px bg-accent"
+                  initial={{ left: direction > 0 ? '100%' : '0%', opacity: 1 }}
+                  animate={{ left: direction > 0 ? '0%' : '100%', opacity: [1, 1, 0] }}
+                  transition={WIPE}
+                />
+              )}
             </m.div>
           </AnimatePresence>
-          <GraphLayer activeId={slide.id} />
+          <GraphLayer />
         </div>
 
         <div aria-hidden="true" className="fixed inset-x-0 top-0 z-40 h-[3px] bg-line">
-          <div className="h-full origin-left bg-accent transition-transform duration-500 ease-mech" style={{ transform: `scaleX(${(index + 1) / total})` }} />
+          <div
+            className="h-full origin-left bg-accent transition-transform duration-700 ease-mech"
+            style={{ transform: `scaleX(${(index + (position.step + 1) / stepsPerSlide[index]) / total})` }}
+          />
         </div>
 
         <DeckControls
           index={index}
           total={total}
-          onPrev={() => go(current.current - 1)}
-          onNext={() => go(current.current + 1)}
+          step={position.step}
+          steps={stepsPerSlide[index]}
+          onPrev={() => step(-1)}
+          onNext={() => step(1)}
           onOpenIndex={() => setIndexOpen(true)}
         />
         <DeckIndex open={indexOpen} onClose={closeIndex} activeId={slide.id} onSelect={(i) => go(i)} />
       </div>
+      </DeckPositionContext.Provider>
     </ActiveScreenContext.Provider>
   )
 }
