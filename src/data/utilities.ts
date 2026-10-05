@@ -5,6 +5,7 @@ export type UtilityShot = {
   keys: string
   file: string
   src: string | null
+  position: string
   alt: string
 }
 
@@ -15,8 +16,9 @@ export const utilityShots: UtilityShot[] = [
     title: 'Reservatório',
     keys: 'Inspeção · recuperação · pintura',
     file: '/images/utilities/reservatorio.jpg',
-    src: null,
-    alt: 'Registro de campo: manutenção de reservatório elevado em estrutura metálica',
+    src: '/images/utilities/reservatorio.jpg',
+    position: '50% 72%',
+    alt: 'Registro de campo: pintura externa de reservatório com plataforma suspensa',
   },
   {
     id: 'confinado',
@@ -24,8 +26,9 @@ export const utilityShots: UtilityShot[] = [
     title: 'Espaço confinado',
     keys: 'Acesso · inspeção · manutenção',
     file: '/images/utilities/espaco-confinado.jpg',
-    src: null,
-    alt: 'Registro de campo: entrada controlada em espaço confinado com EPI e detector de gases',
+    src: '/images/utilities/espaco-confinado.jpg',
+    position: '40% 55%',
+    alt: 'Registro de campo: técnico com EPI em limpeza interna de reservatório',
   },
 ]
 

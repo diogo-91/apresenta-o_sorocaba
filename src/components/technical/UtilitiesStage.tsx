@@ -7,12 +7,12 @@ import { Pending } from '../ui/Pending'
 
 const ease = 'duration-700 ease-mech motion-reduce:transition-none'
 
-function FieldShot({ shot, focus, className = '' }: { shot: UtilityShot; focus: boolean; className?: string }) {
+function FieldShot({ shot, focus, className = '', caption = 'top' }: { shot: UtilityShot; focus: boolean; className?: string; caption?: 'top' | 'bottom' }) {
   return (
     <figure className={`overflow-hidden bg-surface ${className}`}>
       <div className={`absolute inset-0 transition-[transform,filter] ${ease}`} style={{ transform: `scale(${focus ? 1.02 : 1})`, filter: focus ? 'none' : 'saturate(0.45) contrast(0.85)' }}>
         {shot.src ? (
-          <img src={shot.src} alt={shot.alt} loading="lazy" decoding="async" className="size-full object-cover" />
+          <img src={shot.src} alt={shot.alt} loading="lazy" decoding="async" className="size-full object-cover" style={{ objectPosition: shot.position }} />
         ) : (
           <div role="img" aria-label={`${shot.alt} (foto pendente)`} className="grain relative size-full bg-[radial-gradient(ellipse_at_70%_35%,var(--color-surface-2),var(--color-paper)_75%)]">
             <p className="label-mono absolute bottom-6 right-6 text-right text-[0.5625rem] text-faint">
@@ -22,9 +22,9 @@ function FieldShot({ shot, focus, className = '' }: { shot: UtilityShot; focus: 
           </div>
         )}
       </div>
-      <div aria-hidden="true" className={`pointer-events-none absolute inset-0 bg-[linear-gradient(to_bottom,rgb(8_10_12/0.55),transparent_35%)] transition-opacity ${ease}`} />
+      <div aria-hidden="true" className={`pointer-events-none absolute inset-0 ${caption === 'top' ? 'bg-[linear-gradient(to_bottom,rgb(8_10_12/0.55),transparent_35%)]' : 'bg-[linear-gradient(to_top,rgb(8_10_12/0.7),transparent_40%)]'}`} />
       <div aria-hidden="true" className={`pointer-events-none absolute inset-0 bg-paper transition-opacity ${ease}`} style={{ opacity: focus ? 0 : 0.45 }} />
-      <figcaption className={`label-mono absolute left-6 top-6 flex items-start gap-3 text-[0.625rem] transition-opacity ${ease} ${focus ? 'opacity-100' : 'opacity-60'}`}>
+      <figcaption className={`label-mono absolute left-6 ${caption === 'top' ? 'top-6' : 'bottom-6'} flex items-start gap-3 text-[0.625rem] transition-opacity ${ease} ${focus ? 'opacity-100' : 'opacity-60'}`}>
         <span className="flex items-center gap-2 text-accent-ink">
           <span aria-hidden="true" className="relative flex size-2.5 items-center justify-center">
             <span className="absolute inset-0 rounded-full ring-1 ring-accent/60" />
@@ -92,7 +92,7 @@ export function UtilitiesDeck({ front, id, tag, stage }: Props & { stage: number
   return (
     <div className="relative min-h-0 flex-1">
       <FieldShot shot={reservoir} focus={reduced || stage === 0} className="absolute -right-24 top-0 h-[470px] w-[800px]" />
-      <FieldShot shot={confined} focus={reduced || stage >= 1} className="absolute right-[400px] top-[320px] z-10 h-[300px] w-[440px]" />
+      <FieldShot shot={confined} focus={reduced || stage >= 1} caption="bottom" className="absolute right-[460px] top-[320px] z-10 h-[300px] w-[440px]" />
       <div className="relative z-20 w-[500px]">
         {tag}
         <div className="mt-6">
@@ -126,7 +126,7 @@ export function UtilitiesMobile({ front, id, tag }: Props) {
         <ServiceList front={front} />
       </div>
       <Reveal className="-mx-5 mt-10 md:mx-0">
-        <FieldShot shot={confined} focus className="relative aspect-[4/3]" />
+        <FieldShot shot={confined} focus caption="bottom" className="relative aspect-[4/3]" />
       </Reveal>
       <div className="mt-10 border-t border-line pt-4">
         <Notes front={front} />
