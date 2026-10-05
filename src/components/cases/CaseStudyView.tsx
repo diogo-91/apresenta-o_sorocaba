@@ -43,9 +43,11 @@ export function CaseStudyView({ study }: { study: CaseStudy }) {
                 <span className={`font-mono text-sm ${state === 'now' ? 'text-accent-ink' : 'text-faint'}`}>{String(i + 1).padStart(2, '0')}</span>
                 <div>
                   <p className={`font-display text-xl font-bold tracking-tight ${state === 'now' ? 'text-fg' : 'text-muted'}`}>{beat.label}</p>
-                  <p className="mt-1 text-sm">
-                    <Pending value={beat.value} />
-                  </p>
+                  {(!deck || state === 'now') && (
+                    <p className="mt-1 text-sm leading-relaxed motion-safe:animate-[fadein_0.5s_ease-out_both]">
+                      <Pending value={beat.value} />
+                    </p>
+                  )}
                 </div>
               </li>
             )
