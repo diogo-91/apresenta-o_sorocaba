@@ -8,14 +8,13 @@ type Props = {
   kicker: string
   active: boolean
   side?: 'left' | 'right'
-  visible?: boolean
   onSelect: () => void
 }
 
-export function TechnicalHotspot({ position, index, label, kicker, active, side = 'right', visible = true, onSelect }: Props) {
+export function TechnicalHotspot({ position, index, label, kicker, active, side = 'right', onSelect }: Props) {
   return (
     <Html position={position} zIndexRange={[20, 0]} style={{ pointerEvents: 'none' }}>
-      <div className={`relative transition-opacity duration-500 ${visible ? 'opacity-100' : 'invisible opacity-0'}`}>
+      <div className="relative">
         <button
           type="button"
           onClick={onSelect}

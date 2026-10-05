@@ -9,10 +9,9 @@ import { IndustrialScene } from './IndustrialScene'
 import { SceneCanvas } from './SceneCanvas'
 import { WebGLFallback } from './WebGLFallback'
 
-export default function InlineScene({ scene, className = '' }: { scene: 'hero' | 'facility'; className?: string }) {
+export default function InlineScene({ className = '' }: { className?: string }) {
   const caps = useDeviceCapabilities()
   const wrapper = useRef<HTMLDivElement>(null)
-  const scroll = useRef(0)
   const [visible, setVisible] = useState(false)
   const [step, setStep] = useState(0)
   const pointer = usePointerParallax(!caps.reduced)
@@ -25,31 +24,17 @@ export default function InlineScene({ scene, className = '' }: { scene: 'hero' |
     return () => observer.disconnect()
   }, [])
 
-  const render = useCallback(
-    (p: number) => {
-      scroll.current = scene === 'hero' ? p : 0
-      if (scene === 'facility') setStep(Math.min(facility3DSteps.length - 1, Math.floor(p * facility3DSteps.length)))
-    },
-    [scene],
-  )
+  const render = useCallback((p: number) => setStep(Math.min(facility3DSteps.length - 1, Math.floor(p * facility3DSteps.length))), [])
   useScrollProgress(wrapper, render, caps.webgl)
 
-  const shot = shotFor(scene === 'hero' ? 'inicio' : 'mapa', step, true)!
+  const shot = shotFor('mapa', step, true)!
   const canvas = caps.webgl ? (
-    <SceneCanvas dpr={caps.dpr} active={visible} shadows={false} className="size-full" label={scene === 'hero' ? 'Estrutura industrial em 3D' : 'Instalação industrial em 3D por etapas'}>
-      <IndustrialScene shot={shot} pointer={pointer} reduced={caps.reduced} lowPower selected={selected} scroll={scroll} />
+    <SceneCanvas dpr={caps.dpr} active={visible} shadows={false} className="size-full" label="Instalação industrial em 3D por etapas">
+      <IndustrialScene shot={shot} pointer={pointer} reduced={caps.reduced} lowPower selected={selected} />
     </SceneCanvas>
   ) : (
-    <WebGLFallback scene={scene} />
+    <WebGLFallback />
   )
-
-  if (scene === 'hero') {
-    return (
-      <div ref={wrapper} className={className}>
-        {canvas}
-      </div>
-    )
-  }
 
   const current = facility3DSteps.find((s) => s.id === selected) ?? facility3DSteps[step]
   return (

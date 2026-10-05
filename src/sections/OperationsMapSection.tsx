@@ -203,7 +203,7 @@ function FlowStage() {
       <p className="lede mt-5">{operationsMap.subheadline}</p>
       {hasWebGL() ? (
         <Suspense fallback={<div className="-mx-5 mt-10 h-[68svh]" />}>
-          <InlineScene scene="facility" className="relative -mx-5 mt-10" />
+          <InlineScene className="relative -mx-5 mt-10" />
         </Suspense>
       ) : (
         <div ref={ref} className="relative -mx-5 mt-10">

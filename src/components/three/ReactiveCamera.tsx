@@ -12,10 +12,9 @@ type Props = {
   shot: Shot
   pointer: MutableRefObject<PointerState>
   reduced: boolean
-  scroll?: MutableRefObject<number>
 }
 
-export function ReactiveCamera({ shot, pointer, reduced, scroll }: Props) {
+export function ReactiveCamera({ shot, pointer, reduced }: Props) {
   const camera = useThree((s) => s.camera) as THREE.PerspectiveCamera
   const target = useRef(new THREE.Vector3(...shot.target))
   const lean = useRef({ x: 0, y: 0 })
@@ -25,8 +24,7 @@ export function ReactiveCamera({ shot, pointer, reduced, scroll }: Props) {
   const first = useRef(true)
 
   useFrame((_, delta) => {
-    const dolly = scroll ? scroll.current : 0
-    goalPos.current.set(...shot.position).lerp(goalTarget.current.set(...shot.target), dolly * 0.18)
+    goalPos.current.set(...shot.position)
     goalTarget.current.set(...shot.target)
 
     if (reduced || first.current) {

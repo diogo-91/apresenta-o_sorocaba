@@ -8,7 +8,7 @@ import { IndustrialScene } from './IndustrialScene'
 import { SceneCanvas } from './SceneCanvas'
 
 const PAUSE_AFTER_HIDE = 1000
-const CLIP = { hero: 'inset(96px 0 64px 49%)', facility: 'inset(96px 34% 64px 0)' }
+const CLIP = 'inset(96px 34% 64px 0)'
 
 export default function Stage3DLayer() {
   const { id, step } = useDeckPosition()
@@ -29,14 +29,14 @@ export default function Stage3DLayer() {
     }
     const timer = window.setTimeout(() => setRunning(false), PAUSE_AFTER_HIDE)
     return () => window.clearTimeout(timer)
-  }, [shot?.scene, shot?.focus])
+  }, [shot?.focus])
 
   if (!lastShot) return null
   return (
     <div
       aria-hidden={!shot}
-      className={`pointer-events-none absolute inset-0 z-10 transition-[opacity,clip-path] duration-1000 ease-mech ${shot ? 'opacity-100' : 'opacity-0'} ${lastShot.scene === 'hero' ? 'theme-dark' : ''}`}
-      style={{ clipPath: CLIP[lastShot.scene] }}
+      className={`pointer-events-none absolute inset-0 z-10 transition-[opacity,clip-path] duration-1000 ease-mech ${shot ? 'opacity-100' : 'opacity-0'}`}
+      style={{ clipPath: CLIP }}
     >
       <SceneCanvas dpr={caps.dpr} active={running} shadows={!caps.lowPower} className="absolute inset-0" label="Instalação industrial em 3D">
         <IndustrialScene shot={lastShot} pointer={pointer} reduced={caps.reduced} lowPower={caps.lowPower} selected={selected} />

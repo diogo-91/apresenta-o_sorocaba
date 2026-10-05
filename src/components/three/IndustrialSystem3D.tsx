@@ -175,7 +175,7 @@ const GLBFacility = lazy(() => import('./GLBFacility'))
 type Tracked = { material: THREE.MeshStandardMaterial; color: THREE.Color; opacity: number }
 type GroupState = { mats: Tracked[]; opacity: number; dim: number }
 
-function useGroupHighlight(root: React.RefObject<THREE.Group | null>, active: FacilityGroup[] | null, ghost: boolean, hidden: FacilityGroup[], reduced: boolean) {
+function useGroupHighlight(root: React.RefObject<THREE.Group | null>, active: FacilityGroup[] | null, ghost: boolean, reduced: boolean) {
   const state = useRef<Map<FacilityGroup, GroupState>>(new Map())
 
   useLayoutEffect(() => {
@@ -201,7 +201,7 @@ function useGroupHighlight(root: React.RefObject<THREE.Group | null>, active: Fa
   useFrame((_, delta) => {
     for (const [name, s] of state.current) {
       const isActive = active?.includes(name) ?? true
-      const targetOpacity = hidden.includes(name) ? 0 : isActive ? 1 : ghost ? 0.14 : 0.3
+      const targetOpacity = isActive ? 1 : ghost ? 0.14 : 0.3
       const targetDim = isActive ? 0 : 0.65
       const k = reduced ? 1 : 1 - Math.exp(-3.2 * delta)
       s.opacity += (targetOpacity - s.opacity) * k
@@ -218,18 +218,16 @@ function useGroupHighlight(root: React.RefObject<THREE.Group | null>, active: Fa
 }
 
 type Props = {
-  scene: 'hero' | 'facility'
   active?: FacilityGroup[] | null
   ghost?: boolean
-  hidden?: FacilityGroup[]
   reduced?: boolean
   children?: ReactNode
 }
 
-export function IndustrialSystem3D({ scene, active = null, ghost = false, hidden = [], reduced = false, children }: Props) {
+export function IndustrialSystem3D({ active = null, ghost = false, reduced = false, children }: Props) {
   const root = useRef<THREE.Group>(null)
-  const url = scene === 'hero' ? (models.hero ?? models.facility) : models.facility
-  useGroupHighlight(root, active, ghost, hidden, reduced)
+  const url = models.facility
+  useGroupHighlight(root, active, ghost, reduced)
   return (
     <group ref={root} name="industrial-system">
       {url ? <GLBFacility url={url} /> : <ProceduralFacility />}

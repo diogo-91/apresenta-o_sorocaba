@@ -12,15 +12,14 @@ export const cover = {
 export const hero = {
   eyebrow: ['Sorocaba Motores', 'Soluções técnicas integradas'],
   headline: 'Infraestrutura crítica não para.',
-  headlineLines: ['Infraestrutura', 'crítica'],
+  headlineLead: 'Infraestrutura crítica',
   headlineAccent: 'não para.',
-  subheadline: 'Quem cuida dela também não pode.',
+  subheadline: 'Manutenção integrada para operações que não podem falhar.',
   scrollHint: 'Role para começar',
   deckHint: 'Avance com → ou espaço',
   media: {
     videoSrc: null as string | null,
     posterSrc: null as string | null,
-    placeholderLabel: 'Vídeo de campo · arquivo a inserir',
   },
 }
 

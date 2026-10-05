@@ -1,17 +1,21 @@
-import { lazy, Suspense } from 'react'
-import { m } from 'framer-motion'
+import { lazy, Suspense, useCallback, useEffect, useRef, type MutableRefObject } from 'react'
+import { m, useReducedMotion } from 'framer-motion'
 import { hasWebGL } from '../hooks/useDeviceCapabilities'
 import { useIdleMount } from '../hooks/useIdleMount'
+import { useSlideStep } from '../hooks/useDeckPosition'
+import { useTweenedProgress } from '../hooks/useScene'
 import { hero } from '../data/content'
 import { Screen, titleId } from '../components/layout/Screen'
-import { HeroScene } from '../components/technical/HeroScene'
+import { HeroMarks, HeroScene } from '../components/technical/HeroScene'
+import type { HeroProgress } from '../components/three/HeroScene3D'
 import { usePresentationMode } from '../hooks/usePresentationMode'
+import { ScrollTrigger } from '../lib/gsap'
 import { DURATION, EASE_OUT } from '../lib/motion'
 
 const mask = (delay: number) => ({
   initial: { y: '108%' },
   animate: { y: '0%' },
-  transition: { duration: 1.1, ease: EASE_OUT, delay },
+  transition: { duration: 1.2, ease: EASE_OUT, delay },
 })
 
 const fadeIn = (delay: number) => ({
@@ -20,14 +24,24 @@ const fadeIn = (delay: number) => ({
   transition: { duration: DURATION.slow, ease: EASE_OUT, delay },
 })
 
-const InlineScene = lazy(() => import('../components/three/InlineScene'))
+const HeroStage = lazy(() => import('../components/three/HeroStage'))
 
-function Mobile3D() {
-  const idle = useIdleMount()
-  if (!idle || !hasWebGL()) return null
+function HeroPoster() {
+  return (
+    <picture>
+      <source media="(min-width: 1024px)" srcSet="/media/hero-object.jpg" />
+      <img src="/media/hero-object-mobile.jpg" alt="" aria-hidden="true" loading="lazy" decoding="async" className="absolute inset-0 size-full object-cover" />
+    </picture>
+  )
+}
+
+function Hero3D({ progress, compact }: { progress: MutableRefObject<HeroProgress>; compact: boolean }) {
+  const idle = useIdleMount(600)
+  if (!hasWebGL()) return <HeroPoster />
+  if (!idle) return null
   return (
     <Suspense fallback={null}>
-      <InlineScene scene="hero" className="pointer-events-none absolute inset-x-0 top-16 h-[46svh]" />
+      <HeroStage progress={progress} compact={compact} className="pointer-events-none absolute inset-0" />
     </Suspense>
   )
 }
@@ -36,9 +50,9 @@ function MediaBackground() {
   const { videoSrc, posterSrc } = hero.media
   if (!videoSrc) return <HeroScene />
   return (
-    <div className="grain absolute inset-0 overflow-hidden" aria-hidden="true">
+    <div className="grain absolute inset-0 overflow-hidden bg-[#07090b]" aria-hidden="true">
       <video
-        className="absolute inset-0 size-full object-cover motion-safe:animate-[kenburns_36s_ease-in-out_infinite_alternate]"
+        className="absolute inset-0 size-full object-cover opacity-40"
         src={videoSrc}
         poster={posterSrc ?? undefined}
         autoPlay
@@ -47,13 +61,37 @@ function MediaBackground() {
         playsInline
         preload="metadata"
       />
-      <div className="absolute inset-0 bg-gradient-to-t from-[#080b0e] via-[#080b0e]/50 to-[#080b0e]/20" />
     </div>
   )
 }
 
+function useHeroProgress(deck: boolean, area: MutableRefObject<HTMLDivElement | null>, copy: MutableRefObject<HTMLDivElement | null>) {
+  const reduced = useReducedMotion()
+  const step = useSlideStep()
+  const progress = useRef<HeroProgress>({ value: 0, notify: () => {} })
+
+  const render = useCallback((p: number) => {
+    progress.current.value = p
+    progress.current.notify()
+    if (copy.current) copy.current.style.transform = `translate3d(0, ${(-p * 40).toFixed(2)}px, 0)`
+  }, [copy])
+
+  useTweenedProgress(deck ? (step >= 1 ? 1 : 0) : null, render)
+
+  useEffect(() => {
+    if (deck || reduced || !area.current) return
+    const trigger = ScrollTrigger.create({ trigger: area.current, start: 'top top', end: 'top -22%', scrub: 0.6, onUpdate: (self) => render(self.progress) })
+    return () => trigger.kill()
+  }, [deck, reduced, area, render])
+
+  return progress
+}
+
 export function HeroSection() {
   const deck = usePresentationMode() === 'deck'
+  const area = useRef<HTMLDivElement>(null)
+  const copy = useRef<HTMLDivElement>(null)
+  const progress = useHeroProgress(deck, area, copy)
 
   return (
     <Screen
@@ -61,58 +99,56 @@ export function HeroSection() {
       theme="dark"
       tone="none"
       background={
-        <>
+        <div ref={area} className="absolute inset-0 bg-[#07090b]">
           <MediaBackground />
-          {!deck && <Mobile3D />}
-        </>
+          <Hero3D progress={progress} compact={!deck} />
+          <div
+            aria-hidden="true"
+            className="pointer-events-none absolute inset-0 bg-[linear-gradient(to_top,#07090b_0%,rgb(7_9_11/0.75)_22%,transparent_52%)] lg:bg-[linear-gradient(100deg,rgb(7_9_11/0.92)_0%,rgb(7_9_11/0.55)_30%,transparent_52%),linear-gradient(to_top,rgb(7_9_11/0.9)_0%,transparent_32%),linear-gradient(to_bottom,rgb(7_9_11/0.85)_0%,transparent_16%)]"
+          />
+          <HeroMarks />
+        </div>
       }
     >
       <div className="flex flex-1 flex-col justify-end">
-        <m.div className="mb-8 flex items-start gap-4 lg:mb-8" {...fadeIn(0.6)}>
-          <span aria-hidden="true" className="mt-1 h-9 w-[3px] bg-accent" />
-          <p className="label-mono flex flex-col gap-1 text-fg">
-            <span>{hero.eyebrow[0]}</span>
-            <span className="text-muted">{hero.eyebrow[1]}</span>
-          </p>
-        </m.div>
+        <div ref={copy} className="will-change-transform">
+          <m.p className="label-mono mb-7 flex items-center gap-3 text-fg/80 lg:mb-8" {...fadeIn(0.6)}>
+            <span aria-hidden="true" className="h-px w-8 bg-accent" />
+            <span>
+              {hero.eyebrow[0]} <span className="text-faint">/</span> <span className="text-muted">{hero.eyebrow[1]}</span>
+            </span>
+          </m.p>
 
-        <h2 id={titleId('inicio')} aria-label={hero.headline} className="font-display font-bold leading-[0.86] tracking-[-0.04em] [font-stretch:78%] text-[clamp(3.25rem,14vw,5.5rem)] lg:text-[8.75rem]">
-          {hero.headlineLines.map((line, i) => (
-            <span key={line} aria-hidden="true" className="block overflow-hidden pb-[0.04em]">
-              <m.span className="block" {...mask(0.8 + i * 0.14)}>
-                {line}
+          <h2 id={titleId('inicio')} aria-label={hero.headline} className="font-display font-bold leading-[0.9] tracking-[-0.035em] [font-stretch:80%] text-[clamp(2.75rem,12vw,4.75rem)] lg:text-[6.5rem]">
+            <span aria-hidden="true" className="block overflow-hidden pb-[0.06em]">
+              <m.span className="block" {...mask(0.8)}>
+                {hero.headlineLead}
               </m.span>
             </span>
-          ))}
-          <span aria-hidden="true" className="relative block overflow-hidden pb-[0.12em]">
-            <m.span className="relative inline-block text-accent" {...mask(1.1)}>
-              {hero.headlineAccent}
-              <span className="absolute -bottom-[0.02em] left-0 h-[0.06em] w-full overflow-hidden bg-accent/25">
-                <span className="block h-full w-1/4 bg-accent motion-safe:animate-[run_2.4s_cubic-bezier(0.65,0,0.35,1)_infinite]" />
-              </span>
-            </m.span>
-          </span>
-        </h2>
+            <span aria-hidden="true" className="block overflow-hidden pb-[0.08em]">
+              <m.span className="block text-accent" {...mask(0.98)}>
+                {hero.headlineAccent}
+              </m.span>
+            </span>
+          </h2>
 
-        <m.p className="display-md mt-6 max-w-[24ch] font-semibold text-muted lg:mt-8" {...fadeIn(1.7)}>
-          {hero.subheadline}
+          <m.p className="mt-6 max-w-[34ch] text-lg leading-snug text-muted lg:mt-7 lg:text-[1.375rem]" {...fadeIn(1.5)}>
+            {hero.subheadline}
+          </m.p>
+        </div>
+
+        <m.p className="mt-10 flex items-center gap-4 text-fg/70 lg:mt-12" {...fadeIn(2.2)}>
+          {deck ? (
+            <span aria-hidden="true" className="relative flex h-8 w-5 justify-center rounded-full border border-line-strong">
+              <span className="mt-1.5 h-2 w-px bg-accent motion-safe:animate-[wheel_1.8s_cubic-bezier(0.65,0,0.35,1)_infinite]" />
+            </span>
+          ) : (
+            <span aria-hidden="true" className="relative block h-9 w-px overflow-hidden bg-line-strong">
+              <span className="absolute inset-x-0 top-0 h-1/2 bg-accent motion-safe:animate-[drop_1.8s_cubic-bezier(0.65,0,0.35,1)_infinite]" />
+            </span>
+          )}
+          <span className="label-mono">{deck ? hero.deckHint : hero.scrollHint}</span>
         </m.p>
-
-        <m.div className="mt-10 flex flex-wrap items-center justify-between gap-4 border-t border-line pt-4 lg:mt-9" {...fadeIn(2.2)}>
-          <p className="flex items-center gap-4 text-fg">
-            {deck ? (
-              <span aria-hidden="true" className="relative flex h-9 w-6 justify-center rounded-full border border-line-strong">
-                <span className="mt-1.5 h-2 w-px bg-accent motion-safe:animate-[wheel_1.8s_cubic-bezier(0.65,0,0.35,1)_infinite]" />
-              </span>
-            ) : (
-              <span aria-hidden="true" className="relative block h-10 w-px overflow-hidden bg-line-strong">
-                <span className="absolute inset-x-0 top-0 h-1/2 bg-accent motion-safe:animate-[drop_1.8s_cubic-bezier(0.65,0,0.35,1)_infinite]" />
-              </span>
-            )}
-            <span className="label-mono">{deck ? hero.deckHint : hero.scrollHint}</span>
-          </p>
-          {!hero.media.videoSrc && <p className="label-mono border border-dashed border-line-strong px-2 py-1 text-faint">{hero.media.placeholderLabel}</p>}
-        </m.div>
       </div>
     </Screen>
   )

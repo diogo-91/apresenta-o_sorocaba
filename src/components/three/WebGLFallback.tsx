@@ -1,6 +1,5 @@
 import { FacilityDrawing } from '../technical/FacilityDrawing'
 
-export function WebGLFallback({ scene }: { scene: 'hero' | 'facility' }) {
-  if (scene === 'hero') return null
+export function WebGLFallback() {
   return <FacilityDrawing />
 }

@@ -3,13 +3,13 @@ import { facility3DSteps } from '../../data/facility3d'
 import { shotFor } from './shots'
 
 describe('roteiro de câmera', () => {
-  it('a capa 3D aparece na abertura', () => {
-    expect(shotFor('inicio', 0)?.scene).toBe('hero')
+  it('a abertura tem cena própria e não usa o palco do mapa', () => {
+    expect(shotFor('inicio', 0)).toBeNull()
   })
 
   it('o mapa da operação tem um enquadramento por etapa', () => {
     const shots = facility3DSteps.map((_, i) => shotFor('mapa', i))
-    expect(shots.every((s) => s?.scene === 'facility')).toBe(true)
+    expect(shots.every((s) => s !== null)).toBe(true)
     expect(new Set(shots.map((s) => s?.focus)).size).toBe(facility3DSteps.length)
   })
 

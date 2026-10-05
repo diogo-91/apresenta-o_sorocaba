@@ -2,7 +2,7 @@
 
 Apresentação executiva em slides (20 slides, 8 atos). React 19 + Vite + TypeScript + Tailwind 4 + Framer Motion.
 
-- **Desktop (≥1024px):** modo slides. Palco 16:9 de 1600×900 escalado para a tela. Avança com → ↓ PageDown espaço, roda do mouse, swipe ou controles no canto; Home/End; índice; tela cheia. Cada slide tem endereço próprio (`#metodo`). Alguns slides têm **passos internos** (fragmentação, modelo, mapa, método, ARTs, cases, grandes operações): cada avanço move a cena antes de trocar de slide.
+- **Desktop (≥1024px):** modo slides. Palco 16:9 de 1600×900 escalado para a tela. Avança com → ↓ PageDown espaço, roda do mouse, swipe ou controles no canto; Home/End; índice; tela cheia. Cada slide tem endereço próprio (`#metodo`). Alguns slides têm **passos internos** (abertura, fragmentação, modelo, mapa, método, ARTs, cases, grandes operações): cada avanço move a cena antes de trocar de slide.
 - **Mobile:** os mesmos slides empilhados em rolagem vertical; as cenas com passos acompanham o scroll (GSAP ScrollTrigger). Cada slide só é montado quando se aproxima da tela.
 
 ```bash
@@ -37,11 +37,11 @@ Mídia: colocar arquivos em `public/media/` e apontar o caminho (ex.: `video.src
 
 Three.js + React Three Fiber + drei, carregados só depois que a página fica ociosa (chunk próprio).
 
-- **Abertura:** a instalação industrial (`IndustrialSystem3D`) ocupa a metade direita e responde ao ponteiro com amortecimento (máx. ±4° vertical, ±7° horizontal), câmera e luz com deslocamento mínimo.
+- **Abertura:** uma peça de engenharia abstrata (`HeroObject3D`: pilar e vigas em perfil I, chapas e parafusos, tubulação flangeada, motor, eletrocalha e eletrodutos) em câmera próxima, cortada pelas bordas da tela, atrás do título. Luz lateral forte, contraluz, preenchimento mínimo e pequenos pontos laranja. O ponteiro desloca a câmera e a luz e inclina a peça no máximo 3°; as peças se movem em frações diferentes. Flutuação lenta, luz deslizando, poeira e linhas técnicas ocasionais. O primeiro avanço (no deck) ou os primeiros ~20% de rolagem (no mobile) aproximam a câmera, separam algumas peças em poucos centímetros e sobem o título (`lib/three/heroRig.ts`). Sem WebGL acelerado, aparece um quadro estático da mesma cena (`public/media/hero-object*.jpg`).
 - **Mapa da operação:** a mesma instalação em vista isométrica, 7 etapas (estrutura → cobertura → claraboias → elétrica → mecânica → reservatórios → espaços confinados). Grupos inativos esmaecem; o ativo recebe luz, hotspot com linha e rótulo. Clique/toque nos hotspots destaca a área.
-- **Continuidade:** no deck, um único canvas persiste entre slides; a câmera vai do enquadramento da abertura ao isométrico do mapa. No mobile, cada cena é embutida na seção e as etapas do mapa acompanham o scroll (cena fixa por sticky, sem sequestrar a rolagem).
+- **Mapa no deck e no mobile:** no deck, o mapa usa um canvas sobre o palco (`Stage3DLayer`); a abertura tem canvas próprio, dentro do slide. No mobile, cada cena é embutida na seção e as etapas do mapa acompanham o scroll (cena fixa por sticky, sem sequestrar a rolagem).
 - **Grupos nomeados:** `structure`, `roof`, `skylights`, `electrical`, `mechanical`, `utilities`, `reservoir`, `confined`.
-- **Modelos GLB:** opcionais em `public/models/` (`hero-industrial.glb`, `industrial-facility.glb`, `airport-terminal.glb`), ativados em `src/data/models.ts`. O GLB precisa ter os mesmos nomes de grupo. Para Draco, copie `node_modules/three/examples/jsm/libs/draco/gltf/` para `public/draco/`; Meshopt já funciona.
+- **Modelos GLB:** opcionais em `public/models/` (`industrial-facility.glb`, `airport-terminal.glb`), ativados em `src/data/models.ts`. O GLB precisa ter os mesmos nomes de grupo. Para Draco, copie `node_modules/three/examples/jsm/libs/draco/gltf/` para `public/draco/`; Meshopt já funciona.
 - **Proteções:** sem WebGL acelerado (renderização por software) a apresentação usa a versão 2D; se o aparelho não sustentar ~22 FPS, a cena congela num quadro estático; com movimento reduzido, nada reage ao ponteiro e a câmera não viaja. `?force3d` força o 3D para testes.
 - **Orçamento atual:** ~2,4 mil triângulos e 27 draw calls (peças estáticas fundidas por grupo e material); DPR máx. 1,75 no desktop e 1,25 no mobile; sem sombras e spot no mobile.
 
@@ -57,8 +57,9 @@ src/
     motion/      Reveal, WordReveal, StepReveal, Preloader, CustomCursor
     ui/          Headline, MediaFrame, Logo, Pending, PhotoSlot
     technical/   HeroScene, SystemGraph, AirportStage, desenhos e cenas SVG, VideoPlayer, ART
-    three/       SceneCanvas, IndustrialSystem3D, IndustrialScene, ReactiveCamera, ReactiveLighting,
-                 TechnicalHotspot, Stage3DLayer (deck), InlineScene (mobile), FrameGuard, WebGLFallback
+    three/       SceneCanvas, HeroStage/HeroScene3D/HeroObject3D (abertura), IndustrialSystem3D, IndustrialScene,
+                 ReactiveCamera, ReactiveLighting, TechnicalHotspot, Stage3DLayer (deck), InlineScene (mobile),
+                 FrameGuard, WebGLFallback
     cases/       CaseStudyView, BeforeAfter
   sections/      um componente por slide (FrontScreen gera as quatro frentes)
   data/          conteúdo
