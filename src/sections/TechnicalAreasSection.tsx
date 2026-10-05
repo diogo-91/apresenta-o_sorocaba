@@ -1,10 +1,11 @@
 import type { TechnicalFront } from '../data/services'
 import { Screen, titleId } from '../components/layout/Screen'
 import { FrontGlyph } from '../components/technical/FrontGlyph'
-import { ReservoirScene, RoofScene } from '../components/technical/Scenes'
+import { RoofScene } from '../components/technical/Scenes'
 import { SystemsDeck, SystemsMobile } from '../components/technical/SystemsStage'
 import { HeavyDeck, HeavyMobile } from '../components/technical/HeavyVideoStage'
 import { HEAVY_FINAL } from '../data/heavyMove'
+import { UtilitiesDeck, UtilitiesMobile } from '../components/technical/UtilitiesStage'
 import { systemsCopy, SYSTEMS_FINAL } from '../data/systemsFlow'
 import { useSlideStep } from '../hooks/useDeckPosition'
 import { usePresentationMode } from '../hooks/usePresentationMode'
@@ -151,30 +152,12 @@ function AtivosPesados({ front }: { front: TechnicalFront }) {
 }
 
 function Utilidades({ front }: { front: TechnicalFront }) {
+  const deck = usePresentationMode() === 'deck'
+  const step = useSlideStep()
+  const props = { front, id: titleId(front.id), tag: <FrontTag front={front} /> }
   return (
     <Screen id={front.id} theme="dark" className="grain">
-      <div className="grid flex-1 gap-8 lg:grid-cols-12 lg:gap-12">
-        <div className="flex flex-col lg:col-span-6">
-          <FrontTag front={front} />
-          <Headline id={titleId(front.id)} size="lg" text={front.headline} className="mt-5 max-w-[14ch] lg:text-[4rem]" />
-          <Reveal delay={0.2}>
-            <p className="lede mt-5 max-w-[42ch]">{front.description}</p>
-          </Reveal>
-          <div className="mt-5">
-            <Services front={front} compact />
-          </div>
-          <div className="mt-auto pt-5">
-            <Facts front={front} maxRisks={2} />
-          </div>
-        </div>
-        <MediaFrame
-          src={front.photo.src}
-          alt={front.photo.alt}
-          caption={front.photo.caption}
-          scene={<ReservoirScene />}
-          className="-mx-5 aspect-[4/5] md:mx-0 lg:col-span-6 lg:-mb-5 lg:-mr-24 lg:-mt-9 lg:aspect-auto"
-        />
-      </div>
+      {deck ? <UtilitiesDeck stage={step} {...props} /> : <UtilitiesMobile {...props} />}
     </Screen>
   )
 }

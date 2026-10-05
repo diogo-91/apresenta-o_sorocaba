@@ -3,6 +3,7 @@ import type { Slide } from './components/deck/Deck'
 import { fronts, type TechnicalFront } from './data/services'
 import { SYSTEMS_STEPS } from './data/systemsFlow'
 import { HEAVY_STEPS } from './data/heavyMove'
+import { UTILITIES_STEPS } from './data/utilities'
 import { CoverSection } from './sections/CoverSection'
 import { HeroSection } from './sections/HeroSection'
 
@@ -40,7 +41,7 @@ export const slides: Slide[] = [
   slide('quem-somos', sections.about, 7),
   slide('desafio', sections.fragmentation, 2),
   slide('modelo', sections.unified, 2),
-  ...fronts.map((front) => ({ id: front.id, node: <FrontScreen front={front} />, steps: front.id === 'sistemas' ? SYSTEMS_STEPS : front.id === 'ativos-pesados' ? HEAVY_STEPS : undefined, preload: loadFront })),
+  ...fronts.map((front) => ({ id: front.id, node: <FrontScreen front={front} />, steps: front.id === 'sistemas' ? SYSTEMS_STEPS : front.id === 'ativos-pesados' ? HEAVY_STEPS : front.id === 'utilidades' ? UTILITIES_STEPS : undefined, preload: loadFront })),
   slide('seguranca', sections.safety),
   slide('metodo', sections.method, 6),
   slide('arts', sections.arts, 2),

@@ -2,7 +2,7 @@
 
 Apresentação executiva em slides (16 slides, 8 atos). React 19 + Vite + TypeScript + Tailwind 4 + Framer Motion.
 
-- **Desktop (≥1024px):** modo slides. Palco 16:9 de 1600×900 escalado para a tela. Avança com → ↓ PageDown espaço, roda do mouse, swipe ou controles no canto; Home/End; índice; tela cheia. Cada slide tem endereço próprio (`#metodo`). Alguns slides têm **passos internos** (quem somos, fragmentação, modelo, sistemas, ativos pesados, método, ARTs, cases, grandes operações): cada avanço move a cena antes de trocar de slide.
+- **Desktop (≥1024px):** modo slides. Palco 16:9 de 1600×900 escalado para a tela. Avança com → ↓ PageDown espaço, roda do mouse, swipe ou controles no canto; Home/End; índice; tela cheia. Cada slide tem endereço próprio (`#metodo`). Alguns slides têm **passos internos** (quem somos, fragmentação, modelo, sistemas, ativos pesados, utilidades, método, ARTs, cases, grandes operações): cada avanço move a cena antes de trocar de slide.
 - **Mobile:** os mesmos slides empilhados em rolagem vertical; as cenas com passos acompanham o scroll (GSAP ScrollTrigger). Cada slide só é montado quando se aproxima da tela.
 
 ```bash
@@ -27,6 +27,7 @@ Todo texto e dado variável está em `src/data/`. Valor não confirmado aparece 
 | Frentes técnicas (slides 8–11), fotos, normas, mini cases | `src/data/services.ts` |
 | Sistema elétrico → mecânico (frente Sistemas): etapas, textos e imagens dos equipamentos | `src/data/systemsFlow.ts` (arquivos em `public/images/systems/`) |
 | Movimentação de máquina (frente Ativos pesados): etapas, textos e vídeo de campo | `src/data/heavyMove.ts` (vídeo em `public/videos/ativos-pesados.mp4`) |
+| Utilidades e serviços especiais: fotos de campo (reservatório e espaço confinado) | `src/data/utilities.ts` (salvar `reservatorio.jpg` e `espaco-confinado.jpg` em `public/images/utilities/` e preencher `src` de cada foto) |
 | Camadas do corte técnico (quem somos) | `operationLayers` em `src/data/content.ts` |
 | Segurança e referências a NRs (`validated: false` até validação) | `src/data/safety.ts` |
 | ARTs (slots `placeholder: true`) | `src/data/arts.ts` |

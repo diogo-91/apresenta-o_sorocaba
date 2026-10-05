@@ -44,49 +44,6 @@ export function RoofScene() {
   )
 }
 
-export function ReservoirScene() {
-  const id = uid(useId())
-  return (
-    <svg viewBox="0 0 900 800" preserveAspectRatio="xMidYMid slice" className="size-full" fill="none">
-      <defs>
-        <radialGradient id={`glow${id}`} cx="0.55" cy="0.78" r="0.5">
-          <stop offset="0" stopColor="#5fb0e6" stopOpacity="0.28" />
-          <stop offset="1" stopColor="#5fb0e6" stopOpacity="0" />
-        </radialGradient>
-      </defs>
-      <rect width="900" height="800" fill="#090c0f" />
-      <rect width="900" height="800" fill={`url(#glow${id})`} />
-      <g stroke="#5fb0e6" strokeWidth="1.5">
-        <path d="M180 470 L220 160 M420 470 L380 160 M200 380 L400 250 M400 380 L200 250" strokeOpacity="0.6" />
-        <path d="M150 160 H450 V40 H150 Z M150 40 Q300 0 450 40" strokeWidth="2" />
-        <path d="M150 110 H450" strokeDasharray="6 6" strokeOpacity="0.7" />
-        <path d="M150 112 H450 V160 H150 Z" fill="#5fb0e6" fillOpacity="0.12" stroke="none" />
-      </g>
-      <path d="M0 470 H900" stroke="#f1f3f4" strokeOpacity="0.5" />
-      <g stroke="#f1f3f4" strokeOpacity="0.08">
-        {Array.from({ length: 40 }, (_, i) => (
-          <path key={i} d={`M${i * 26 - 200} 800 L${i * 26 + 130} 470`} />
-        ))}
-      </g>
-      <g stroke="#5fb0e6" strokeWidth="1.75">
-        <path d="M430 560 H820 V740 H430 Z" fill="#0d151c" />
-        <path d="M520 470 V560 M560 470 V560 M520 500 H560 M520 530 H560" />
-        <path d="M430 690 H820" strokeDasharray="5 5" strokeOpacity="0.7" />
-      </g>
-      <g fill="#ff5a1f">
-        <circle cx="700" cy="620" r="5" className="motion-safe:animate-pulse" />
-      </g>
-      <path d="M700 620 L760 520 H860" stroke="#ff5a1f" strokeWidth="1" />
-      <text x="770" y="510" fill="#f1f3f4" fillOpacity="0.7" fontFamily="IBM Plex Mono, monospace" fontSize="13" letterSpacing="2">
-        ATMOSFERA MONITORADA
-      </text>
-      <text x="460" y="590" fill="#f1f3f4" fillOpacity="0.5" fontFamily="IBM Plex Mono, monospace" fontSize="12" letterSpacing="2">
-        ESPAÇO CONFINADO
-      </text>
-    </svg>
-  )
-}
-
 export function PlantCropScene({ step, steps }: { step: number; steps: number }) {
   const t = steps > 1 ? step / (steps - 1) : 0
   const scale = 1.9 - 0.6 * Math.sin(t * Math.PI)
