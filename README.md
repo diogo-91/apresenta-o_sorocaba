@@ -25,14 +25,14 @@ Todo texto e dado variável está em `src/data/`. Valor não confirmado aparece 
 | Ordem dos slides | `src/slides.tsx` (deve seguir `src/data/screens.ts`; há teste) |
 | Logo | `src/assets/logo-srcb.png` (branca; escurecida via CSS no fundo claro) |
 | Frentes técnicas (slides 8–11), fotos, normas, mini cases | `src/data/services.ts` |
-| Fluxo energia → movimento (frente Sistemas) e fotos das 8 etapas | `src/data/systemsFlow.ts` (arquivos em `public/images/systems/`) |
+| Sistema elétrico → mecânico (frente Sistemas): etapas, textos e imagens dos equipamentos | `src/data/systemsFlow.ts` (arquivos em `public/images/systems/`) |
 | Camadas do corte técnico (quem somos) | `operationLayers` em `src/data/content.ts` |
 | Segurança e referências a NRs (`validated: false` até validação) | `src/data/safety.ts` |
 | ARTs (slots `placeholder: true`) | `src/data/arts.ts` |
 | Cases e fotos antes/depois | `src/data/cases.ts` |
 | Sistemas do ambiente aeroportuário | `src/data/airport.ts` |
 
-Mídia: colocar arquivos em `public/media/` e apontar o caminho (ex.: `hero.media.videoSrc`, `photo.src` de cada frente, `photo` de cada EPI em `safety.ts`). Enquanto `src` for `null`, aparece uma cena técnica desenhada com o aviso **foto a inserir**. No fluxo da frente Sistemas, coloque `power.webp`, `panel.webp`, `control.webp`, `lighting.webp`, `motor.webp`, `drive.webp`, `transmission.webp` e `machine.webp` em `public/images/systems/` e preencha `image` de cada etapa (ex.: `image: '/images/systems/motor.webp'`). Áudio ambiente: `ambient.audioSrc` em `content.ts` (o botão de som só aparece quando houver arquivo).
+Mídia: colocar arquivos em `public/media/` e apontar o caminho (ex.: `hero.media.videoSrc`, `photo.src` de cada frente, `photo` de cada EPI em `safety.ts`). Enquanto `src` for `null`, aparece uma cena técnica desenhada com o aviso **foto a inserir**. Na frente Sistemas, cada equipamento é um desenho vetorial provisório até receber imagem: coloque `power-source.webp`, `panel.webp`, `drive.webp`, `motor-body.webp`, `motor-shaft.webp`, `coupling.webp`, `transmission.webp`, `pulley-left.svg`, `pulley-right.svg` e `machine.webp` (PNG/WebP transparente) em `public/images/systems/` e preencha `image` em `rigAssets` (ex.: `image: '/images/systems/motor-body.webp'`). Peças móveis (eixo, polias) giram mesmo com imagem; cabos, correia, fluxo e rótulos continuam em SVG. Áudio ambiente: `ambient.audioSrc` em `content.ts` (o botão de som só aparece quando houver arquivo).
 
 ## Roteiro (uma pergunta por tela)
 

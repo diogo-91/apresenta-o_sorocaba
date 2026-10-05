@@ -2,8 +2,8 @@ import type { TechnicalFront } from '../data/services'
 import { Screen, titleId } from '../components/layout/Screen'
 import { FrontGlyph } from '../components/technical/FrontGlyph'
 import { MachineScene, ReservoirScene, RoofScene } from '../components/technical/Scenes'
-import { FLOW_FINAL, SystemsFlowDeck, SystemsFlowMobile } from '../components/technical/SystemsFlow'
-import { systemsCopy } from '../data/systemsFlow'
+import { SystemsDeck, SystemsMobile } from '../components/technical/SystemsStage'
+import { systemsCopy, SYSTEMS_FINAL } from '../data/systemsFlow'
 import { useSlideStep } from '../hooks/useDeckPosition'
 import { usePresentationMode } from '../hooks/usePresentationMode'
 import { Headline } from '../components/ui/Headline'
@@ -102,13 +102,13 @@ function Envoltoria({ front }: { front: TechnicalFront }) {
 function Sistemas({ front }: { front: TechnicalFront }) {
   const deck = usePresentationMode() === 'deck'
   const step = useSlideStep()
-  const final = step >= FLOW_FINAL
+  const final = step >= SYSTEMS_FINAL
   return (
     <Screen id={front.id} tone="deep" grid>
       <div className="grid gap-5 lg:grid-cols-12 lg:items-end">
         <div className="lg:col-span-8">
           <FrontTag front={front} />
-          <h2 id={titleId(front.id)} aria-label={front.headline} className="display-lg mt-5 lg:text-[3.25rem]">
+          <h2 id={titleId(front.id)} aria-label={front.headline} className="display-lg mt-4 lg:text-[2.875rem]">
             {systemsCopy.headline.map((line, i) => (
               <span key={line} aria-hidden="true" className={`block ${i === 1 ? 'text-muted' : ''}`}>
                 {line}
@@ -122,8 +122,8 @@ function Sistemas({ front }: { front: TechnicalFront }) {
       </div>
       {deck ? (
         <>
-          <div className="mt-5">
-            <SystemsFlowDeck stage={step} />
+          <div className="mt-1">
+            <SystemsDeck stage={step} />
           </div>
           <div className={`mt-auto pt-3 transition-opacity duration-700 motion-reduce:opacity-100 ${final ? 'opacity-100' : 'opacity-0'}`} aria-hidden={!final}>
             <Facts front={front} maxRisks={2} quiet />
@@ -131,7 +131,7 @@ function Sistemas({ front }: { front: TechnicalFront }) {
         </>
       ) : (
         <>
-          <SystemsFlowMobile />
+          <SystemsMobile />
           <div className="mt-10">
             <Facts front={front} maxRisks={2} quiet />
           </div>

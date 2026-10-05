@@ -493,3 +493,15 @@
     transition: opacity 0.5s ease;
   }
 }
+
+.rig-eq {
+  opacity: calc(0.4 + 0.6 * var(--on, 0));
+  filter: grayscale(calc(1 - var(--on, 0)));
+}
+.rig-lit {
+  opacity: var(--on, 0);
+}
+@keyframes rig-blink {
+  0%, 100% { opacity: 1; }
+  50% { opacity: 0.35; }
+}

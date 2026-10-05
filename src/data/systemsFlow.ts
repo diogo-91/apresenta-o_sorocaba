@@ -1,30 +1,39 @@
-export type FlowDomain = 'eletrica' | 'conversao' | 'mecanica'
+export type RigStageId = 'power-source' | 'panel' | 'drive' | 'motor' | 'coupling' | 'transmission' | 'machine'
 
-export type FlowStep = {
-  id: string
+export type RigStage = {
+  id: RigStageId
   number: string
-  title: string
-  description: string
-  domain: FlowDomain
-  file: string
-  image: string | null
-  frame: 'tall' | 'short' | 'mid'
+  kicker: string
+  name: string
 }
 
-export const SYSTEMS_IMAGE_DIR = '/images/systems/'
-
-export const systemsFlow: FlowStep[] = [
-  { id: 'power', number: '01', title: 'Entrada de energia', description: 'Alimentação que chega à instalação.', domain: 'eletrica', file: 'power.webp', image: null, frame: 'tall' },
-  { id: 'panel', number: '02', title: 'Quadro e painel', description: 'Distribui a energia para cada circuito.', domain: 'eletrica', file: 'panel.webp', image: null, frame: 'short' },
-  { id: 'control', number: '03', title: 'Comando e proteção', description: 'Partida, parada e proteção dos circuitos.', domain: 'eletrica', file: 'control.webp', image: null, frame: 'mid' },
-  { id: 'lighting', number: '04', title: 'Iluminação e sistemas', description: 'Circuitos de apoio à operação.', domain: 'eletrica', file: 'lighting.webp', image: null, frame: 'short' },
-  { id: 'motor', number: '05', title: 'Motor elétrico', description: 'Converte energia elétrica em movimento.', domain: 'conversao', file: 'motor.webp', image: null, frame: 'tall' },
-  { id: 'drive', number: '06', title: 'Acionamento', description: 'Acopla o motor ao conjunto mecânico.', domain: 'mecanica', file: 'drive.webp', image: null, frame: 'short' },
-  { id: 'transmission', number: '07', title: 'Transmissão mecânica', description: 'Polias, correias, engrenagens e redutores.', domain: 'mecanica', file: 'transmission.webp', image: null, frame: 'mid' },
-  { id: 'machine', number: '08', title: 'Máquina e equipamento', description: 'Onde o movimento vira produção.', domain: 'mecanica', file: 'machine.webp', image: null, frame: 'tall' },
+export const rigStages: RigStage[] = [
+  { id: 'power-source', number: '01', kicker: 'Alimentação', name: 'Rede elétrica' },
+  { id: 'panel', number: '02', kicker: 'Distribuição', name: 'Painel elétrico' },
+  { id: 'drive', number: '03', kicker: 'Controle', name: 'Comando / acionamento' },
+  { id: 'motor', number: '04', kicker: 'Conversão', name: 'Motor elétrico' },
+  { id: 'coupling', number: '05', kicker: 'Acoplamento', name: 'Acoplamento' },
+  { id: 'transmission', number: '06', kicker: 'Transmissão', name: 'Polias e correia' },
+  { id: 'machine', number: '07', kicker: 'Operação', name: 'Máquina em funcionamento' },
 ]
 
-export const SYSTEMS_STEPS = systemsFlow.length + 2
+export const SYSTEMS_FINAL = rigStages.length + 1
+export const SYSTEMS_STEPS = SYSTEMS_FINAL + 1
+
+export type RigAssetId = 'power-source' | 'panel' | 'drive' | 'motor-body' | 'motor-shaft' | 'coupling' | 'transmission' | 'pulley-left' | 'pulley-right' | 'machine'
+
+export const rigAssets: Record<RigAssetId, { file: string; image: string | null }> = {
+  'power-source': { file: 'power-source.webp', image: null },
+  panel: { file: 'panel.webp', image: null },
+  drive: { file: 'drive.webp', image: null },
+  'motor-body': { file: 'motor-body.webp', image: null },
+  'motor-shaft': { file: 'motor-shaft.webp', image: null },
+  coupling: { file: 'coupling.webp', image: null },
+  transmission: { file: 'transmission.webp', image: null },
+  'pulley-left': { file: 'pulley-left.svg', image: null },
+  'pulley-right': { file: 'pulley-right.svg', image: null },
+  machine: { file: 'machine.webp', image: null },
+}
 
 export const systemsDisciplines = [
   { id: 'eletrica', title: 'Elétrica', items: ['Instalações', 'Painéis', 'Alimentação', 'Iluminação', 'Comandos'] },
@@ -34,6 +43,7 @@ export const systemsDisciplines = [
 export const systemsCopy = {
   headline: ['Energia e movimento', 'sob o mesmo comando técnico.'],
   conversion: { label: 'Conversão', from: 'Energia elétrica', to: 'Movimento mecânico' },
-  domains: { eletrica: 'Elétrica', conversao: 'Conversão', mecanica: 'Mecânica' } satisfies Record<FlowDomain, string>,
+  legend: { electric: 'Energia elétrica', mechanic: 'Movimento mecânico' },
+  placeholderNote: 'Equipamentos em desenho provisório · imagens em /images/systems/',
   closing: ['Da energia ao movimento.', 'Um único sistema.'],
 }
