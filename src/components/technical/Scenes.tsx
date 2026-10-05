@@ -44,48 +44,6 @@ export function RoofScene() {
   )
 }
 
-export function MachineScene() {
-  return (
-    <svg viewBox="0 0 1200 800" preserveAspectRatio="xMidYMid slice" className="size-full" fill="none">
-      <rect width="1200" height="800" className="fill-paper-2" />
-      <g className="stroke-fg" strokeWidth="2">
-        <path d="M120 720 H1180" strokeWidth="2.5" />
-        <path d="M260 720 V610 H1060 V720" className="fill-surface" />
-        <path d="M340 610 V120 H560 V610 M800 610 V120 H1020 V610" className="fill-surface-2" />
-        <path d="M300 120 H1060 V40 H300 Z" className="fill-surface" />
-        <path d="M560 260 H800 V380 H560 Z M600 380 V470 H760 V380 M620 470 H740 V500 H620 Z" className="fill-paper" />
-        <path d="M380 160 h140 M380 200 h140 M840 160 h140 M840 200 h140" strokeWidth="1.25" strokeOpacity="0.5" />
-        <path d="M600 540 H760 V610 H600 Z" className="fill-surface-2" />
-        <circle cx="450" cy="80" r="22" className="fill-paper" />
-        <circle cx="910" cy="80" r="22" className="fill-paper" />
-      </g>
-      <g className="stroke-fg" strokeOpacity="0.18">
-        {Array.from({ length: 30 }, (_, i) => (
-          <path key={i} d={`M${340 + i * 8} 610 L${340 + i * 8 + 40} 570`} />
-        ))}
-      </g>
-      <g className="stroke-blueprint" strokeWidth="1.25">
-        <path d="M1110 120 V720 M1100 120 H1120 M1100 720 H1120" />
-        <path d="M300 760 H1060 M300 750 V770 M1060 750 V770" />
-      </g>
-      <g className="fill-blueprint" fontFamily="IBM Plex Mono, monospace" fontSize="15" letterSpacing="3">
-        <text x="1128" y="425">H</text>
-        <text x="660" y="790" textAnchor="middle">L</text>
-      </g>
-      <g className="fill-fg">
-        <circle cx="190" cy="565" r="13" />
-        <path d="M178 582 h24 l6 70 h-8 l-4 68 h-8 l-2 -60 l-2 60 h-8 l-4 -68 h-8 z" />
-      </g>
-      <g className="stroke-accent" strokeWidth="1.5">
-        <path d="M150 552 V720 M142 552 H158 M142 720 H158" />
-      </g>
-      <text x="138" y="640" textAnchor="end" className="fill-accent-ink" fontFamily="IBM Plex Mono, monospace" fontSize="14" letterSpacing="2">
-        1,80 m
-      </text>
-    </svg>
-  )
-}
-
 export function ReservoirScene() {
   const id = uid(useId())
   return (

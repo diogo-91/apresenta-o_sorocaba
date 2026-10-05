@@ -68,6 +68,7 @@ export const fronts: TechnicalFront[] = [
       'Dano ao equipamento durante desmontagem e transporte',
       'Atraso na retomada produtiva após a mudança',
       'Exposição da equipe em içamento e movimentação',
+      'Içamento inadequado ou sem plano de carga',
     ],
     services: [
       { name: 'Mudança de máquinas', detail: 'Desmontagem, transferência e remontagem planejadas.' },

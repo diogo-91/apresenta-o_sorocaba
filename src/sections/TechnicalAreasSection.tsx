@@ -1,8 +1,11 @@
 import type { TechnicalFront } from '../data/services'
 import { Screen, titleId } from '../components/layout/Screen'
 import { FrontGlyph } from '../components/technical/FrontGlyph'
-import { MachineScene, ReservoirScene, RoofScene } from '../components/technical/Scenes'
+import { ReservoirScene, RoofScene } from '../components/technical/Scenes'
 import { SystemsDeck, SystemsMobile } from '../components/technical/SystemsStage'
+import { HeavyMoveRig } from '../components/technical/HeavyMoveRig'
+import { HeavyMobile, HeavyStagePanel } from '../components/technical/HeavyMoveStage'
+import { heavyCopy, HEAVY_FINAL } from '../data/heavyMove'
 import { systemsCopy, SYSTEMS_FINAL } from '../data/systemsFlow'
 import { useSlideStep } from '../hooks/useDeckPosition'
 import { usePresentationMode } from '../hooks/usePresentationMode'
@@ -142,40 +145,43 @@ function Sistemas({ front }: { front: TechnicalFront }) {
 }
 
 function AtivosPesados({ front }: { front: TechnicalFront }) {
+  const deck = usePresentationMode() === 'deck'
+  const step = useSlideStep()
+  const headline = (
+    <h2 id={titleId(front.id)} aria-label={front.headline} className="display-lg mt-4 lg:text-[2.5rem]">
+      {heavyCopy.headline.map((line, i) => (
+        <span key={line} aria-hidden="true" className={`block ${i === 1 ? 'text-muted' : ''}`}>
+          {line}
+        </span>
+      ))}
+    </h2>
+  )
+  if (!deck) {
+    return (
+      <Screen id={front.id}>
+        <FrontTag front={front} />
+        {headline}
+        <HeavyMobile />
+        <div className="mt-10">
+          <Facts front={front} maxRisks={4} quiet />
+        </div>
+      </Screen>
+    )
+  }
   return (
-    <Screen
-      id={front.id}
-      background={
-        <div className="absolute inset-0 max-lg:hidden">
-          <MediaFrame fill src={front.photo.src} alt={front.photo.alt} caption={front.photo.caption} scene={<MachineScene />} labelPosition="top" className="[&>div]:opacity-55 [&>figcaption]:left-auto [&>figcaption]:right-24 [&>figcaption]:top-[118px]" />
-          <div className="absolute inset-x-0 bottom-0 h-[42%] bg-gradient-to-t from-paper via-paper/90 to-transparent" />
+    <Screen id={front.id}>
+      <div className="grid grid-cols-12 gap-10">
+        <div className="col-span-5">
+          <FrontTag front={front} />
+          {headline}
         </div>
-      }
-    >
-      <FrontTag front={front} />
-      <h2 id={titleId(front.id)} className="mt-6 font-display font-bold leading-[0.86] tracking-[-0.04em] [font-stretch:78%] text-[clamp(3rem,13vw,4.5rem)] lg:text-[8rem]">
-        {front.headline.split('. ').map((part, i, all) => (
-          <span key={part} className={`block ${i > 0 ? 'text-muted' : ''}`}>
-            {i < all.length - 1 ? `${part}.` : part}
-          </span>
-        ))}
-      </h2>
-      <div className="mt-6 lg:hidden">
-        <MediaFrame src={front.photo.src} alt={front.photo.alt} caption={front.photo.caption} scene={<MachineScene />} className="-mx-5 aspect-[4/3]" />
+        <div className="col-span-7 pt-1">
+          <HeavyStagePanel stage={Math.min(step, HEAVY_FINAL)} />
+        </div>
       </div>
-      <div className="mt-auto grid gap-8 pt-8 lg:grid-cols-12">
-        <ol className="grid gap-5 sm:grid-cols-4 lg:col-span-8">
-          {front.services.map((service, i) => (
-            <Reveal as="li" key={service.name} delay={0.3 + i * 0.1} className="relative border-t-2 border-fg pt-3">
-              <span className="label-mono text-accent-ink">{String(i + 1).padStart(2, '0')}</span>
-              <p className="mt-1 font-display text-xl font-bold tracking-tight">{service.name}</p>
-              <p className="mt-1 text-sm leading-snug text-muted">{service.detail}</p>
-            </Reveal>
-          ))}
-        </ol>
-        <div className="lg:col-span-4">
-          <Facts front={front} layout="stack" />
-        </div>
+      <HeavyMoveRig stage={Math.min(step, HEAVY_FINAL)} className="mt-1 block h-auto w-full" />
+      <div className={`mt-auto transition-opacity duration-700 ${step >= HEAVY_FINAL ? 'opacity-100' : 'opacity-50'}`}>
+        <Facts front={front} maxRisks={4} quiet />
       </div>
     </Screen>
   )
