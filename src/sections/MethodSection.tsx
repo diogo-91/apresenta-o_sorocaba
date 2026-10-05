@@ -1,5 +1,5 @@
 import { useCallback, useRef } from 'react'
-import { AnimatePresence, m } from 'framer-motion'
+import { AnimatePresence, m, useReducedMotion } from 'framer-motion'
 import { method } from '../data/content'
 import { methodSteps } from '../data/method'
 import { Screen, titleId } from '../components/layout/Screen'
@@ -43,6 +43,8 @@ function Rail({ active }: { active: number }) {
 function DeckMethod() {
   const active = useSlideStep()
   const step = methodSteps[active]
+  const reduced = useReducedMotion()
+  const { x, y, zoom } = step.frame
 
   return (
     <div className="grid min-h-0 flex-1 grid-cols-12 gap-8">
@@ -68,7 +70,8 @@ function DeckMethod() {
       <MediaFrame
         src={method.photo.src}
         alt={method.photo.alt}
-        caption={method.photo.caption}
+        caption={`Etapa ${pad2(active + 1)} · ${step.title}`}
+        imageStyle={{ transform: `scale(${zoom})`, transformOrigin: `${x}% ${y}%`, transition: reduced ? 'none' : 'transform 1.2s var(--ease-mech), transform-origin 1.2s var(--ease-mech)' }}
         scene={<PlantCropScene step={active} steps={methodSteps.length} />}
         className="col-span-6 -mb-5 -mr-24 -mt-9"
       />

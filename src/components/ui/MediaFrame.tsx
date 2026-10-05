@@ -1,4 +1,4 @@
-import type { ReactNode } from 'react'
+import type { CSSProperties, ReactNode } from 'react'
 import { m, useReducedMotion } from 'framer-motion'
 import { EASE_MECH, VIEWPORT_ONCE } from '../../lib/motion'
 
@@ -10,9 +10,10 @@ type Props = {
   className?: string
   labelPosition?: 'top' | 'bottom'
   fill?: boolean
+  imageStyle?: CSSProperties
 }
 
-export function MediaFrame({ src, alt, caption, scene, className = '', labelPosition = 'bottom', fill = false }: Props) {
+export function MediaFrame({ src, alt, caption, scene, className = '', labelPosition = 'bottom', fill = false, imageStyle }: Props) {
   const reduced = useReducedMotion()
   return (
     <m.figure
@@ -29,6 +30,7 @@ export function MediaFrame({ src, alt, caption, scene, className = '', labelPosi
           alt={alt}
           loading="lazy"
           decoding="async"
+          style={imageStyle}
           className="absolute inset-0 size-full object-cover transition-transform duration-[1200ms] ease-out-mech group-hover:scale-[1.03]"
         />
       ) : (
