@@ -87,12 +87,19 @@ export function SafetySection() {
                   onMouseEnter={() => setSelected(gear.domain)}
                   onFocus={() => setSelected(gear.domain)}
                   onClick={() => setSelected(gear.domain)}
-                  aria-label={`${gear.label} · ${code} (foto a inserir)`}
+                  aria-label={`${gear.label} · ${code}${gear.photo ? '' : ' (foto a inserir)'}`}
                   className={`group relative block size-full overflow-hidden border bg-paper-2 text-left transition-[opacity,border-color] duration-500 ${related ? 'border-accent/60 opacity-100' : 'border-line opacity-45'}`}
                 >
-                  <div className="absolute inset-[18%] text-fg/70 transition-transform duration-[1200ms] ease-out-mech group-hover:scale-[1.03]">
-                    <GearIllustration id={gear.id} />
-                  </div>
+                  {gear.photo ? (
+                    <>
+                      <img src={gear.photo} alt="" loading="lazy" decoding="async" className="absolute inset-0 size-full object-cover transition-transform duration-[1200ms] ease-out-mech group-hover:scale-[1.03]" />
+                      <span aria-hidden="true" className="absolute inset-0 bg-[linear-gradient(to_bottom,var(--color-paper)_0%,transparent_32%,transparent_70%,var(--color-paper)_100%)] opacity-80" />
+                    </>
+                  ) : (
+                    <div className="absolute inset-[18%] text-fg/70 transition-transform duration-[1200ms] ease-out-mech group-hover:scale-[1.03]">
+                      <GearIllustration id={gear.id} />
+                    </div>
+                  )}
                   <svg aria-hidden="true" className="absolute inset-0 size-full" preserveAspectRatio="none" viewBox="0 0 100 100">
                     <path d="M62 46 L40 22 H12" vectorEffect="non-scaling-stroke" className={related ? 'stroke-accent' : 'stroke-faint'} fill="none" strokeWidth="1" />
                     <circle cx="62" cy="46" r="1" className={related ? 'fill-accent' : 'fill-faint'} />
@@ -100,7 +107,10 @@ export function SafetySection() {
                   <span className="label-mono absolute left-3 top-3 text-fg">
                     {String(i + 1).padStart(2, '0')} {gear.label}
                   </span>
-                  <span className="label-mono absolute bottom-3 right-3 text-faint">{code} · foto a inserir</span>
+                  <span className="label-mono absolute bottom-3 right-3 text-faint">
+                    {code}
+                    {!gear.photo && ' · foto a inserir'}
+                  </span>
                 </button>
               </Reveal>
             )
