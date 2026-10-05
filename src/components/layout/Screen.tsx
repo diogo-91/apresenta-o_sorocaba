@@ -35,7 +35,7 @@ export function Screen({ id, children, tone = 'paper', grid = false, meta = true
       id={deck ? id : undefined}
       data-screen
       aria-labelledby={titleId(id)}
-      className={`relative ${deck ? 'h-full w-full overflow-hidden' : 'min-h-svh overflow-hidden'} ${theme === 'dark' ? 'theme-dark' : ''} ${tones[tone]} ${className}`}
+      className={`relative ${deck ? 'h-full w-full overflow-hidden' : 'min-h-svh overflow-x-clip'} ${theme === 'dark' ? 'theme-dark' : ''} ${tones[tone]} ${className}`}
     >
       {background}
       {grid && (

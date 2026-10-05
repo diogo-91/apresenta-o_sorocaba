@@ -457,3 +457,9 @@
 .cursor-ring[data-mode="label"] + div {
   opacity: 0;
 }
+
+@keyframes fadein {
+  to {
+    opacity: 1;
+  }
+}

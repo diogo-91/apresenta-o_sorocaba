@@ -1,8 +1,13 @@
-import { useCallback, useEffect, useRef, useState } from 'react'
+import { lazy, Suspense, useCallback, useEffect, useRef, useState } from 'react'
 import { AnimatePresence, m } from 'framer-motion'
 import { ArrowRight } from 'lucide-react'
 import { operationsMap } from '../data/content'
 import { facilityLayers, facilityZones } from '../data/facility'
+import { facility3DSteps } from '../data/facility3d'
+import { hasWebGL } from '../hooks/useDeviceCapabilities'
+import { setFacilitySelection, useFacilitySelection } from '../lib/three/selection'
+
+const InlineScene = lazy(() => import('../components/three/InlineScene'))
 import { frontById } from '../data/services'
 import { Screen, titleId } from '../components/layout/Screen'
 import { FACILITY_VIEWBOX, FacilityDrawing } from '../components/technical/FacilityDrawing'
@@ -76,8 +81,62 @@ function Hotspots({ revealed, selected, onSelect }: { revealed: number; selected
   )
 }
 
-function DeckStage() {
+const LAYER_OF_STEP = [0, 1, 1, 2, 3, 4, 5]
+
+function Deck3DStage() {
   const step = useSlideStep()
+  const selected = useFacilitySelection()
+  const current = facility3DSteps[Math.min(step, facility3DSteps.length - 1)]
+  const shown = facility3DSteps.find((s) => s.id === selected) ?? current
+  const index = facility3DSteps.indexOf(shown)
+  const front = frontById(shown.front)
+
+  return (
+    <div className="grid min-h-0 flex-1 grid-cols-12 gap-10">
+      <div className="col-span-8" aria-hidden="true" />
+      <div className="col-span-4 flex flex-col">
+        <Headline id={titleId('mapa')} size="md" text={operationsMap.headline} className="max-w-[14ch]" />
+        <p className="lede mt-4">{operationsMap.subheadline}</p>
+        <div className="mt-8 border-t border-line pt-5" aria-live="polite">
+          <AnimatePresence mode="wait">
+            <m.div key={shown.id} initial={{ opacity: 0, y: 10 }} animate={{ opacity: 1, y: 0 }} exit={{ opacity: 0, y: -8 }} transition={{ duration: DURATION.fast, ease: EASE_OUT }}>
+              <p className="label-mono text-accent-ink">
+                Etapa {pad2(index + 1)} / {pad2(facility3DSteps.length)}
+              </p>
+              <h3 className="mt-2 font-display text-[3.25rem] font-bold leading-[0.95] tracking-tight [font-stretch:80%]">{shown.label}</h3>
+              <p className="label-mono mt-2 text-muted">{shown.kicker}</p>
+              <ul className="mt-4 flex flex-col gap-1.5">
+                {shown.services.map((service) => (
+                  <li key={service} className="flex items-baseline gap-3 text-sm">
+                    <span aria-hidden="true" className="h-px w-3 shrink-0 -translate-y-[3px] bg-blueprint" />
+                    {service}
+                  </li>
+                ))}
+              </ul>
+              <a href={`#${front.id}`} className="link-underline label-mono mt-4 inline-flex items-center gap-2 text-blueprint">
+                {front.code} · {front.name}
+                <ArrowRight size={14} aria-hidden="true" />
+              </a>
+            </m.div>
+          </AnimatePresence>
+        </div>
+        <ol className="mt-auto grid grid-cols-7 gap-1.5" aria-label="Etapas">
+          {facility3DSteps.map((s, i) => (
+            <li key={s.id}>
+              <button type="button" onClick={() => setFacilitySelection(s.id)} aria-pressed={s.id === shown.id} className="block w-full text-left" title={s.label}>
+                <span className={`block h-0.5 ${i <= step ? 'bg-accent' : 'bg-line-strong'}`} />
+                <span className={`label-mono mt-2 block truncate text-[0.5rem] ${s.id === shown.id ? 'text-fg' : 'text-faint'}`}>{s.label}</span>
+              </button>
+            </li>
+          ))}
+        </ol>
+      </div>
+    </div>
+  )
+}
+
+function DeckStage() {
+  const step = LAYER_OF_STEP[Math.min(useSlideStep(), LAYER_OF_STEP.length - 1)]
   const [zone, setZone] = useState<string | null>(null)
   useEffect(() => setZone(null), [step])
   const layer = facilityLayers[step]
@@ -142,10 +201,16 @@ function FlowStage() {
     <div>
       <Headline id={titleId('mapa')} text={operationsMap.headline} className="max-w-[14ch]" />
       <p className="lede mt-5">{operationsMap.subheadline}</p>
-      <div ref={ref} className="relative -mx-5 mt-10">
-        <FacilityDrawing revealed={revealed} current={revealed - 1} />
-        <Hotspots revealed={revealed} selected={null} />
-      </div>
+      {hasWebGL() ? (
+        <Suspense fallback={<div className="-mx-5 mt-10 h-[68svh]" />}>
+          <InlineScene scene="facility" className="relative -mx-5 mt-10" />
+        </Suspense>
+      ) : (
+        <div ref={ref} className="relative -mx-5 mt-10">
+          <FacilityDrawing revealed={revealed} current={revealed - 1} />
+          <Hotspots revealed={revealed} selected={null} />
+        </div>
+      )}
       <ol className="mt-8 grid border-t border-line sm:grid-cols-2">
         {facilityZones.map((zone, i) => (
           <li key={zone.id} className="flex gap-4 border-b border-line py-5 pr-2">
@@ -164,7 +229,7 @@ export function OperationsMapSection() {
   const deck = usePresentationMode() === 'deck'
   return (
     <Screen id="mapa" tone="deep" grid>
-      {deck ? <DeckStage /> : <FlowStage />}
+      {deck ? hasWebGL() ? <Deck3DStage /> : <DeckStage /> : <FlowStage />}
     </Screen>
   )
 }

@@ -43,7 +43,7 @@ export const slides: Slide[] = [
   slide('video', sections.video),
   slide('desafio', sections.fragmentation, 2),
   slide('modelo', sections.unified, 2),
-  slide('mapa', sections.map, 6),
+  slide('mapa', sections.map, 7),
   ...fronts.map((front) => ({ id: front.id, node: <FrontScreen front={front} />, preload: loadFront })),
   slide('seguranca', sections.safety),
   slide('metodo', sections.method, 6),

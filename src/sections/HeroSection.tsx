@@ -1,4 +1,7 @@
+import { lazy, Suspense } from 'react'
 import { m } from 'framer-motion'
+import { hasWebGL } from '../hooks/useDeviceCapabilities'
+import { useIdleMount } from '../hooks/useIdleMount'
 import { hero } from '../data/content'
 import { Screen, titleId } from '../components/layout/Screen'
 import { HeroScene } from '../components/technical/HeroScene'
@@ -16,6 +19,18 @@ const fadeIn = (delay: number) => ({
   animate: { opacity: 1, y: 0 },
   transition: { duration: DURATION.slow, ease: EASE_OUT, delay },
 })
+
+const InlineScene = lazy(() => import('../components/three/InlineScene'))
+
+function Mobile3D() {
+  const idle = useIdleMount()
+  if (!idle || !hasWebGL()) return null
+  return (
+    <Suspense fallback={null}>
+      <InlineScene scene="hero" className="pointer-events-none absolute inset-x-0 top-16 h-[46svh]" />
+    </Suspense>
+  )
+}
 
 function MediaBackground() {
   const { videoSrc, posterSrc } = hero.media
@@ -41,7 +56,17 @@ export function HeroSection() {
   const deck = usePresentationMode() === 'deck'
 
   return (
-    <Screen id="inicio" theme="dark" tone="none" background={<MediaBackground />}>
+    <Screen
+      id="inicio"
+      theme="dark"
+      tone="none"
+      background={
+        <>
+          <MediaBackground />
+          {!deck && <Mobile3D />}
+        </>
+      }
+    >
       <div className="flex flex-1 flex-col justify-end">
         <m.div className="mb-8 flex items-start gap-4 lg:mb-8" {...fadeIn(0.6)}>
           <span aria-hidden="true" className="mt-1 h-9 w-[3px] bg-accent" />

@@ -33,6 +33,18 @@ Todo texto e dado variável está em `src/data/`. Valor não confirmado aparece 
 
 Mídia: colocar arquivos em `public/media/` e apontar o caminho (ex.: `video.src = '/media/institucional.mp4'`, `hero.media.videoSrc`, `photo.src` de cada frente, `photo` de cada EPI em `safety.ts`). Enquanto `src` for `null`, aparece uma cena técnica desenhada com o aviso **foto a inserir**. Áudio ambiente: `ambient.audioSrc` em `content.ts` (o botão de som só aparece quando houver arquivo).
 
+## Camada 3D (WebGL)
+
+Three.js + React Three Fiber + drei, carregados só depois que a página fica ociosa (chunk próprio).
+
+- **Abertura:** a instalação industrial (`IndustrialSystem3D`) ocupa a metade direita e responde ao ponteiro com amortecimento (máx. ±4° vertical, ±7° horizontal), câmera e luz com deslocamento mínimo.
+- **Mapa da operação:** a mesma instalação em vista isométrica, 7 etapas (estrutura → cobertura → claraboias → elétrica → mecânica → reservatórios → espaços confinados). Grupos inativos esmaecem; o ativo recebe luz, hotspot com linha e rótulo. Clique/toque nos hotspots destaca a área.
+- **Continuidade:** no deck, um único canvas persiste entre slides; a câmera vai do enquadramento da abertura ao isométrico do mapa. No mobile, cada cena é embutida na seção e as etapas do mapa acompanham o scroll (cena fixa por sticky, sem sequestrar a rolagem).
+- **Grupos nomeados:** `structure`, `roof`, `skylights`, `electrical`, `mechanical`, `utilities`, `reservoir`, `confined`.
+- **Modelos GLB:** opcionais em `public/models/` (`hero-industrial.glb`, `industrial-facility.glb`, `airport-terminal.glb`), ativados em `src/data/models.ts`. O GLB precisa ter os mesmos nomes de grupo. Para Draco, copie `node_modules/three/examples/jsm/libs/draco/gltf/` para `public/draco/`; Meshopt já funciona.
+- **Proteções:** sem WebGL acelerado (renderização por software) a apresentação usa a versão 2D; se o aparelho não sustentar ~22 FPS, a cena congela num quadro estático; com movimento reduzido, nada reage ao ponteiro e a câmera não viaja. `?force3d` força o 3D para testes.
+- **Orçamento atual:** ~2,4 mil triângulos e 27 draw calls (peças estáticas fundidas por grupo e material); DPR máx. 1,75 no desktop e 1,25 no mobile; sem sombras e spot no mobile.
+
 ## Estrutura
 
 ```
@@ -45,11 +57,14 @@ src/
     motion/      Reveal, WordReveal, StepReveal, Preloader, CustomCursor
     ui/          Headline, MediaFrame, Logo, Pending, PhotoSlot
     technical/   HeroScene, SystemGraph, AirportStage, desenhos e cenas SVG, VideoPlayer, ART
+    three/       SceneCanvas, IndustrialSystem3D, IndustrialScene, ReactiveCamera, ReactiveLighting,
+                 TechnicalHotspot, Stage3DLayer (deck), InlineScene (mobile), FrameGuard, WebGLFallback
     cases/       CaseStudyView, BeforeAfter
   sections/      um componente por slide (FrontScreen gera as quatro frentes)
   data/          conteúdo
   hooks/         slide ativo, passo, modo de apresentação, cenas (GSAP), diálogo acessível
-  lib/           lógica pura e testada: navegação do deck, grafo quadro a quadro, câmera
+  lib/           lógica pura e testada: navegação do deck, grafo quadro a quadro, câmera,
+                 roteiro de câmera 3D por slide/etapa e limites de inclinação (lib/three)
 ```
 
 ## Decisões técnicas
