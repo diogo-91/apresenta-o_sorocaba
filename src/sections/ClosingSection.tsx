@@ -17,10 +17,10 @@ export function ClosingSection() {
 
   return (
     <section
-      id="encerramento"
+      id={deck ? 'encerramento' : undefined}
       data-screen
       aria-labelledby={titleId('encerramento')}
-      className={`relative overflow-hidden bg-night text-night-fg ${deck ? 'h-full' : 'min-h-svh'}`}
+      className={`theme-dark relative overflow-hidden bg-night text-night-fg ${deck ? 'h-full' : 'min-h-svh'}`}
     >
       <div aria-hidden="true" className="blueprint-grid absolute inset-0 opacity-70" />
       <div className={`relative flex h-full flex-col justify-between ${deck ? 'px-24 py-16' : 'min-h-svh gap-16 px-5 pb-16 pt-24'}`}>

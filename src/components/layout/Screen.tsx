@@ -32,7 +32,7 @@ export function Screen({ id, children, tone = 'paper', grid = false, meta = true
   const deck = usePresentationMode() === 'deck'
   return (
     <section
-      id={id}
+      id={deck ? id : undefined}
       data-screen
       aria-labelledby={titleId(id)}
       className={`relative ${deck ? 'h-full w-full overflow-hidden' : 'min-h-svh overflow-hidden'} ${theme === 'dark' ? 'theme-dark' : ''} ${tones[tone]} ${className}`}

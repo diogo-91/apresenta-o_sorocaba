@@ -19,7 +19,7 @@ export function CoverSection() {
   ]
 
   return (
-    <section id="capa" data-screen aria-labelledby={titleId('capa')} className={`relative grid bg-paper ${deck ? 'h-full grid-cols-12' : 'min-h-svh grid-rows-[auto_1fr] pt-16'}`}>
+    <section id={deck ? 'capa' : undefined} data-screen aria-labelledby={titleId('capa')} className={`relative grid bg-paper ${deck ? 'h-full grid-cols-12' : 'min-h-svh grid-rows-[auto_1fr] pt-16'}`}>
       <div className={`relative overflow-hidden bg-night text-night-fg ${deck ? 'order-2 col-span-5' : ''}`}>
         <div aria-hidden="true" className="blueprint-grid absolute inset-0 opacity-80" />
         <BlueprintPlant className="absolute inset-0 size-full text-[#4fa3d9] opacity-35" />

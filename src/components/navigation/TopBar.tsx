@@ -1,5 +1,5 @@
 import { Menu } from 'lucide-react'
-import { useCallback, useState } from 'react'
+import { useCallback, useEffect, useState } from 'react'
 import { screenMeta } from '../../data/screens'
 import { useActiveScreen } from '../../hooks/useActiveScreen'
 import { scrollToScreen } from '../../lib/scroll'
@@ -11,9 +11,14 @@ export function TopBar() {
   const meta = screenMeta(active)
   const [open, setOpen] = useState(false)
   const close = useCallback(() => setOpen(false), [])
+  const [dark, setDark] = useState(false)
+
+  useEffect(() => {
+    setDark(document.getElementById(active)?.querySelector(':scope > .theme-dark') != null)
+  }, [active])
 
   return (
-    <header className="pointer-events-none fixed inset-x-0 top-0 z-40 lg:hidden">
+    <header className={`pointer-events-none fixed inset-x-0 top-0 z-40 transition-colors duration-500 lg:hidden ${dark ? 'theme-dark' : ''}`}>
       <div className="pointer-events-none absolute inset-0 h-16 border-b border-line bg-paper/95" />
       <div className="relative mx-auto flex h-16 max-w-[1520px] items-center gap-6 px-5 md:px-10">
         <a

@@ -2,8 +2,8 @@
 
 Apresentação executiva em slides (20 slides, 8 atos). React 19 + Vite + TypeScript + Tailwind 4 + Framer Motion.
 
-- **Desktop (≥1024px):** modo slides. Palco 16:9 de 1600×900 escalado para a tela. Avança com → ↓ PageDown espaço, roda do mouse, swipe ou controles no canto; Home/End; índice; tela cheia. Cada slide tem endereço próprio (`#metodo`).
-- **Mobile:** os mesmos slides empilhados em rolagem vertical, com menu e CTA fixo.
+- **Desktop (≥1024px):** modo slides. Palco 16:9 de 1600×900 escalado para a tela. Avança com → ↓ PageDown espaço, roda do mouse, swipe ou controles no canto; Home/End; índice; tela cheia. Cada slide tem endereço próprio (`#metodo`). Alguns slides têm **passos internos** (fragmentação, modelo, mapa, método, ARTs, cases, grandes operações): cada avanço move a cena antes de trocar de slide.
+- **Mobile:** os mesmos slides empilhados em rolagem vertical; as cenas com passos acompanham o scroll (GSAP ScrollTrigger). Cada slide só é montado quando se aproxima da tela.
 
 ```bash
 npm install
@@ -31,29 +31,33 @@ Todo texto e dado variável está em `src/data/`. Valor não confirmado aparece 
 | Cases e fotos antes/depois | `src/data/cases.ts` |
 | Sistemas do ambiente aeroportuário | `src/data/airport.ts` |
 
-Mídia: colocar arquivos em `public/media/` e apontar o caminho (ex.: `video.src = '/media/institucional.mp4'`). Enquanto `src` for `null`, o placeholder técnico é exibido.
+Mídia: colocar arquivos em `public/media/` e apontar o caminho (ex.: `video.src = '/media/institucional.mp4'`, `hero.media.videoSrc`, `photo.src` de cada frente, `photo` de cada EPI em `safety.ts`). Enquanto `src` for `null`, aparece uma cena técnica desenhada com o aviso **foto a inserir**. Áudio ambiente: `ambient.audioSrc` em `content.ts` (o botão de som só aparece quando houver arquivo).
 
 ## Estrutura
 
 ```
 src/
   components/
-    deck/        Deck (palco, navegação), DeckControls, DeckIndex, GraphLayer
+    deck/        Deck (palco, passos, navegação), DeckControls, DeckIndex, GraphLayer, SoundToggle
+    flow/        Flow (modo mobile com montagem sob demanda)
     layout/      Screen (slide com cabeçalho e rodapé de folha)
     navigation/  TopBar, MobileDrawer, MobileCTA, ProgressBar (modo mobile)
-    motion/      Reveal, WordReveal
-    ui/          Button, Headline, Indicator, PhotoSlot, Pending
-    technical/   SystemGraph (slides 5→6), HotspotMap, desenhos SVG, VideoPlayer, ART
+    motion/      Reveal, WordReveal, StepReveal, Preloader, CustomCursor
+    ui/          Headline, MediaFrame, Logo, Pending, PhotoSlot
+    technical/   HeroScene, SystemGraph, AirportStage, desenhos e cenas SVG, VideoPlayer, ART
     cases/       CaseStudyView, BeforeAfter
   sections/      um componente por slide (FrontScreen gera as quatro frentes)
   data/          conteúdo
-  hooks/         slide ativo, modo de apresentação, diálogo acessível
-  lib/           navegação do deck (pura e testada), motion, placeholder
+  hooks/         slide ativo, passo, modo de apresentação, cenas (GSAP), diálogo acessível
+  lib/           lógica pura e testada: navegação do deck, grafo quadro a quadro, câmera
 ```
 
 ## Decisões técnicas
 
-- **Slides em palco fixo**: cada slide é desenhado em 1600×900 e escalado, como um arquivo de apresentação; o layout não muda entre monitores. Ao mudar conteúdo, confira no navegador se o slide continua cabendo no palco.
-- **Transição 5→6**: o grafo fica numa camada acima dos slides 5 e 6 e se reorganiza do estado fragmentado para o núcleo único, sem trocar de componente.
-- **Framer Motion com `LazyMotion` + `m`** e `MotionConfig reducedMotion="user"`: com `prefers-reduced-motion`, transformações viram fades.
-- **GSAP** instalado para a Fase 2 (timelines com scrub); ainda não importado, portanto fora do bundle.
+- **Slides em palco fixo**: cada slide é desenhado em 1600×900 e escalado; o layout não muda entre monitores. Ao mudar conteúdo, confira no navegador se o slide continua cabendo no palco.
+- **Uma linha do tempo, duas entradas**: as cenas são funções puras do progresso (0–1). No deck, o GSAP interpola o progresso entre passos; no mobile, o ScrollTrigger liga o progresso ao scroll.
+- **Grafo 5→6**: camada persistente acima dos slides; os nós surgem, as conexões crescem, a câmera aproxima e tudo converge para o núcleo (`lib/systemGraph.ts`).
+- **Tema escuro por seção** via variáveis CSS (`.theme-dark`); a logo se adapta sozinha.
+- **Fontes servidas pelo projeto** (`public/fonts`, licença OFL incluída), com preload no HTML.
+- **Divisão de código**: cada seção é um chunk; o deck pré-carrega os slides vizinhos.
+- **Movimento reduzido**: transformações viram fades, a cortina vira fade e o cursor customizado não aparece.

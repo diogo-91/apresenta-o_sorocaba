@@ -1,4 +1,4 @@
-import { useCallback, useEffect, useRef, useState, type ReactNode } from 'react'
+import { Suspense, useCallback, useEffect, useMemo, useRef, useState, type ReactNode } from 'react'
 import { AnimatePresence, m, useReducedMotion, type Variants } from 'framer-motion'
 import { advance, clampIndex, createWheelGate, keyAction, slideIndexFromHash, type DeckPosition } from '../../lib/deck'
 import { DURATION, EASE_MECH } from '../../lib/motion'
@@ -10,7 +10,7 @@ import { GraphLayer } from './GraphLayer'
 
 export const STAGE = { width: 1600, height: 900 }
 
-export type Slide = { id: string; node: ReactNode; steps?: number }
+export type Slide = { id: string; node: ReactNode; steps?: number; preload?: () => Promise<unknown> }
 
 const WIPE = { duration: 1, ease: EASE_MECH }
 
@@ -44,9 +44,9 @@ function isInteractiveTarget(target: EventTarget | null) {
 }
 
 export function Deck({ slides }: { slides: Slide[] }) {
-  const ids = slides.map((s) => s.id)
+  const ids = useMemo(() => slides.map((s) => s.id), [slides])
   const total = slides.length
-  const stepsPerSlide = slides.map((s) => s.steps ?? 1)
+  const stepsPerSlide = useMemo(() => slides.map((s) => s.steps ?? 1), [slides])
   const reduced = useReducedMotion()
   const [position, setPosition] = useState<DeckPosition>(() => ({ index: slideIndexFromHash(window.location.hash, ids), step: 0 }))
   const [direction, setDirection] = useState(1)
@@ -70,7 +70,8 @@ export function Deck({ slides }: { slides: Slide[] }) {
 
   useEffect(() => {
     history.replaceState(null, '', `#${ids[index]}`)
-  }, [index, ids])
+    for (const near of [index + 1, index - 1, index + 2]) void slides[near]?.preload?.()
+  }, [index, ids, slides])
 
   useEffect(() => {
     const root = document.documentElement
@@ -159,7 +160,9 @@ export function Deck({ slides }: { slides: Slide[] }) {
               aria-roledescription="slide"
               aria-label={`${index + 1} de ${total}`}
             >
-              <SlideStepContext.Provider value={position.step}>{slide.node}</SlideStepContext.Provider>
+              <SlideStepContext.Provider value={position.step}>
+                <Suspense fallback={<div className="h-full bg-paper" />}>{slide.node}</Suspense>
+              </SlideStepContext.Provider>
               {!reduced && (
                 <m.span
                   aria-hidden="true"

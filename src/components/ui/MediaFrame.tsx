@@ -37,11 +37,11 @@ export function MediaFrame({ src, alt, caption, scene, className = '', labelPosi
         </div>
       )}
       <figcaption
-        className={`label-mono absolute left-5 flex items-center gap-2 bg-paper/80 px-2 py-1 text-fg/80 backdrop-blur-[2px] ${labelPosition === 'top' ? 'top-5' : 'bottom-5'}`}
+        className={`label-mono absolute left-5 flex max-w-[calc(100%-2.5rem)] items-center gap-2 bg-paper/80 px-2 py-1 text-fg/80 backdrop-blur-[2px] ${labelPosition === 'top' ? 'top-5' : 'bottom-5'}`}
       >
-        {!src && <span aria-hidden="true" className="size-1.5 bg-accent" />}
-        {caption}
-        {!src && <span className="text-faint">· foto a inserir</span>}
+        {!src && <span aria-hidden="true" className="size-1.5 shrink-0 bg-accent" />}
+        {!src && <span className="shrink-0 text-accent-ink">Foto a inserir ·</span>}
+        <span className="truncate">{caption}</span>
       </figcaption>
     </m.figure>
   )

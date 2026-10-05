@@ -132,7 +132,7 @@ function AtivosPesados({ front }: { front: TechnicalFront }) {
       id={front.id}
       background={
         <div className="absolute inset-0 max-lg:hidden">
-          <MediaFrame fill src={front.photo.src} alt={front.photo.alt} caption={front.photo.caption} scene={<MachineScene />} labelPosition="top" className="[&>figcaption]:left-auto [&>figcaption]:right-24 [&>figcaption]:top-[118px]" />
+          <MediaFrame fill src={front.photo.src} alt={front.photo.alt} caption={front.photo.caption} scene={<MachineScene />} labelPosition="top" className="[&>div]:opacity-55 [&>figcaption]:left-auto [&>figcaption]:right-24 [&>figcaption]:top-[118px]" />
           <div className="absolute inset-x-0 bottom-0 h-[42%] bg-gradient-to-t from-paper via-paper/90 to-transparent" />
         </div>
       }
