@@ -25,17 +25,51 @@ export const hero = {
 
 export const about = {
   headline: 'Da cobertura ao chão de fábrica.',
-  subheadline:
-    'Uma empresa técnica preparada para assumir múltiplas frentes de serviço sob uma única gestão.',
-  levels: [
-    { elevation: 'EL. +12,00', label: 'Cobertura e claraboias' },
-    { elevation: 'EL. +08,00', label: 'Estrutura e fachada' },
-    { elevation: 'EL. +04,00', label: 'Utilidades e sistemas' },
-    { elevation: 'EL. ±0,00', label: 'Área produtiva e máquinas' },
-    { elevation: 'EL. −3,00', label: 'Reservatórios e espaços confinados' },
-  ],
-  levelsNote: 'Cotas ilustrativas',
+  statement: 'Do ponto mais alto da cobertura ao coração da produção.',
+  support: 'Uma operação. Múltiplas disciplinas. Uma única gestão.',
+  closing: ['Uma única gestão', 'para todas as frentes.'],
+  drawingNote: 'Corte A-A · instalação genérica · cotas ilustrativas',
 }
+
+export type OperationLayerId = 'roof' | 'structure' | 'systems' | 'production' | 'reservoirs'
+
+export const operationLayers: { id: OperationLayerId; title: string; short: string; elevation: string; services: string[] }[] = [
+  {
+    id: 'roof',
+    title: 'Cobertura e claraboias',
+    short: 'Cobertura',
+    elevation: 'EL. +12,00',
+    services: ['Manutenção de cobertura', 'Troca de claraboias', 'Inspeção', 'Pintura', 'Recuperação'],
+  },
+  {
+    id: 'structure',
+    title: 'Estrutura e fachada',
+    short: 'Estrutura',
+    elevation: 'EL. +08,00',
+    services: ['Manutenção', 'Recuperação', 'Pintura', 'Adequações'],
+  },
+  {
+    id: 'systems',
+    title: 'Utilidades e sistemas',
+    short: 'Sistemas',
+    elevation: 'EL. +04,00',
+    services: ['Elétrica', 'Mecânica', 'Manutenção técnica', 'Sistemas auxiliares'],
+  },
+  {
+    id: 'production',
+    title: 'Área produtiva e máquinas',
+    short: 'Máquinas',
+    elevation: 'EL. ±0,00',
+    services: ['Mudança de máquinas', 'Movimentação', 'Instalação', 'Manutenção mecânica'],
+  },
+  {
+    id: 'reservoirs',
+    title: 'Reservatórios e espaços confinados',
+    short: 'Reservatórios',
+    elevation: 'EL. −3,00',
+    services: ['Reforma de caixas d’água', 'Pintura', 'Manutenção', 'Trabalho em espaço confinado'],
+  },
+]
 
 export const video = {
   headline: 'Sorocaba Motores em 90 segundos.',

@@ -463,3 +463,33 @@
     opacity: 1;
   }
 }
+
+.bp-layer {
+  opacity: var(--o, 0.55);
+}
+.bp-base {
+  fill: none;
+  stroke: color-mix(in srgb, var(--color-fg) calc(var(--h, 0) * 85%), var(--color-blueprint));
+  stroke-width: 1.25;
+  vector-effect: non-scaling-stroke;
+}
+.bp-accent {
+  fill: none;
+  opacity: var(--h, 0);
+  stroke: var(--color-accent);
+  stroke-width: 1.5;
+  vector-effect: non-scaling-stroke;
+}
+.bp-static {
+  fill: none;
+  stroke: var(--color-blueprint);
+  stroke-width: 1;
+  opacity: 0.45;
+  vector-effect: non-scaling-stroke;
+}
+@media (prefers-reduced-motion: reduce) {
+  .bp-layer,
+  .bp-accent {
+    transition: opacity 0.5s ease;
+  }
+}

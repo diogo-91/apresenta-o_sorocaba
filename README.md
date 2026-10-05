@@ -2,7 +2,7 @@
 
 Apresentação executiva em slides (20 slides, 8 atos). React 19 + Vite + TypeScript + Tailwind 4 + Framer Motion.
 
-- **Desktop (≥1024px):** modo slides. Palco 16:9 de 1600×900 escalado para a tela. Avança com → ↓ PageDown espaço, roda do mouse, swipe ou controles no canto; Home/End; índice; tela cheia. Cada slide tem endereço próprio (`#metodo`). Alguns slides têm **passos internos** (fragmentação, modelo, mapa, método, ARTs, cases, grandes operações): cada avanço move a cena antes de trocar de slide.
+- **Desktop (≥1024px):** modo slides. Palco 16:9 de 1600×900 escalado para a tela. Avança com → ↓ PageDown espaço, roda do mouse, swipe ou controles no canto; Home/End; índice; tela cheia. Cada slide tem endereço próprio (`#metodo`). Alguns slides têm **passos internos** (quem somos, fragmentação, modelo, mapa, método, ARTs, cases, grandes operações): cada avanço move a cena antes de trocar de slide.
 - **Mobile:** os mesmos slides empilhados em rolagem vertical; as cenas com passos acompanham o scroll (GSAP ScrollTrigger). Cada slide só é montado quando se aproxima da tela.
 
 ```bash
