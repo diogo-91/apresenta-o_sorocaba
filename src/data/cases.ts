@@ -37,4 +37,11 @@ function placeholderCase(n: number): CaseStudy {
   }
 }
 
-export const caseStudies: CaseStudy[] = [placeholderCase(1), placeholderCase(2)]
+export const caseStudies: CaseStudy[] = [
+  {
+    ...placeholderCase(1),
+    before: { src: '/images/cases/case-01-antes.webp', alt: 'Cobertura metálica de galpão industrial antes da intervenção, com telhas oxidadas e manchadas' },
+    after: { src: '/images/cases/case-01-depois.webp', alt: 'A mesma cobertura depois da intervenção, com telhas recuperadas e revestimento claro' },
+  },
+  placeholderCase(2),
+]
