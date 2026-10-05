@@ -3,9 +3,8 @@ import { Screen, titleId } from '../components/layout/Screen'
 import { FrontGlyph } from '../components/technical/FrontGlyph'
 import { ReservoirScene, RoofScene } from '../components/technical/Scenes'
 import { SystemsDeck, SystemsMobile } from '../components/technical/SystemsStage'
-import { HeavyMoveRig } from '../components/technical/HeavyMoveRig'
-import { HeavyMobile, HeavyStagePanel } from '../components/technical/HeavyMoveStage'
-import { heavyCopy, HEAVY_FINAL } from '../data/heavyMove'
+import { HeavyDeck, HeavyHeadline, HeavyMobile } from '../components/technical/HeavyVideoStage'
+import { HEAVY_FINAL } from '../data/heavyMove'
 import { systemsCopy, SYSTEMS_FINAL } from '../data/systemsFlow'
 import { useSlideStep } from '../hooks/useDeckPosition'
 import { usePresentationMode } from '../hooks/usePresentationMode'
@@ -147,40 +146,21 @@ function Sistemas({ front }: { front: TechnicalFront }) {
 function AtivosPesados({ front }: { front: TechnicalFront }) {
   const deck = usePresentationMode() === 'deck'
   const step = useSlideStep()
-  const headline = (
-    <h2 id={titleId(front.id)} aria-label={front.headline} className="display-lg mt-4 lg:text-[2.5rem]">
-      {heavyCopy.headline.map((line, i) => (
-        <span key={line} aria-hidden="true" className={`block ${i === 1 ? 'text-muted' : ''}`}>
-          {line}
-        </span>
-      ))}
-    </h2>
+  const intro = (
+    <>
+      <FrontTag front={front} />
+      <HeavyHeadline id={titleId(front.id)} label={front.headline} />
+    </>
   )
-  if (!deck) {
-    return (
-      <Screen id={front.id}>
-        <FrontTag front={front} />
-        {headline}
-        <HeavyMobile />
-        <div className="mt-10">
-          <Facts front={front} maxRisks={4} quiet />
-        </div>
-      </Screen>
-    )
-  }
   return (
-    <Screen id={front.id}>
-      <div className="grid grid-cols-12 gap-10">
-        <div className="col-span-5">
-          <FrontTag front={front} />
-          {headline}
-        </div>
-        <div className="col-span-7 pt-1">
-          <HeavyStagePanel stage={Math.min(step, HEAVY_FINAL)} />
-        </div>
-      </div>
-      <HeavyMoveRig stage={Math.min(step, HEAVY_FINAL)} className="mt-1 block h-auto w-full" />
-      <div className={`mt-auto transition-opacity duration-700 ${step >= HEAVY_FINAL ? 'opacity-100' : 'opacity-50'}`}>
+    <Screen id={front.id} grid>
+      {deck ? <HeavyDeck stage={Math.min(step, HEAVY_FINAL)} intro={intro} /> : (
+        <>
+          {intro}
+          <HeavyMobile />
+        </>
+      )}
+      <div className={deck ? 'mt-auto pt-4' : 'mt-10'}>
         <Facts front={front} maxRisks={4} quiet />
       </div>
     </Screen>
