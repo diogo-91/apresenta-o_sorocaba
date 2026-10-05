@@ -1,18 +1,21 @@
 @import "tailwindcss";
 
 @theme {
-  --color-ink: #0e1114;
-  --color-ink-2: #12161a;
-  --color-surface: #1b2127;
-  --color-surface-2: #232a31;
-  --color-fg: #f1f3f4;
-  --color-muted: #8a949b;
-  --color-faint: #5d666d;
+  --color-paper: #ffffff;
+  --color-paper-2: #f3f5f6;
+  --color-surface: #e9edf0;
+  --color-surface-2: #dde3e7;
+  --color-fg: #0e1114;
+  --color-muted: #4e5860;
+  --color-faint: #5f6970;
   --color-accent: #ff5a1f;
-  --color-blueprint: #4fa3d9;
-  --color-alert: #d93a2b;
-  --color-line: rgb(241 243 244 / 0.09);
-  --color-line-strong: rgb(241 243 244 / 0.18);
+  --color-accent-ink: #c2410c;
+  --color-blueprint: #2672b0;
+  --color-alert: #c8352a;
+  --color-night: #0e1114;
+  --color-night-fg: #f1f3f4;
+  --color-line: rgb(14 17 20 / 0.1);
+  --color-line-strong: rgb(14 17 20 / 0.2);
 
   --font-display: "Archivo", "Arial Narrow", system-ui, sans-serif;
   --font-sans: "Inter", system-ui, -apple-system, "Segoe UI", sans-serif;
@@ -26,26 +29,21 @@
 
 @layer base {
   html {
-    background: var(--color-ink);
+    background: var(--color-paper);
+    color-scheme: light;
     color: var(--color-fg);
     -webkit-text-size-adjust: 100%;
     scroll-padding-top: 0;
   }
 
   body {
-    background: var(--color-ink);
+    background: var(--color-paper);
     font-family: var(--font-sans);
     font-feature-settings: "ss01", "cv11";
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
     text-rendering: optimizeLegibility;
     overflow-x: clip;
-  }
-
-  @media (min-width: 64rem) {
-    html {
-      scroll-snap-type: y proximity;
-    }
   }
 
   @media (prefers-reduced-motion: no-preference) {
@@ -56,7 +54,7 @@
 
   ::selection {
     background: var(--color-accent);
-    color: var(--color-ink);
+    color: var(--color-fg);
   }
 
   :focus-visible {
@@ -81,44 +79,60 @@
     word-spacing: 0.06em;
   }
 
-  .display-xl {
+  .display-xl,
+  .display-lg,
+  .display-md {
     font-family: var(--font-display);
-    font-stretch: 80%;
     font-weight: 700;
-    font-size: clamp(3rem, 7.6vw, 9rem);
-    line-height: 0.9;
-    letter-spacing: -0.035em;
     word-spacing: 0.06em;
     text-wrap: balance;
+  }
+
+  .display-xl {
+    font-stretch: 80%;
+    font-size: clamp(3rem, 11vw, 4.75rem);
+    line-height: 0.9;
+    letter-spacing: -0.035em;
   }
 
   .display-lg {
-    font-family: var(--font-display);
     font-stretch: 82%;
-    font-weight: 700;
-    font-size: clamp(2.5rem, 5.4vw, 6.25rem);
+    font-size: clamp(2.5rem, 9vw, 3.75rem);
     line-height: 0.93;
     letter-spacing: -0.03em;
-    word-spacing: 0.06em;
-    text-wrap: balance;
   }
 
   .display-md {
-    font-family: var(--font-display);
     font-stretch: 85%;
     font-weight: 650;
-    font-size: clamp(1.875rem, 3.2vw, 3.5rem);
+    font-size: clamp(1.875rem, 7vw, 2.75rem);
     line-height: 0.98;
     letter-spacing: -0.025em;
-    word-spacing: 0.05em;
-    text-wrap: balance;
   }
 
   .lede {
-    font-size: clamp(1.05rem, 1.35vw, 1.375rem);
+    font-size: 1.0625rem;
     line-height: 1.45;
     color: var(--color-muted);
     text-wrap: pretty;
+  }
+
+  @media (min-width: 64rem) {
+    .display-xl {
+      font-size: 7.25rem;
+    }
+
+    .display-lg {
+      font-size: 4.5rem;
+    }
+
+    .display-md {
+      font-size: 3.25rem;
+    }
+
+    .lede {
+      font-size: 1.375rem;
+    }
   }
 
   .label-mono {
@@ -131,10 +145,10 @@
 
   .blueprint-grid {
     background-image:
-      linear-gradient(to right, rgb(79 163 217 / 0.07) 1px, transparent 1px),
-      linear-gradient(to bottom, rgb(79 163 217 / 0.07) 1px, transparent 1px),
-      linear-gradient(to right, rgb(79 163 217 / 0.035) 1px, transparent 1px),
-      linear-gradient(to bottom, rgb(79 163 217 / 0.035) 1px, transparent 1px);
+      linear-gradient(to right, rgb(43 127 192 / 0.09) 1px, transparent 1px),
+      linear-gradient(to bottom, rgb(43 127 192 / 0.09) 1px, transparent 1px),
+      linear-gradient(to right, rgb(43 127 192 / 0.045) 1px, transparent 1px),
+      linear-gradient(to bottom, rgb(43 127 192 / 0.045) 1px, transparent 1px);
     background-size:
       96px 96px,
       96px 96px,
@@ -146,7 +160,7 @@
   .hatch {
     background-image: repeating-linear-gradient(
       -45deg,
-      rgb(241 243 244 / 0.06) 0 1px,
+      rgb(14 17 20 / 0.07) 0 1px,
       transparent 1px 7px
     );
   }
@@ -171,15 +185,6 @@
     .pb-mobile-cta {
       padding-bottom: 0;
     }
-  }
-}
-
-@keyframes scan {
-  from {
-    transform: translateY(0);
-  }
-  to {
-    transform: translateY(100svh);
   }
 }
 

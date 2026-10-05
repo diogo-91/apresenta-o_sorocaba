@@ -7,7 +7,6 @@ import { FACILITY_VIEWBOX, FacilityDrawing } from '../components/technical/Facil
 import { HotspotMap } from '../components/technical/HotspotMap'
 import { Headline } from '../components/ui/Headline'
 import { Reveal } from '../components/motion/Reveal'
-import { scrollToScreen } from '../lib/scroll'
 
 function ZoneDetail({ id }: { id: string }) {
   const zone = facilityZones.find((z) => z.id === id)!
@@ -17,8 +16,8 @@ function ZoneDetail({ id }: { id: string }) {
       <p className="label-mono text-faint">
         {zone.code} · {zone.level}
       </p>
-      <h3 className="mt-2 font-display text-2xl font-bold tracking-tight lg:text-4xl">{zone.label}</h3>
-      <ul className="mt-4 flex flex-col gap-1.5 lg:mt-6">
+      <h3 className="mt-2 font-display text-2xl font-bold tracking-tight lg:text-3xl">{zone.label}</h3>
+      <ul className="mt-3 flex flex-col gap-1.5">
         {zone.services.map((s) => (
           <li key={s} className="flex items-baseline gap-3 text-sm text-fg/90">
             <span aria-hidden="true" className="h-px w-3 shrink-0 translate-y-[-3px] bg-blueprint" />
@@ -26,14 +25,7 @@ function ZoneDetail({ id }: { id: string }) {
           </li>
         ))}
       </ul>
-      <a
-        href={`#${front.id}`}
-        onClick={(e) => {
-          e.preventDefault()
-          scrollToScreen(front.id)
-        }}
-        className="label-mono mt-5 inline-flex items-center gap-2 text-blueprint hover:text-fg lg:mt-8"
-      >
+      <a href={`#${front.id}`} className="label-mono mt-5 inline-flex items-center gap-2 text-blueprint hover:text-fg">
         {front.code} · {front.name}
         <ArrowRight size={14} aria-hidden="true" />
       </a>
@@ -44,13 +36,7 @@ function ZoneDetail({ id }: { id: string }) {
 export function OperationsMapSection() {
   return (
     <Screen id="mapa" tone="deep">
-      <div className="mb-10 grid gap-6 lg:mb-12 lg:grid-cols-12 lg:items-end">
-        <Headline id={titleId('mapa')} text={operationsMap.headline} className="max-w-[16ch] lg:col-span-8" />
-        <Reveal className="lg:col-span-4" delay={0.15}>
-          <p className="lede">{operationsMap.subheadline}</p>
-        </Reveal>
-      </div>
-      <Reveal>
+      <Reveal className="flex min-h-0 flex-1 flex-col">
         <HotspotMap
           width={FACILITY_VIEWBOX.width}
           height={FACILITY_VIEWBOX.height}
@@ -58,10 +44,16 @@ export function OperationsMapSection() {
           hotspots={facilityZones}
           label={operationsMap.drawingLabel}
           hint={operationsMap.hint}
+          intro={
+            <div>
+              <Headline id={titleId('mapa')} size="md" text={operationsMap.headline} className="max-w-[14ch]" />
+              <p className="lede mt-5">{operationsMap.subheadline}</p>
+              <p className="label-mono mt-4 text-faint">{operationsMap.drawingLabel} · sem escala</p>
+            </div>
+          }
           renderDetail={(id) => <ZoneDetail id={id} />}
         />
       </Reveal>
-      <p className="label-mono mt-6 text-faint">{operationsMap.drawingLabel} · sem escala</p>
     </Screen>
   )
 }

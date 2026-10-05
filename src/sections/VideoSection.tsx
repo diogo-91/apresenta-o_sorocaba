@@ -5,6 +5,11 @@ import { Headline } from '../components/ui/Headline'
 import { Reveal } from '../components/motion/Reveal'
 
 export function VideoSection() {
+  const themes = video.subheadline
+    .split('.')
+    .map((t) => t.trim())
+    .filter(Boolean)
+
   return (
     <Screen id="video" tone="deep">
       <div className="grid flex-1 items-center gap-10 lg:grid-cols-12 lg:gap-12">
@@ -12,16 +17,12 @@ export function VideoSection() {
           <Headline id={titleId('video')} size="md" text={video.headline} className="max-w-[14ch]" />
           <Reveal delay={0.2}>
             <ul className="mt-8 flex flex-col gap-2" aria-label="Temas">
-              {video.subheadline
-                .split('.')
-                .map((t) => t.trim())
-                .filter(Boolean)
-                .map((t, i) => (
-                  <li key={t} className="flex items-baseline gap-4 border-t border-line pt-2">
-                    <span className="label-mono text-faint">0{i + 1}</span>
-                    <span className="font-display text-2xl font-semibold tracking-tight text-muted">{t}.</span>
-                  </li>
-                ))}
+              {themes.map((t, i) => (
+                <li key={t} className="flex items-baseline gap-4 border-t border-line pt-2">
+                  <span className="label-mono text-faint">0{i + 1}</span>
+                  <span className="font-display text-2xl font-semibold tracking-tight text-muted">{t}.</span>
+                </li>
+              ))}
             </ul>
           </Reveal>
         </div>

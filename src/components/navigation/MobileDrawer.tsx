@@ -24,7 +24,7 @@ export function MobileDrawer({ open, onClose }: { open: boolean; onClose: () => 
           role="dialog"
           aria-modal="true"
           aria-label="Menu da apresentação"
-          className="pointer-events-auto fixed inset-0 z-50 flex flex-col bg-ink lg:hidden"
+          className="pointer-events-auto fixed inset-0 z-50 flex flex-col bg-paper lg:hidden"
           initial={{ clipPath: 'inset(0 0 100% 0)' }}
           animate={{ clipPath: 'inset(0 0 0% 0)' }}
           exit={{ clipPath: 'inset(0 0 100% 0)' }}
@@ -54,7 +54,7 @@ export function MobileDrawer({ open, onClose }: { open: boolean; onClose: () => 
                       aria-current={isActive ? 'step' : undefined}
                       className="flex items-baseline gap-4 py-3.5"
                     >
-                      <span className={`label-mono w-6 ${isActive ? 'text-accent' : 'text-faint'}`}>{pad2(i + 1)}</span>
+                      <span className={`label-mono w-6 ${isActive ? 'text-accent-ink' : 'text-faint'}`}>{pad2(i + 1)}</span>
                       <span className={`font-display text-[1.75rem] font-bold leading-none tracking-tight ${isActive ? 'text-fg' : 'text-fg/75'}`}>
                         {group.label}
                       </span>

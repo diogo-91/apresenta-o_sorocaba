@@ -7,7 +7,7 @@ import { Reveal } from '../components/motion/Reveal'
 
 export function FragmentationSection() {
   return (
-    <Screen id="desafio" tone="none">
+    <Screen id="desafio" grid>
       <div className="grid flex-1 items-center lg:grid-cols-12 lg:gap-10">
         <div className="lg:col-span-6">
           <Eyebrow tone="accent" className="mb-6">

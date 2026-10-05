@@ -1,7 +1,6 @@
 import { CalendarClock, Download, Mail, MapPin, MessageCircle, Phone, Building2 } from 'lucide-react'
 import { company, whatsappHref } from '../data/company'
 import { cta } from '../data/content'
-import { TOTAL_SCREENS } from '../data/screens'
 import { Screen, titleId } from '../components/layout/Screen'
 import { ButtonLink } from '../components/ui/Button'
 import { Headline } from '../components/ui/Headline'
@@ -21,13 +20,12 @@ export function CTASection() {
     { icon: MapPin, label: 'Endereço', values: [contact.address], href: null },
     { icon: Building2, label: 'Razão social · CNPJ', values: [company.legalName, company.cnpj], href: null },
   ]
-  const [sloganLead, sloganTail] = company.slogan.split('. ')
 
   return (
     <Screen id="parceria" tone="deep" grid>
-      <div className="grid flex-1 gap-14 lg:grid-cols-12 lg:gap-12">
+      <div className="grid flex-1 items-center gap-14 lg:grid-cols-12 lg:gap-12">
         <div className="lg:col-span-7">
-          <Headline id={titleId('parceria')} size="xl" text={cta.headline} className="max-w-[12ch]" />
+          <Headline id={titleId('parceria')} size="lg" text={cta.headline} className="max-w-[12ch]" />
           <Reveal delay={0.2}>
             <p className="lede mt-8 max-w-[36ch]">{cta.subheadline}</p>
           </Reveal>
@@ -59,7 +57,7 @@ export function CTASection() {
         </div>
 
         <Reveal delay={0.15} className="lg:col-span-5">
-          <div className="border border-line bg-ink/60">
+          <div className="border border-line bg-paper/60">
             <div className="flex items-center justify-between border-b border-line px-5 py-4">
               <p className="label-mono text-muted">Contato técnico</p>
               <div className="hidden sm:block">
@@ -89,24 +87,6 @@ export function CTASection() {
         </Reveal>
       </div>
 
-      <footer className="mt-20 border-t border-line-strong pt-8 lg:mt-24">
-        <p className="display-xl max-w-[18ch] text-fg">
-          {sloganLead}. <span className="text-muted">{sloganTail}</span>
-        </p>
-        <dl className="mt-10 grid grid-cols-2 gap-6 border-t border-line pt-5 sm:grid-cols-4">
-          {[
-            ['Empresa', company.name],
-            ['Documento', 'Apresentação técnica'],
-            ['Revisão', company.documentRevision],
-            ['Folha', `${TOTAL_SCREENS}/${TOTAL_SCREENS}`],
-          ].map(([k, v]) => (
-            <div key={k}>
-              <dt className="label-mono text-faint">{k}</dt>
-              <dd className="label-mono mt-1 text-muted">{v}</dd>
-            </div>
-          ))}
-        </dl>
-      </footer>
     </Screen>
   )
 }

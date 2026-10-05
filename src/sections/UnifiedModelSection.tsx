@@ -12,7 +12,7 @@ export function UnifiedModelSection() {
   const converged = useInView(mobileGraph, { amount: 0.6, once: true })
 
   return (
-    <Screen id="modelo" tone="none">
+    <Screen id="modelo" grid>
       <div className="grid flex-1 items-center lg:grid-cols-12 lg:gap-10">
         <div className="lg:col-span-6">
           <Eyebrow tone="accent" className="mb-6">
@@ -27,10 +27,10 @@ export function UnifiedModelSection() {
             <SystemGraph state={converged ? 'unified' : 'fragmented'} />
           </div>
 
-          <ol className="mt-12 border-t border-line lg:mt-14">
+          <ol className="mt-10 border-t border-line">
             {unified.pillars.map((pillar, i) => (
-              <Reveal as="li" key={pillar.id} delay={0.1 * i} className="grid grid-cols-[3rem_1fr] gap-4 border-b border-line bg-ink/80 py-5 pr-4">
-                <span className="font-mono text-sm text-accent">0{i + 1}</span>
+              <Reveal as="li" key={pillar.id} delay={0.1 * i} className="grid grid-cols-[3rem_1fr] gap-4 border-b border-line bg-paper/80 py-4 pr-4">
+                <span className="font-mono text-sm text-accent-ink">0{i + 1}</span>
                 <div>
                   <h3 className="font-display text-2xl font-bold tracking-tight">{pillar.title}</h3>
                   <p className="mt-1.5 max-w-[46ch] text-sm leading-relaxed text-muted">{pillar.text}</p>

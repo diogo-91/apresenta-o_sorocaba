@@ -25,13 +25,13 @@ export function ArtDrawer({ record, onClose }: { record: ArtRecord | null; onClo
     <AnimatePresence>
       {record && (
         <m.div key="art-overlay" className="fixed inset-0 z-50 flex justify-end" initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }} transition={{ duration: DURATION.fast }}>
-          <button type="button" aria-label="Fechar detalhe" tabIndex={-1} onClick={onClose} className="absolute inset-0 bg-ink/75" />
+          <button type="button" aria-label="Fechar detalhe" tabIndex={-1} onClick={onClose} className="absolute inset-0 bg-paper/75" />
           <m.div
             ref={panel}
             role="dialog"
             aria-modal="true"
             aria-labelledby="art-drawer-title"
-            className="relative mt-auto flex max-h-[88svh] w-full flex-col overflow-y-auto border-t border-line-strong bg-ink-2 sm:mt-0 sm:h-full sm:max-h-none sm:max-w-md sm:border-l sm:border-t-0"
+            className="relative mt-auto flex max-h-[88svh] w-full flex-col overflow-y-auto border-t border-line-strong bg-paper-2 sm:mt-0 sm:h-full sm:max-h-none sm:max-w-md sm:border-l sm:border-t-0"
             initial={{ x: '100%' }}
             animate={{ x: 0 }}
             exit={{ x: '100%' }}
@@ -53,7 +53,7 @@ export function ArtDrawer({ record, onClose }: { record: ArtRecord | null; onClo
 
               <dl className="grid gap-px bg-line">
                 {fields.map((f) => (
-                  <div key={f.label} className="grid grid-cols-[9.5rem_1fr] gap-3 bg-ink-2 py-3">
+                  <div key={f.label} className="grid grid-cols-[9.5rem_1fr] gap-3 bg-paper-2 py-3">
                     <dt className="label-mono text-faint">{f.label}</dt>
                     <dd className="text-sm">
                       <Pending value={f.value} />
@@ -67,7 +67,7 @@ export function ArtDrawer({ record, onClose }: { record: ArtRecord | null; onClo
                 <ol className="grid grid-cols-3">
                   {artLifecycle.map((stage, i) => (
                     <li key={stage} className="relative border-t border-line-strong pt-3">
-                      <span aria-hidden="true" className="absolute -top-[4px] left-0 size-[7px] border border-fg/60 bg-ink-2" />
+                      <span aria-hidden="true" className="absolute -top-[4px] left-0 size-[7px] border border-fg/60 bg-paper-2" />
                       <span className="label-mono text-muted">
                         {String(i + 1).padStart(2, '0')} {stage}
                       </span>

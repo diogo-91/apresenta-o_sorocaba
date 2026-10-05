@@ -13,8 +13,8 @@ export function CasesSection() {
 
   return (
     <Screen id="cases" tone="deep">
-      <div className="mb-10 flex flex-col gap-8 lg:mb-14 lg:flex-row lg:items-end lg:justify-between">
-        <Headline id={titleId('cases')} text={cases.headline} className="max-w-[15ch]" />
+      <div className="mb-8 flex flex-col gap-6 lg:flex-row lg:items-end lg:justify-between">
+        <Headline id={titleId('cases')} size="md" text={cases.headline} className="max-w-[24ch]" />
         <div role="tablist" aria-label="Cases" className="flex shrink-0 border border-line-strong">
           {caseStudies.map((c) => (
             <button
@@ -25,7 +25,7 @@ export function CasesSection() {
               aria-selected={c.id === activeId}
               aria-controls="case-panel"
               onClick={() => setActiveId(c.id)}
-              className={`label-mono px-4 py-3 transition-colors duration-300 ease-mech ${c.id === activeId ? 'bg-fg text-ink' : 'text-muted hover:text-fg'}`}
+              className={`label-mono px-4 py-3 transition-colors duration-300 ease-mech ${c.id === activeId ? 'bg-fg text-paper' : 'text-muted hover:text-fg'}`}
             >
               {c.label}
             </button>

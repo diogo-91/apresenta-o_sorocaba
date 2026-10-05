@@ -27,7 +27,7 @@ export function BeforeAfter({ before, after, code }: { before: Image; after: Ima
   return (
     <div
       ref={frame}
-      className="relative aspect-[4/3] touch-pan-y select-none overflow-hidden"
+      className="relative aspect-[4/3] touch-pan-y select-none overflow-hidden lg:aspect-[16/10]"
       onPointerDown={(e) => {
         dragging.current = true
         e.currentTarget.setPointerCapture(e.pointerId)
@@ -55,13 +55,13 @@ export function BeforeAfter({ before, after, code }: { before: Image; after: Ima
         aria-valuenow={Math.round(split)}
         aria-valuetext={`${Math.round(split)}% antes`}
         onKeyDown={onKey}
-        className="absolute top-1/2 flex size-11 -translate-x-1/2 -translate-y-1/2 cursor-ew-resize items-center justify-center bg-accent text-ink"
+        className="absolute top-1/2 flex size-11 -translate-x-1/2 -translate-y-1/2 cursor-ew-resize items-center justify-center bg-accent text-fg"
         style={{ left: `${split}%` }}
       >
         <MoveHorizontal size={18} aria-hidden="true" />
       </button>
-      <span className="label-mono pointer-events-none absolute left-3 top-3 bg-ink/85 px-2 py-1">Antes</span>
-      <span className="label-mono pointer-events-none absolute right-3 top-3 bg-ink/85 px-2 py-1">Depois</span>
+      <span className="label-mono pointer-events-none absolute left-3 top-3 bg-paper/85 px-2 py-1">Antes</span>
+      <span className="label-mono pointer-events-none absolute right-3 top-3 bg-paper/85 px-2 py-1">Depois</span>
     </div>
   )
 }

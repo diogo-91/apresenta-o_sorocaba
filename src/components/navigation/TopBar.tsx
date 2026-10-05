@@ -3,9 +3,8 @@ import { useCallback, useState } from 'react'
 import { screenMeta } from '../../data/screens'
 import { useActiveScreen } from '../../hooks/useActiveScreen'
 import { scrollToScreen } from '../../lib/scroll'
-import { EngineeringButton } from './EngineeringButton'
 import { MobileDrawer } from './MobileDrawer'
-import { Wordmark } from './Wordmark'
+import { Logo } from '../ui/Logo'
 
 export function TopBar() {
   const active = useActiveScreen()
@@ -14,34 +13,31 @@ export function TopBar() {
   const close = useCallback(() => setOpen(false), [])
 
   return (
-    <header className="pointer-events-none fixed inset-x-0 top-0 z-40">
-      <div className="pointer-events-none absolute inset-0 h-24 bg-gradient-to-b from-ink/95 via-ink/60 to-transparent" />
-      <div className="relative mx-auto flex h-16 max-w-[1520px] items-center gap-6 px-5 md:px-10 lg:h-20 lg:pl-16 lg:pr-32">
+    <header className="pointer-events-none fixed inset-x-0 top-0 z-40 lg:hidden">
+      <div className="pointer-events-none absolute inset-0 h-16 border-b border-line bg-paper/95" />
+      <div className="relative mx-auto flex h-16 max-w-[1520px] items-center gap-6 px-5 md:px-10">
         <a
-          href="#inicio"
+          href="#capa"
           onClick={(e) => {
             e.preventDefault()
-            scrollToScreen('inicio')
+            scrollToScreen('capa')
           }}
           className="pointer-events-auto"
-          aria-label="Sorocaba Motores — voltar ao início"
+          aria-label="Voltar à capa"
         >
-          <Wordmark />
+          <Logo className="h-7" />
         </a>
         <p className="label-mono hidden text-muted md:block" aria-live="polite">
           <span className="text-faint">/</span> {meta.act}
         </p>
         <div className="pointer-events-auto ml-auto flex items-center gap-3">
-          <div className="hidden lg:block">
-            <EngineeringButton />
-          </div>
           <button
             type="button"
             onClick={() => setOpen(true)}
             aria-label="Abrir menu"
             aria-expanded={open}
             aria-controls="menu-mobile"
-            className="flex size-11 items-center justify-center border border-line-strong bg-ink/70 text-fg lg:hidden"
+            className="flex size-11 items-center justify-center border border-line-strong bg-paper/70 text-fg"
           >
             <Menu size={20} strokeWidth={1.75} aria-hidden="true" />
           </button>

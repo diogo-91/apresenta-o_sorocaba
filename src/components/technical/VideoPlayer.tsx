@@ -43,7 +43,7 @@ export function VideoPlayer({ src, poster, title, durationLabel, fileHint, chapt
 
   return (
     <div className="flex flex-col gap-4">
-      <div ref={frame} className="relative aspect-[4/5] overflow-hidden bg-ink-2 sm:aspect-video">
+      <div ref={frame} className="relative aspect-[4/5] overflow-hidden bg-paper-2 sm:aspect-video">
         {available ? (
           <video
             ref={video}
@@ -61,7 +61,7 @@ export function VideoPlayer({ src, poster, title, durationLabel, fileHint, chapt
           />
         ) : (
           <div className="blueprint-grid absolute inset-0" aria-hidden="true">
-            <div className="absolute inset-0 bg-gradient-to-br from-transparent via-ink/40 to-ink" />
+            <div className="absolute inset-0 bg-gradient-to-br from-transparent via-paper/40 to-paper" />
           </div>
         )}
         <CornerMarks className="border-fg/50" size="size-4" />
@@ -74,7 +74,7 @@ export function VideoPlayer({ src, poster, title, durationLabel, fileHint, chapt
             aria-label={available ? `Reproduzir: ${title}` : 'Vídeo ainda não disponível'}
             className="group absolute inset-0 flex flex-col items-center justify-center gap-5"
           >
-            <span className="flex size-20 items-center justify-center border border-fg/70 bg-ink/60 transition-colors duration-300 ease-mech group-enabled:group-hover:border-accent group-enabled:group-hover:bg-accent group-enabled:group-hover:text-ink lg:size-24">
+            <span className="flex size-20 items-center justify-center border border-fg/70 bg-paper/60 transition-colors duration-300 ease-mech group-enabled:group-hover:border-accent group-enabled:group-hover:bg-accent group-enabled:group-hover:text-fg lg:size-24">
               <Play size={26} strokeWidth={1.5} aria-hidden="true" className="translate-x-0.5" />
             </span>
             {!available && (
@@ -86,7 +86,7 @@ export function VideoPlayer({ src, poster, title, durationLabel, fileHint, chapt
           </button>
         )}
 
-        <div className="absolute inset-x-0 bottom-0 flex items-center gap-3 bg-gradient-to-t from-ink/90 to-transparent px-4 pb-3 pt-10">
+        <div className="absolute inset-x-0 bottom-0 flex items-center gap-3 bg-gradient-to-t from-paper/90 to-transparent px-4 pb-3 pt-10">
           <button type="button" onClick={toggle} disabled={!available} aria-label={playing ? 'Pausar' : 'Reproduzir'} className="flex size-9 items-center justify-center text-fg disabled:text-faint">
             {playing ? <Pause size={18} aria-hidden="true" /> : <Play size={18} aria-hidden="true" />}
           </button>

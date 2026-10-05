@@ -4,7 +4,7 @@ import { ArrowUpRight } from 'lucide-react'
 type Variant = 'primary' | 'outline' | 'ghost'
 
 const variants: Record<Variant, string> = {
-  primary: 'bg-accent text-ink hover:bg-fg',
+  primary: 'bg-accent text-fg hover:bg-fg hover:text-paper',
   outline: 'border border-line-strong text-fg hover:border-fg hover:bg-fg/5',
   ghost: 'text-fg hover:bg-fg/5',
 }
@@ -16,7 +16,7 @@ type Props = ComponentPropsWithoutRef<'a'> & {
 }
 
 export function ButtonLink({ variant = 'outline', icon, children, className = '', disabled, href, ...rest }: Props) {
-  const divider = variant === 'primary' ? 'border-ink/25' : 'border-line-strong'
+  const divider = variant === 'primary' ? 'border-fg/25' : 'border-line-strong'
   return (
     <a
       {...rest}

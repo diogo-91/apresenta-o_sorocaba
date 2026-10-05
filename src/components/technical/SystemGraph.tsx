@@ -1,4 +1,5 @@
 import { m } from 'framer-motion'
+import logoSrc from '../../assets/logo-srcb.png'
 import { clientNode, coreNode, GRAPH_SIZE, graphNodes, interfaceCount, ringPosition, supplierPairs, type Point } from '../../data/graph'
 import { DURATION, EASE_MECH } from '../../lib/motion'
 
@@ -89,7 +90,7 @@ export function SystemGraph({ state, className = '' }: { state: GraphState; clas
           initial={false}
           animate={{ x1: core.x, y1: core.y + 48, x2: client.x, y2: client.y - 20, opacity: unified ? 1 : 0 }}
           transition={{ ...transition, delay: unified ? 0.5 : 0 }}
-          className="text-accent"
+          className="text-accent-ink"
           stroke="currentColor"
           strokeWidth="2"
         />
@@ -101,12 +102,10 @@ export function SystemGraph({ state, className = '' }: { state: GraphState; clas
           style={{ originX: `${core.x}px`, originY: `${core.y}px` }}
         >
           <circle cx={core.x} cy={core.y} r="64" className="fill-none stroke-blueprint/40" strokeDasharray="2 6" />
-          <circle cx={core.x} cy={core.y} r="46" className="fill-ink stroke-fg" strokeWidth="1.5" />
-          <rect x={core.x + 18} y={core.y + 18} width="14" height="14" className="fill-accent" />
-          <text x={core.x} y={core.y + 6} textAnchor="middle" className="fill-fg font-display text-[22px] font-bold">
-            SM
-          </text>
-          <rect x={core.x - 96} y={core.y - 98} width="192" height="26" className="fill-ink" />
+          <circle cx={core.x} cy={core.y} r="46" className="fill-paper stroke-fg" strokeWidth="1.5" />
+          <rect x={core.x + 24} y={core.y + 24} width="10" height="10" className="fill-accent" />
+          <image href={logoSrc} x={core.x - 34} y={core.y - 11} width="68" height="20" className="brightness-0" />
+          <rect x={core.x - 96} y={core.y - 98} width="192" height="26" className="fill-paper" />
           <text x={core.x} y={core.y - 80} textAnchor="middle" className="fill-fg font-mono text-[13px] tracking-[0.18em] max-sm:text-[18px] max-sm:tracking-[0.06em]">
             {coreNode.label.toUpperCase()}
           </text>
@@ -116,7 +115,7 @@ export function SystemGraph({ state, className = '' }: { state: GraphState; clas
           const p = unified ? node.unified : node.fragmented
           return (
             <m.g key={node.id} initial={false} animate={{ x: p.x, y: p.y }} transition={transition}>
-              <rect x="-6" y="-6" width="12" height="12" className={unified ? 'fill-blueprint' : 'fill-ink stroke-fg'} strokeWidth="1.25" />
+              <rect x="-6" y="-6" width="12" height="12" className={unified ? 'fill-blueprint' : 'fill-paper stroke-fg'} strokeWidth="1.25" />
               <m.text initial={false} animate={{ opacity: unified ? 0 : 1 }} transition={{ duration: DURATION.fast }} y="-16" textAnchor="middle" className="fill-faint font-mono text-[11px] tracking-[0.14em] max-sm:hidden">
                 {node.supplier.toUpperCase()} · {node.contract}
               </m.text>

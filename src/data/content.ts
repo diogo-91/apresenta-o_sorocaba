@@ -1,12 +1,20 @@
+export const cover = {
+  eyebrow: 'Apresentação técnica',
+  subtitle: 'Manutenção, infraestrutura e serviços especiais sob uma única responsabilidade técnica.',
+  documentLabel: 'Apresentação técnica',
+  disciplines: ['Manutenção', 'Infraestrutura', 'Serviços especiais'],
+}
+
 export const hero = {
   eyebrow: 'Apresentação técnica',
   headline: 'Infraestrutura crítica não para.',
   subheadline: 'Quem cuida dela também não pode.',
   scrollHint: 'Role para começar',
+  deckHint: 'Avance com → ou espaço',
   media: {
     videoSrc: null as string | null,
     posterSrc: null as string | null,
-    placeholderLabel: 'Vídeo de campo — arquivo a inserir',
+    placeholderLabel: 'Vídeo de campo · arquivo a inserir',
   },
 }
 
@@ -107,7 +115,8 @@ export const airport = {
   drawingLabel: 'Terminal · instalação crítica · esquema',
   disclaimer:
     'Competências aplicáveis a ambientes aeroportuários. Escopo definido após levantamento técnico local.',
-  preparationTitle: 'Como nos preparamos para operar no seu ambiente',
+  preparationTitle: 'Como nos preparamos para operar no seu ambiente.',
+  preparationLede: 'Antes da primeira intervenção, a operação do cliente define o ritmo, os acessos e as regras.',
 }
 
 export const cta = {

@@ -19,17 +19,17 @@ export function SafetySection() {
   return (
     <Screen id="seguranca" grid>
       <div className="grid gap-8 lg:grid-cols-12 lg:items-end">
-        <Headline id={titleId('seguranca')} text={safety.headline} className="max-w-[18ch] lg:col-span-8" />
+        <Headline id={titleId('seguranca')} size="md" text={safety.headline} className="max-w-[24ch] lg:col-span-8" />
         <Reveal className="lg:col-span-4" delay={0.15}>
           <p className="lede">{safety.subheadline}</p>
         </Reveal>
       </div>
 
-      <Reveal delay={0.2} className="mt-10 lg:mt-12">
+      <Reveal delay={0.2} className="mt-6">
         <ol className="flex flex-wrap items-center gap-x-3 gap-y-2" aria-label="Sequência de controle">
           {safety.sequence.map((step, i) => (
             <li key={step} className="flex items-center gap-3">
-              <span className={`label-mono ${i === safety.sequence.length - 1 ? 'text-accent' : 'text-fg'}`}>
+              <span className={`label-mono ${i === safety.sequence.length - 1 ? 'text-accent-ink' : 'text-fg'}`}>
                 {String(i + 1).padStart(2, '0')} {step}
               </span>
               {i < safety.sequence.length - 1 && <span aria-hidden="true" className="h-px w-8 bg-line-strong sm:w-14" />}
@@ -38,15 +38,15 @@ export function SafetySection() {
         </ol>
       </Reveal>
 
-      <ul className="mt-10 grid flex-1 border-l border-t border-line sm:grid-cols-2 lg:mt-12 lg:grid-cols-3">
+      <ul className="mt-6 grid flex-1 border-l border-t border-line sm:grid-cols-2 lg:grid-cols-3">
         {safetyDomains.map((domain, i) => (
-          <Reveal as="li" key={domain.id} delay={0.05 * i} className="flex flex-col border-b border-r border-line bg-ink p-6 lg:p-7">
+          <Reveal as="li" key={domain.id} delay={0.05 * i} className="flex flex-col border-b border-r border-line bg-paper p-5">
             <div className="flex items-start justify-between gap-4">
               <span className="label-mono text-faint">{domain.code}</span>
               <span aria-hidden="true" className="h-px w-10 translate-y-2 bg-line-strong" />
             </div>
-            <h3 className="mt-6 font-display text-2xl font-bold tracking-tight lg:text-[1.75rem]">{domain.title}</h3>
-            <ul className="mt-4 flex flex-1 flex-col gap-2">
+            <h3 className="mt-3 font-display text-2xl font-bold tracking-tight">{domain.title}</h3>
+            <ul className="mt-3 flex flex-1 flex-col gap-1.5">
               {domain.controls.map((c) => (
                 <li key={c} className="flex gap-2.5 text-sm leading-snug text-muted">
                   <span aria-hidden="true" className="mt-[0.5rem] h-px w-3 shrink-0 bg-fg/40" />
@@ -54,7 +54,7 @@ export function SafetySection() {
                 </li>
               ))}
             </ul>
-            <div className="mt-6 border-t border-line pt-4">
+            <div className="mt-4 border-t border-line pt-3">
               <NormBadge norm={domain.norm} />
             </div>
           </Reveal>

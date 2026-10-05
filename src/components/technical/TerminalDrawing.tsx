@@ -10,13 +10,13 @@ export function TerminalDrawing() {
     <svg viewBox={`0 0 ${TERMINAL_VIEWBOX.width} ${TERMINAL_VIEWBOX.height}`} fill="none" aria-hidden="true" className="h-auto w-full">
       <defs>
         <pattern id={soil} width="10" height="10" patternUnits="userSpaceOnUse" patternTransform="rotate(45)">
-          <line x1="0" y1="0" x2="0" y2="10" stroke="#8a949b" strokeOpacity="0.16" />
+          <line x1="0" y1="0" x2="0" y2="10" stroke="#6b757c" strokeOpacity="0.16" />
         </pattern>
       </defs>
       <rect x="0" y="440" width="1240" height="160" fill={`url(#${soil})`} />
-      <line x1="0" y1="440" x2="1240" y2="440" stroke="#f1f3f4" strokeOpacity="0.7" />
+      <line x1="0" y1="440" x2="1240" y2="440" stroke="#0e1114" strokeOpacity="0.7" />
 
-      <g stroke="#4fa3d9" strokeWidth="1.25">
+      <g stroke="#2b7fc0" strokeWidth="1.25">
         <path d="M80 220 Q490 40 900 220" strokeWidth="2" />
         <path d="M80 236 Q490 60 900 236" strokeOpacity="0.5" />
         {COLUMNS.map((x) => (
@@ -29,7 +29,7 @@ export function TerminalDrawing() {
         <path d="M80 340 H900" strokeOpacity="0.4" strokeDasharray="5 5" />
       </g>
 
-      <g stroke="#f1f3f4" strokeOpacity="0.7">
+      <g stroke="#0e1114" strokeOpacity="0.7">
         <rect x="95" y="350" width="70" height="90" />
         <path d="M105 365 H155 M105 380 H155 M120 395 l8 14 h-10 l8 14" strokeOpacity="0.6" />
         <rect x="700" y="380" width="120" height="60" />
@@ -39,17 +39,17 @@ export function TerminalDrawing() {
         <path d="M1012 388 L1052 370 L1092 388" strokeOpacity="0.6" />
       </g>
 
-      <g stroke="#4fa3d9" strokeWidth="1.25">
+      <g stroke="#2b7fc0" strokeWidth="1.25">
         <path d="M1080 440 V150 M1062 150 H1098 M1066 150 V136 H1094 V150 M1070 440 L1080 400 L1090 440" />
         <path d="M1120 300 V440 M1190 300 V440 M1120 300 Q1155 280 1190 300 M1120 340 H1190" />
       </g>
 
-      <g stroke="#f1f3f4" strokeOpacity="0.65" strokeDasharray="6 5">
+      <g stroke="#0e1114" strokeOpacity="0.65" strokeDasharray="6 5">
         <rect x="420" y="472" width="280" height="66" />
         <path d="M450 440 V472 M480 440 V472" />
       </g>
 
-      <g fill="#8a949b" fontFamily="IBM Plex Mono, monospace" fontSize="12" letterSpacing="2">
+      <g fill="#6b757c" fontFamily="IBM Plex Mono, monospace" fontSize="12" letterSpacing="2">
         <text x="20" y="430">EL. ±0,00</text>
         <text x="420" y="565">GALERIA TÉCNICA</text>
         <text x="925" y="310">PONTE</text>

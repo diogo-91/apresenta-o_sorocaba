@@ -1,9 +1,9 @@
 import { createContext, useContext, useEffect, useState, type ReactNode } from 'react'
 import { screens } from '../data/screens'
 
-const ActiveScreenContext = createContext<string>(screens[0].id)
+export const ActiveScreenContext = createContext<string>(screens[0].id)
 
-export function ActiveScreenProvider({ children }: { children: ReactNode }) {
+export function ScrollActiveScreenProvider({ children }: { children: ReactNode }) {
   const [active, setActive] = useState(screens[0].id)
 
   useEffect(() => {

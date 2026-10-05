@@ -2,9 +2,9 @@ import { describe, expect, it } from 'vitest'
 import { menuGroups, screens, screenMeta, TOTAL_SCREENS } from './screens'
 
 describe('registro de telas', () => {
-  it('tem as 17 telas da apresentação com ids únicos', () => {
-    expect(TOTAL_SCREENS).toBe(17)
-    expect(new Set(screens.map((s) => s.id)).size).toBe(17)
+  it('tem os 20 slides da apresentação com ids únicos', () => {
+    expect(TOTAL_SCREENS).toBe(20)
+    expect(new Set(screens.map((s) => s.id)).size).toBe(20)
   })
 
   it('todo item de menu aponta para ao menos uma tela', () => {
@@ -14,8 +14,8 @@ describe('registro de telas', () => {
   })
 
   it('numera as telas pela ordem de apresentação', () => {
-    expect(screenMeta('inicio').number).toBe(1)
-    expect(screenMeta('parceria').number).toBe(17)
+    expect(screenMeta('capa').number).toBe(1)
+    expect(screenMeta('encerramento').number).toBe(20)
   })
 
   it('falha alto quando a tela não está registrada', () => {

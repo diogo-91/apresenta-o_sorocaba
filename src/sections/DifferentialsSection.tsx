@@ -10,24 +10,24 @@ export function DifferentialsSection() {
   return (
     <Screen id="diferenciais">
       <div className="grid gap-8 lg:grid-cols-12 lg:items-end">
-        <Headline id={titleId('diferenciais')} text={differentials.headline} className="max-w-[14ch] lg:col-span-8" />
+        <Headline id={titleId('diferenciais')} size="md" text={differentials.headline} className="max-w-[22ch] lg:col-span-8" />
         <Reveal className="lg:col-span-4" delay={0.15}>
           <p className="lede">{differentials.subheadline}</p>
         </Reveal>
       </div>
 
-      <Reveal className="mt-12 hidden lg:block">
+      <Reveal className="mt-8 hidden lg:block">
         <table className="w-full border-collapse text-left">
           <caption className="sr-only">Comparação entre o modelo fragmentado e a Sorocaba Motores</caption>
           <thead>
             <tr className="border-b border-line-strong">
-              <th scope="col" className="label-mono w-[24%] py-4 font-normal text-faint">
+              <th scope="col" className="label-mono w-[24%] py-3 font-normal text-faint">
                 Critério
               </th>
-              <th scope="col" className="label-mono w-[38%] py-4 pr-8 font-normal text-muted">
+              <th scope="col" className="label-mono w-[38%] py-3 pr-8 font-normal text-muted">
                 {fragmented}
               </th>
-              <th scope="col" className="label-mono w-[38%] border-l border-accent/40 bg-surface/50 px-6 py-4 font-normal text-fg">
+              <th scope="col" className="label-mono w-[38%] border-l border-accent/40 bg-surface/60 px-6 py-3 font-normal text-fg">
                 {unified}
               </th>
             </tr>
@@ -35,18 +35,18 @@ export function DifferentialsSection() {
           <tbody>
             {comparisonRows.map((row) => (
               <tr key={row.id} className="border-b border-line">
-                <th scope="row" className="py-5 pr-6 align-top font-display text-xl font-semibold tracking-tight">
+                <th scope="row" className="py-3 pr-6 align-top font-display text-xl font-semibold tracking-tight">
                   {row.criterion}
                 </th>
-                <td className="py-5 pr-8 align-top text-muted">
+                <td className="py-3 pr-8 align-top text-muted">
                   <span className="flex gap-3">
                     <Minus size={16} className="mt-1 shrink-0 text-alert" aria-hidden="true" />
                     {row.fragmented}
                   </span>
                 </td>
-                <td className="border-l border-accent/40 bg-surface/50 px-6 py-5 align-top text-fg">
+                <td className="border-l border-accent/40 bg-surface/60 px-6 py-3 align-top text-fg">
                   <span className="flex gap-3">
-                    <Check size={16} className="mt-1 shrink-0 text-accent" aria-hidden="true" />
+                    <Check size={16} className="mt-1 shrink-0 text-accent-ink" aria-hidden="true" />
                     {row.unified}
                   </span>
                 </td>
@@ -72,7 +72,7 @@ export function DifferentialsSection() {
                 </div>
               </div>
               <div className="flex gap-3 border-t border-accent/30 bg-surface/60 px-4 py-3">
-                <Check size={16} className="mt-0.5 shrink-0 text-accent" aria-hidden="true" />
+                <Check size={16} className="mt-0.5 shrink-0 text-accent-ink" aria-hidden="true" />
                 <div>
                   <dt className="label-mono text-fg">{unified}</dt>
                   <dd className="mt-1 text-sm">{row.unified}</dd>
