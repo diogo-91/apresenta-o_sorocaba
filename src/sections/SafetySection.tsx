@@ -92,7 +92,7 @@ export function SafetySection() {
                 >
                   {gear.photo ? (
                     <>
-                      <img src={gear.photo} alt="" loading="lazy" decoding="async" className="absolute inset-0 size-full object-cover transition-transform duration-[1200ms] ease-out-mech group-hover:scale-[1.03]" />
+                      <img src={gear.photo} alt="" loading="lazy" decoding="async" style={{ objectPosition: gear.position }} className="absolute inset-0 size-full object-cover transition-transform duration-[1200ms] ease-out-mech group-hover:scale-[1.03]" />
                       <span aria-hidden="true" className="absolute inset-0 bg-[linear-gradient(to_bottom,var(--color-paper)_0%,transparent_32%,transparent_70%,var(--color-paper)_100%)] opacity-80" />
                     </>
                   ) : (

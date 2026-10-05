@@ -57,7 +57,7 @@ export const safetyDomains: SafetyDomain[] = [
   },
 ]
 
-export type SafetyGear = { id: string; label: string; domain: SafetyDomain['id']; photo: string | null }
+export type SafetyGear = { id: string; label: string; domain: SafetyDomain['id']; photo: string | null; position?: string }
 
 export const safetyGear: SafetyGear[] = [
   { id: 'cabo', label: 'Cabo e linha de vida', domain: 'altura', photo: '/images/safety/linha-de-vida.jpg' },
@@ -65,5 +65,5 @@ export const safetyGear: SafetyGear[] = [
   { id: 'detector', label: 'Detector de gases', domain: 'confinado', photo: '/images/safety/detector-de-gases.webp' },
   { id: 'ferramentas', label: 'Ferramentas isoladas', domain: 'eletrica', photo: '/images/safety/ferramentas-isoladas.webp' },
   { id: 'capacete', label: 'Capacete', domain: 'maquinas', photo: '/images/safety/capacete.jpg' },
-  { id: 'mosquetao', label: 'Mosquetão', domain: 'altura', photo: null },
+  { id: 'mosquetao', label: 'Mosquetão', domain: 'altura', photo: '/images/safety/mosquetao.jpg', position: '50% 0%' },
 ]
