@@ -66,9 +66,9 @@ function DeckMethod() {
         <Rail active={active} />
       </div>
       <MediaFrame
-        src={null}
-        alt={`Registro da etapa ${active + 1}: ${step.title}`}
-        caption={`Etapa ${pad2(active + 1)} · ${step.title}`}
+        src={method.photo.src}
+        alt={method.photo.alt}
+        caption={method.photo.caption}
         scene={<PlantCropScene step={active} steps={methodSteps.length} />}
         className="col-span-6 -mb-5 -mr-24 -mt-9"
       />
@@ -88,6 +88,13 @@ function FlowMethod() {
     <>
       <Headline id={titleId('metodo')} text={method.headline} className="max-w-[12ch]" />
       <p className="lede mt-5">{method.subheadline}</p>
+      <MediaFrame
+        src={method.photo.src}
+        alt={method.photo.alt}
+        caption={method.photo.caption}
+        scene={<PlantCropScene step={0} steps={methodSteps.length} />}
+        className="-mx-5 mt-8 aspect-[16/9] md:mx-0"
+      />
       <ol ref={track} className="relative mt-10">
         <span aria-hidden="true" className="absolute bottom-3 left-[0.6875rem] top-3 w-px bg-line-strong" />
         <span ref={line} aria-hidden="true" className="absolute bottom-3 left-[0.6875rem] top-3 w-px origin-top scale-y-0 bg-accent" />

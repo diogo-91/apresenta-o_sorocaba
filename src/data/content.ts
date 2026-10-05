@@ -115,6 +115,11 @@ export const safety = {
 export const method = {
   headline: 'Nenhum serviço começa no improviso.',
   subheadline: 'Do diagnóstico à documentação final.',
+  photo: {
+    src: '/images/method/levantamento-tecnico.avif',
+    alt: 'Técnico com EPI registrando dados de bomba e motor em um tablet durante levantamento em campo',
+    caption: 'Levantamento técnico em campo',
+  },
 }
 
 export const arts = {
