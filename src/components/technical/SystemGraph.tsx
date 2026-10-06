@@ -23,10 +23,13 @@ const set = (el: Element | null | undefined, attrs: Record<string, string | numb
 type Props = {
   target?: number | null
   scrollRange?: readonly [number, number]
+  stretch?: number
   className?: string
 }
 
-export function SystemGraph({ target = null, scrollRange, className = '' }: Props) {
+const MID = GRAPH_SIZE / 2
+
+export function SystemGraph({ target = null, scrollRange, stretch = 1, className = '' }: Props) {
   const root = useRef<HTMLElement>(null)
   const camera = useRef<SVGGElement>(null)
   const interfaces = useRef<(SVGLineElement | null)[]>([])
@@ -45,16 +48,17 @@ export function SystemGraph({ target = null, scrollRange, className = '' }: Prop
 
   const render = useCallback((progress: number) => {
     const f = graphFrame(progress)
+    const sx = (x: number) => MID + (x - MID) * stretch
     const { x: cx, y: cy } = coreNode.position
     set(camera.current, {
-      transform: `translate(${f.camera.originX} ${f.camera.originY}) scale(${f.camera.scale}) translate(${-f.camera.originX} ${-f.camera.originY})`,
+      transform: `translate(${sx(f.camera.originX)} ${f.camera.originY}) scale(${f.camera.scale}) translate(${-sx(f.camera.originX)} ${-f.camera.originY})`,
     })
 
     f.interfaces.forEach((line, k) => {
       set(interfaces.current[k], {
-        x1: line.x1,
+        x1: sx(line.x1),
         y1: line.y1,
-        x2: line.x1 + (line.x2 - line.x1) * line.reveal,
+        x2: sx(line.x1 + (line.x2 - line.x1) * line.reveal),
         y2: line.y1 + (line.y2 - line.y1) * line.reveal,
         opacity: line.reveal > 0 ? 0.75 * line.opacity : 0,
       })
@@ -63,9 +67,9 @@ export function SystemGraph({ target = null, scrollRange, className = '' }: Prop
     const stroke = mix(f.unifiedMix)
     f.contracts.forEach((line, i) => {
       set(contracts.current[i], {
-        x1: line.x1,
+        x1: sx(line.x1),
         y1: line.y1,
-        x2: line.x1 + (line.x2 - line.x1) * line.reveal,
+        x2: sx(line.x1 + (line.x2 - line.x1) * line.reveal),
         y2: line.y1 + (line.y2 - line.y1) * line.reveal,
         opacity: line.reveal > 0 ? 0.75 : 0,
         stroke,
@@ -73,7 +77,7 @@ export function SystemGraph({ target = null, scrollRange, className = '' }: Prop
     })
 
     f.nodes.forEach((node, i) => {
-      set(nodes.current[i], { transform: `translate(${node.x} ${node.y}) scale(${node.scale})`, opacity: node.opacity })
+      set(nodes.current[i], { transform: `translate(${sx(node.x)} ${node.y}) scale(${node.scale})`, opacity: node.opacity })
       set(nodeBoxes.current[i], { fill: f.unifiedMix > 0.5 ? 'var(--color-blueprint)' : 'var(--color-paper)' })
       set(tags.current[i], { opacity: node.tagOpacity })
       const offset = node.x - cx
@@ -86,7 +90,7 @@ export function SystemGraph({ target = null, scrollRange, className = '' }: Prop
       })
     })
 
-    set(client.current, { transform: `translate(${f.client.x} ${f.client.y})`, opacity: f.client.opacity })
+    set(client.current, { transform: `translate(${sx(f.client.x)} ${f.client.y})`, opacity: f.client.opacity })
     set(core.current, {
       opacity: f.core.opacity,
       transform: `translate(${cx} ${cy}) scale(${f.core.scale}) translate(${-cx} ${-cy})`,
@@ -116,7 +120,7 @@ export function SystemGraph({ target = null, scrollRange, className = '' }: Prop
         : `Modelo fragmentado: ${f.counters.suppliers} fornecedores e ${f.counters.interfaces} interfaces com a sua operação.`
       if (svg.current.getAttribute('aria-label') !== text) svg.current.setAttribute('aria-label', text)
     }
-  }, [])
+  }, [stretch])
 
   useTweenedProgress(target, render)
   useScrollProgress(root, render, Boolean(scrollRange), scrollRange)
@@ -126,12 +130,12 @@ export function SystemGraph({ target = null, scrollRange, className = '' }: Prop
       <p ref={phase} className="label-mono mb-3 text-faint" aria-hidden="true">
         Cenário fragmentado · ilustrativo
       </p>
-      <svg ref={svg} viewBox={`0 0 ${GRAPH_SIZE} ${GRAPH_SIZE}`} role="img" className="h-auto w-full overflow-visible">
+      <svg ref={svg} viewBox={`${MID - MID * stretch} 0 ${GRAPH_SIZE * stretch} ${GRAPH_SIZE}`} role="img" className="h-auto w-full overflow-visible">
         <g aria-hidden="true" className="text-line-strong" stroke="currentColor" fill="none">
           {[120, 240, 360].map((r) => (
-            <circle key={r} cx={GRAPH_SIZE / 2} cy={GRAPH_SIZE / 2} r={r} strokeDasharray="1 7" />
+            <ellipse key={r} cx={MID} cy={MID} rx={r * stretch} ry={r} strokeDasharray="1 7" />
           ))}
-          <path d={`M${GRAPH_SIZE / 2} 20 V${GRAPH_SIZE - 20} M20 ${GRAPH_SIZE / 2} H${GRAPH_SIZE - 20}`} strokeDasharray="2 10" />
+          <path d={`M${MID} 20 V${GRAPH_SIZE - 20} M${MID - (MID - 20) * stretch} ${MID} H${MID + (MID - 20) * stretch}`} strokeDasharray="2 10" />
         </g>
         <g ref={camera}>
           <g strokeWidth="1">
