@@ -15,13 +15,13 @@ export function FragmentationSection() {
 
   return (
     <Screen id="desafio" grid>
-      <div className="flex flex-1 flex-col lg:w-[44%]">
+      <div className="flex flex-1 flex-col lg:w-[48%]">
         <Eyebrow tone="accent" className="mb-6">
           O problema
         </Eyebrow>
-        <Headline id={titleId('desafio')} text={fragmentation.headline} className="max-w-[15ch] lg:text-[4rem]" />
+        <Headline id={titleId('desafio')} text={fragmentation.headline} className="max-w-[15ch] lg:text-[5rem] lg:leading-[0.92]" />
         <Reveal delay={0.3}>
-          <p className="lede mt-6 max-w-[40ch]">{fragmentation.subheadline}</p>
+          <p className="lede mt-7 max-w-[40ch] lg:text-[1.4rem] lg:leading-relaxed">{fragmentation.subheadline}</p>
         </Reveal>
 
         {!deck && (
@@ -31,10 +31,10 @@ export function FragmentationSection() {
         )}
 
         <StepReveal at={1} className="mt-10 flex items-end gap-6 border-t border-line pt-4 lg:mt-auto">
-          <span className="font-display text-[6rem] font-bold leading-[0.8] tracking-tighter text-alert [font-stretch:78%] lg:text-[6.5rem]">
+          <span className="font-display text-[6rem] font-bold leading-[0.8] tracking-tighter text-alert [font-stretch:78%] lg:text-[8rem]">
             {interfaceCount(n)}
           </span>
-          <span className="label-mono max-w-[22ch] pb-2 text-muted">
+          <span className="label-mono max-w-[24ch] pb-2 text-muted lg:text-sm">
             Interfaces potenciais em um cenário com {n} fornecedores
           </span>
         </StepReveal>
