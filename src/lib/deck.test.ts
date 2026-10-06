@@ -1,5 +1,5 @@
 import { describe, expect, it } from 'vitest'
-import { advance, clampIndex, createWheelGate, keyAction, slideIndexFromHash } from './deck'
+import { advance, clampIndex, createWheelGate, keyAction, slideIndexFromHash, stageBox } from './deck'
 
 describe('clampIndex', () => {
   it('mantém o índice dentro do intervalo de slides', () => {
@@ -88,5 +88,19 @@ describe('advance', () => {
   it('não passa do primeiro nem do último passo da apresentação', () => {
     expect(advance({ index: 0, step: 0 }, steps, -1)).toEqual({ index: 0, step: 0 })
     expect(advance({ index: 2, step: 1 }, steps, 1)).toEqual({ index: 2, step: 1 })
+  })
+})
+
+describe('stageBox', () => {
+  it('preenche uma tela 16:9 com o palco de projeto', () => {
+    expect(stageBox(1920, 1080, 1600, 900)).toEqual({ width: 1600, height: 900, scale: 1.2 })
+  })
+
+  it('estica a largura em telas mais largas, mantendo a altura de projeto', () => {
+    expect(stageBox(2560, 1080, 1600, 900)).toEqual({ width: 2133, height: 900, scale: 1.2 })
+  })
+
+  it('estica a altura em telas mais altas, mantendo a largura de projeto', () => {
+    expect(stageBox(1440, 900, 1600, 900)).toEqual({ width: 1600, height: 1000, scale: 0.9 })
   })
 })

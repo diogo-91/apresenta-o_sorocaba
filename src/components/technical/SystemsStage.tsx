@@ -31,7 +31,7 @@ export function SystemsDeck({ stage }: { stage: number }) {
   const final = stage >= SYSTEMS_FINAL
   return (
     <div className="flex flex-col">
-      <SystemsRig layout="wide" stage={Math.min(stage, SYSTEMS_FINAL)} />
+      <SystemsRig layout="wide" stage={Math.min(stage, SYSTEMS_FINAL)} className="mx-auto w-full max-w-[1408px]" />
       <div className="mt-1" aria-hidden={!final}>
         <Summary visible={final} />
       </div>

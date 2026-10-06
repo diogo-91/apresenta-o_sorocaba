@@ -64,3 +64,8 @@ export function advance(position: DeckPosition, stepsPerSlide: number[], delta: 
   if (index > 0) return { index: index - 1, step: stepsPerSlide[index - 1] - 1 }
   return position
 }
+
+export function stageBox(viewportWidth: number, viewportHeight: number, baseWidth: number, baseHeight: number) {
+  const scale = Math.min(viewportWidth / baseWidth, viewportHeight / baseHeight)
+  return { width: Math.round(viewportWidth / scale), height: Math.round(viewportHeight / scale), scale }
+}

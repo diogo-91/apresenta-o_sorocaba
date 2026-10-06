@@ -1,6 +1,6 @@
 import { Suspense, useCallback, useEffect, useMemo, useRef, useState, type ReactNode } from 'react'
 import { AnimatePresence, m, useReducedMotion, type Variants } from 'framer-motion'
-import { advance, clampIndex, createWheelGate, keyAction, slideIndexFromHash, type DeckPosition } from '../../lib/deck'
+import { advance, clampIndex, createWheelGate, keyAction, slideIndexFromHash, stageBox, type DeckPosition } from '../../lib/deck'
 import { DURATION, EASE_MECH } from '../../lib/motion'
 import { ActiveScreenContext } from '../../hooks/useActiveScreen'
 import { DeckPositionContext, SlideStepContext } from '../../hooks/useDeckPosition'
@@ -26,15 +26,15 @@ const fade: Variants = {
   exit: { opacity: 0, transition: { duration: DURATION.fast } },
 }
 
-function useStageScale() {
-  const read = () => Math.min(window.innerWidth / STAGE.width, window.innerHeight / STAGE.height)
-  const [scale, setScale] = useState(read)
+function useStageBox() {
+  const read = () => stageBox(window.innerWidth, window.innerHeight, STAGE.width, STAGE.height)
+  const [box, setBox] = useState(read)
   useEffect(() => {
-    const onResize = () => setScale(read())
+    const onResize = () => setBox(read())
     window.addEventListener('resize', onResize)
     return () => window.removeEventListener('resize', onResize)
   }, [])
-  return scale
+  return box
 }
 
 function isInteractiveTarget(target: EventTarget | null) {
@@ -54,7 +54,7 @@ export function Deck({ slides }: { slides: Slide[] }) {
   const current = useRef(position)
   const steps = useRef(stepsPerSlide)
   steps.current = stepsPerSlide
-  const scale = useStageScale()
+  const box = useStageBox()
   const index = position.index
 
   const moveTo = useCallback((next: DeckPosition) => {
@@ -144,8 +144,8 @@ export function Deck({ slides }: { slides: Slide[] }) {
       <DeckPositionContext.Provider value={{ id: slide.id, step: position.step, steps: stepsPerSlide[index] }}>
       <div className="fixed inset-0 overflow-hidden bg-surface">
         <div
-          className="absolute left-1/2 top-1/2 overflow-hidden bg-paper shadow-[0_20px_60px_-20px_rgb(14_17_20/0.25)]"
-          style={{ width: STAGE.width, height: STAGE.height, transform: `translate(-50%, -50%) scale(${scale})` }}
+          className="absolute left-1/2 top-1/2 overflow-hidden bg-paper"
+          style={{ width: box.width, height: box.height, transform: `translate(-50%, -50%) scale(${box.scale})` }}
           aria-roledescription="apresentação"
         >
           <AnimatePresence initial={false} custom={direction}>
