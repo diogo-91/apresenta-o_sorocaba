@@ -25,7 +25,7 @@ export function GraphLayer() {
   const { id, step } = useDeckPosition()
   const [stretch, measure] = useWidthStretch(DESAFIO_GRAPH_HEIGHT)
   const keyframes = id === 'desafio' || id === 'modelo' ? GRAPH_KEYFRAMES[id] : null
-  const wide = id === 'desafio'
+  const wide = id === 'desafio' || id === 'modelo'
   return (
     <AnimatePresence>
       {keyframes && (

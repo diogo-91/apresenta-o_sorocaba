@@ -85,8 +85,8 @@ export function SystemGraph({ target = null, scrollRange, stretch = 1, large = f
       const side = f.unifiedMix > 0.5
       const centered = Math.abs(offset) < 30
       set(labels.current[i], {
-        x: side && !centered ? (offset > 0 ? 16 : -16) : 0,
-        y: side ? (centered ? -16 : 6) : large ? 38 : 30,
+        x: side && !centered ? (offset > 0 ? 1 : -1) * (large ? 20 : 16) : 0,
+        y: side ? (centered ? (large ? -20 : -16) : large ? 7 : 6) : large ? 38 : 30,
         'text-anchor': side && !centered ? (offset > 0 ? 'start' : 'end') : 'middle',
       })
     })
@@ -156,8 +156,8 @@ export function SystemGraph({ target = null, scrollRange, stretch = 1, large = f
             <circle cx={coreNode.position.x} cy={coreNode.position.y} r="48" className="fill-paper stroke-fg" strokeWidth="1.5" />
             <image href={logoSrc} x={coreNode.position.x - 36} y={coreNode.position.y - 11} width="72" height="22" className="logo-auto" />
             <rect x={coreNode.position.x + 26} y={coreNode.position.y + 26} width="10" height="10" className="fill-accent" />
-            <rect x={coreNode.position.x - 98} y={coreNode.position.y - 104} width="196" height="26" className="fill-paper" />
-            <text x={coreNode.position.x} y={coreNode.position.y - 86} textAnchor="middle" className="fill-fg font-mono text-[13px] tracking-[0.18em] max-sm:text-[18px] max-sm:tracking-[0.06em]">
+            <rect x={coreNode.position.x - (large ? 130 : 98)} y={coreNode.position.y - (large ? 110 : 104)} width={large ? 260 : 196} height={large ? 32 : 26} className="fill-paper" />
+            <text x={coreNode.position.x} y={coreNode.position.y - (large ? 88 : 86)} textAnchor="middle" className={`fill-fg font-mono tracking-[0.18em] max-sm:text-[18px] max-sm:tracking-[0.06em] ${large ? 'text-[17px]' : 'text-[13px]'}`}>
               {coreNode.label.toUpperCase()}
             </text>
           </g>

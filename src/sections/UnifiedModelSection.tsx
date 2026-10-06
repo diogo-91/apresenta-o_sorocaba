@@ -18,7 +18,7 @@ export function UnifiedModelSection() {
         <Eyebrow tone="accent" className="mb-6">
           Sem fragmentação
         </Eyebrow>
-        <h2 id={titleId('modelo')} className="display-lg lg:text-[3.4rem]">
+        <h2 id={titleId('modelo')} className="display-lg lg:text-[4.5rem] lg:leading-[0.95]">
           {lines.map((line, i) => (
             <span key={line} className={`block ${i === 0 ? 'text-fg' : i === 1 ? 'text-muted' : 'text-fg'}`}>
               <WordReveal text={line} delay={0.5 + i * 0.25} />
@@ -26,7 +26,7 @@ export function UnifiedModelSection() {
           ))}
         </h2>
         <Reveal delay={1.1}>
-          <p className="lede mt-6 max-w-[40ch]">{unified.subheadline}</p>
+          <p className="lede mt-7 max-w-[40ch] lg:text-[1.4rem] lg:leading-relaxed">{unified.subheadline}</p>
         </Reveal>
 
         {!deck && (
@@ -38,9 +38,9 @@ export function UnifiedModelSection() {
         <ol className="mt-10 grid gap-6 border-t border-line pt-6 sm:grid-cols-3 lg:mt-auto">
           {unified.pillars.map((pillar, i) => (
             <StepReveal as="li" at={1} key={pillar.id} className="flex flex-col">
-              <span className="font-display text-5xl font-bold leading-none tracking-tight text-accent-ink [font-stretch:80%]">0{i + 1}</span>
-              <h3 className="mt-3 font-display text-xl font-bold tracking-tight">{pillar.title}</h3>
-              <p className="mt-1.5 text-sm leading-relaxed text-muted">{pillar.text}</p>
+              <span className="font-display text-5xl font-bold leading-none tracking-tight text-accent-ink [font-stretch:80%] lg:text-7xl">0{i + 1}</span>
+              <h3 className="mt-3 font-display text-xl font-bold tracking-tight lg:text-2xl">{pillar.title}</h3>
+              <p className="mt-1.5 text-sm leading-relaxed text-muted lg:text-base">{pillar.text}</p>
             </StepReveal>
           ))}
         </ol>
