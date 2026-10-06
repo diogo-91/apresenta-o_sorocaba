@@ -150,7 +150,4 @@ export const airport = {
 export const cta = {
   headline: 'Vamos mapear sua operação?',
   subheadline: 'Agende um diagnóstico técnico com nossa equipe.',
-  primary: 'Agendar diagnóstico',
-  secondary: 'Baixar dossiê técnico',
-  engineering: 'Falar com a engenharia',
 }

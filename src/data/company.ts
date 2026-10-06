@@ -12,8 +12,6 @@ export const company = {
     phone: null as string | null,
     email: null as string | null,
     address: TBC,
-    scheduleUrl: null as string | null,
-    dossierUrl: null as string | null,
   },
 }
 

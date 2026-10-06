@@ -1,4 +1,3 @@
-import { ArrowUpRight, Download } from 'lucide-react'
 import { company, whatsappHref } from '../data/company'
 import { cta } from '../data/content'
 import { Screen, titleId } from '../components/layout/Screen'
@@ -10,7 +9,6 @@ import { WordReveal } from '../components/motion/WordReveal'
 export function CTASection() {
   const { contact } = company
   const whatsapp = whatsappHref()
-  const scheduleHref = contact.scheduleUrl ?? whatsapp ?? (contact.email ? `mailto:${contact.email}` : null)
   const channels = [
     { label: 'WhatsApp', value: contact.whatsapp, href: whatsapp },
     { label: 'Telefone', value: contact.phone, href: contact.phone ? `tel:${contact.phone.replace(/[^\d+]/g, '')}` : null },
@@ -39,33 +37,6 @@ export function CTASection() {
         <Reveal delay={0.5}>
           <p className="lede mt-8 max-w-[36ch] lg:text-2xl">{cta.subheadline}</p>
         </Reveal>
-        <Reveal delay={0.7} className="mt-12 flex flex-col items-start gap-6 sm:flex-row sm:items-center sm:gap-10">
-          <a
-            href={scheduleHref ?? '#parceria'}
-            aria-disabled={!scheduleHref || undefined}
-            target={scheduleHref?.startsWith('http') ? '_blank' : undefined}
-            rel="noopener noreferrer"
-            data-magnetic
-            className="group inline-flex min-h-14 items-center gap-5 bg-accent px-8 text-sm font-semibold uppercase tracking-[0.14em] transition-colors duration-300 hover:bg-night-fg"
-            style={{ color: '#0e1114' }}
-          >
-            {cta.primary}
-            <ArrowUpRight size={18} aria-hidden="true" className="transition-transform duration-300 group-hover:-translate-y-0.5 group-hover:translate-x-0.5" />
-          </a>
-          <a href={whatsapp ?? '#parceria'} target={whatsapp ? '_blank' : undefined} rel="noopener noreferrer" className="link-underline label-mono pb-1 text-fg">
-            {cta.engineering}
-          </a>
-          {contact.dossierUrl && (
-            <a href={contact.dossierUrl} download className="link-underline label-mono inline-flex items-center gap-2 pb-1 text-muted">
-              <Download size={14} aria-hidden="true" /> {cta.secondary}
-            </a>
-          )}
-        </Reveal>
-        {!scheduleHref && (
-          <p className="mt-4 text-xs text-faint">
-            <Pending value="[LINK DE AGENDAMENTO A CONFIRMAR]" />
-          </p>
-        )}
       </div>
 
       <Reveal delay={0.9}>
