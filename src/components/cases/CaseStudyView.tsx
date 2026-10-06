@@ -17,7 +17,7 @@ export function CaseStudyView({ study }: { study: CaseStudy }) {
 
   return (
     <article aria-labelledby={`${study.id}-title`} className="grid flex-1 gap-8 lg:grid-cols-12 lg:gap-12">
-      <div data-cursor="explore" className="lg:col-span-6 lg:-mb-5 lg:-ml-24">
+      <div className="lg:col-span-6 lg:-mb-5 lg:-ml-24">
         <BeforeAfter before={study.before} after={study.after} code={study.label.replace(/[[\]\s]/g, '')} className="aspect-[4/3] lg:aspect-auto lg:h-full" />
       </div>
 

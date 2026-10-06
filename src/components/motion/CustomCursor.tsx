@@ -1,7 +1,7 @@
 import { useEffect, useRef, useState } from 'react'
 
 const INTERACTIVE = 'a[href], button:not(:disabled), [role="button"], [role="slider"], [role="tab"], input, select, textarea'
-const LABELS: Record<string, string> = { view: 'Ver', explore: 'Explore' }
+const LABELS: Record<string, string> = { view: 'Ver' }
 const MAGNET_STRENGTH = 0.25
 const MAGNET_MAX = 8
 

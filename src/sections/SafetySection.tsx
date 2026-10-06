@@ -83,7 +83,6 @@ export function SafetySection() {
               <Reveal as="li" key={gear.id} delay={0.2 + i * 0.07} className={`${BOARD_LAYOUT[i]} min-h-40 lg:min-h-0`}>
                 <button
                   type="button"
-                  data-cursor="explore"
                   onMouseEnter={() => setSelected(gear.domain)}
                   onFocus={() => setSelected(gear.domain)}
                   onClick={() => setSelected(gear.domain)}

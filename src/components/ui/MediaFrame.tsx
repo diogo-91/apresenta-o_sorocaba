@@ -17,7 +17,7 @@ export function MediaFrame({ src, alt, caption, scene, className = '', labelPosi
   const reduced = useReducedMotion()
   return (
     <m.figure
-      data-cursor="explore"
+     
       className={`group overflow-hidden ${fill ? 'absolute inset-0' : 'relative'} ${className}`}
       initial={reduced ? { opacity: 0 } : { clipPath: 'inset(0 0 100% 0)' }}
       whileInView={reduced ? { opacity: 1 } : { clipPath: 'inset(0 0 0% 0)' }}
