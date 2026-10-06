@@ -2,7 +2,6 @@ import type { ReactNode } from 'react'
 import { company } from '../../data/company'
 import { screenMeta, pad2, TOTAL_SCREENS } from '../../data/screens'
 import { usePresentationMode } from '../../hooks/usePresentationMode'
-import { EngineeringButton } from '../navigation/EngineeringButton'
 import { Logo } from '../ui/Logo'
 
 type Props = {
@@ -73,7 +72,6 @@ function SlideHeader({ id }: { id: string }) {
         <span className="ml-3 text-muted">{meta.label}</span>
       </span>
       <span className="label-mono ml-auto text-faint">{meta.act}</span>
-      <EngineeringButton />
     </header>
   )
 }

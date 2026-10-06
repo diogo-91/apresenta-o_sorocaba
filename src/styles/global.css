@@ -262,16 +262,6 @@
   .link-underline:focus-visible {
     background-size: 100% 1px;
   }
-
-  .pb-mobile-cta {
-    padding-bottom: calc(5.25rem + env(safe-area-inset-bottom));
-  }
-
-  @media (min-width: 64rem) {
-    .pb-mobile-cta {
-      padding-bottom: 0;
-    }
-  }
 }
 
 @keyframes drop {

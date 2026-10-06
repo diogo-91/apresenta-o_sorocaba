@@ -1,7 +1,6 @@
 import { Suspense, useEffect, useRef, useState, type ReactNode } from 'react'
 import type { Slide } from '../deck/Deck'
 import { ScrollActiveScreenProvider } from '../../hooks/useActiveScreen'
-import { MobileCTA } from '../navigation/MobileCTA'
 import { ProgressBar } from '../navigation/ProgressBar'
 import { TopBar } from '../navigation/TopBar'
 
@@ -51,14 +50,13 @@ export function Flow({ slides }: { slides: Slide[] }) {
       </a>
       <ProgressBar />
       <TopBar />
-      <main className="pb-mobile-cta">
+      <main>
         {slides.map((slide, i) => (
           <LazySlot key={slide.id} id={slide.id} eager={i < EAGER}>
             {slide.node}
           </LazySlot>
         ))}
       </main>
-      <MobileCTA />
     </ScrollActiveScreenProvider>
   )
 }

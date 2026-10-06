@@ -6,7 +6,6 @@ import { useActiveScreen } from '../../hooks/useActiveScreen'
 import { useDialog } from '../../hooks/useDialog'
 import { DURATION, EASE_MECH } from '../../lib/motion'
 import { scrollToScreen } from '../../lib/scroll'
-import { EngineeringButton } from './EngineeringButton'
 
 export function MobileDrawer({ open, onClose }: { open: boolean; onClose: () => void }) {
   const active = useActiveScreen()
@@ -64,9 +63,6 @@ export function MobileDrawer({ open, onClose }: { open: boolean; onClose: () => 
               })}
             </ol>
           </nav>
-          <div className="relative border-t border-line p-5 pb-[calc(1.25rem+env(safe-area-inset-bottom))]">
-            <EngineeringButton className="w-full justify-center" />
-          </div>
         </m.div>
       )}
     </AnimatePresence>
