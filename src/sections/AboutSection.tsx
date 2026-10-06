@@ -3,16 +3,13 @@ import { useReducedMotion } from 'framer-motion'
 import { ArrowRight } from 'lucide-react'
 import { about, operationLayers, type OperationLayerId } from '../data/content'
 import { frontById } from '../data/services'
-import { company } from '../data/company'
 import { pad2 } from '../data/screens'
 import { Screen, titleId } from '../components/layout/Screen'
-import { Pending } from '../components/ui/Pending'
 import { OperationBlueprint } from '../components/technical/OperationBlueprint'
 import { useSlideStep } from '../hooks/useDeckPosition'
 import { usePresentationMode } from '../hooks/usePresentationMode'
 import { useTweenedProgress } from '../hooks/useScene'
 import { gsap, ScrollTrigger } from '../lib/gsap'
-import { isPending } from '../lib/placeholder'
 import { layerFocus } from '../lib/layerFocus'
 
 const COUNT = operationLayers.length
@@ -114,30 +111,6 @@ function LayerPanel({ index, visible }: { index: number; visible: boolean }) {
   )
 }
 
-function Indicators({ visible = true, compact = false }: { visible?: boolean; compact?: boolean }) {
-  return (
-    <ul aria-label="Indicadores" className={`grid grid-cols-2 ${compact ? 'gap-x-6 gap-y-7' : 'gap-x-6 gap-y-6'}`}>
-      {company.metrics.map((metric, i) => (
-        <li
-          key={metric.id}
-          className={`flex flex-col border-t border-line pt-3 transition-opacity duration-700 ${visible ? 'opacity-100' : 'opacity-0'}`}
-          style={{ transitionDelay: visible ? `${900 + i * 120}ms` : '0ms' }}
-        >
-          <span className="label-mono text-faint">IND-{pad2(i + 1)}</span>
-          <p className="order-3 mt-3 max-w-[9ch] font-display text-lg font-bold uppercase leading-[1.02] tracking-tight [font-stretch:85%] [text-wrap:balance]">{metric.label}</p>
-          <p className="order-2 mt-2">
-            {isPending(metric.value) ? (
-              <Pending value={metric.value} className="text-[0.625rem]" />
-            ) : (
-              <span className="font-display text-5xl font-bold tracking-tighter [font-stretch:75%]">{metric.value}</span>
-            )}
-          </p>
-        </li>
-      ))}
-    </ul>
-  )
-}
-
 function Closing({ on }: { on: boolean }) {
   return (
     <div data-on={on} className="group">
@@ -189,17 +162,13 @@ function DeckLayout() {
       </div>
 
       <div className="relative min-h-0 overflow-hidden">
-        <div aria-hidden={stage !== 0} className={`${fade} absolute inset-0 ${stage === 0 ? 'opacity-100' : 'pointer-events-none translate-y-3 opacity-0'}`}>
+        <div aria-hidden={stage !== 0 && stage !== FINAL} className={`${fade} absolute inset-0 ${stage === 0 || stage === FINAL ? 'opacity-100' : 'pointer-events-none translate-y-3 opacity-0'}`}>
           <p className="font-display text-[2.25rem] font-bold leading-[1.02] tracking-tight [font-stretch:82%]">{about.statement}</p>
           <p className="label-mono mt-6 border-t border-line pt-4 leading-relaxed text-muted">{about.support}</p>
         </div>
         {operationLayers.map((layer, i) => (
           <LayerPanel key={layer.id} index={i} visible={stage === i + 1} />
         ))}
-        <div aria-hidden={stage !== FINAL} className={`absolute inset-0 ${stage === FINAL ? '' : 'pointer-events-none'}`}>
-          <p className={`${fade} label-mono mb-6 text-muted ${stage === FINAL ? 'opacity-100' : 'opacity-0'}`}>{about.support}</p>
-          <Indicators visible={stage === FINAL} />
-        </div>
       </div>
     </div>
   )
@@ -272,7 +241,6 @@ function FlowLayout() {
         </div>
       </div>
 
-      <Indicators compact />
     </div>
   )
 }
