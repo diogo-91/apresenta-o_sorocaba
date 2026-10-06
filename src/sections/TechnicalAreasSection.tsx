@@ -29,10 +29,10 @@ function Services({ front, compact = false }: { front: TechnicalFront; compact?:
   return (
     <ol className="border-t border-line">
       {front.services.map((service, i) => (
-        <Reveal as="li" key={service.name} delay={0.3 + 0.08 * i} className={`grid grid-cols-[2.25rem_1fr] gap-x-3 border-b border-line ${compact ? 'py-2.5' : 'py-3'}`}>
-          <span className="label-mono pt-1.5 text-faint">{String(i + 1).padStart(2, '0')}</span>
+        <Reveal as="li" key={service.name} delay={0.3 + 0.08 * i} className={`grid grid-cols-[2.25rem_1fr] gap-x-3 border-b border-line ${compact ? 'py-2.5 lg:py-2' : 'py-3'}`}>
+          <span className={`label-mono text-faint ${compact ? 'pt-2 lg:text-xs' : 'pt-1.5'}`}>{String(i + 1).padStart(2, '0')}</span>
           <div>
-            <span className="font-display text-xl font-semibold tracking-tight">{service.name}</span>
+            <span className={`font-display font-semibold tracking-tight ${compact ? 'text-xl lg:text-[1.5rem]' : 'text-xl'}`}>{service.name}</span>
             {!compact && <span className="mt-0.5 block text-sm leading-relaxed text-muted">{service.detail}</span>}
           </div>
         </Reveal>
@@ -45,10 +45,10 @@ function Facts({ front, layout = 'row', maxRisks = 3, quiet = false }: { front: 
   return (
     <Reveal delay={0.5} className={`grid gap-x-6 gap-y-4 border-t border-line ${quiet ? 'pt-3 opacity-80 [&_li]:text-xs [&_p]:text-xs' : 'pt-4'} ${layout === 'row' ? 'sm:grid-cols-[2fr_1fr_1fr]' : 'grid-cols-2 [&>div:first-child]:col-span-2'}`}>
       <div>
-        <h3 className="label-mono text-alert">Riscos evitados</h3>
+        <h3 className={`label-mono text-alert ${quiet ? '' : 'lg:text-sm'}`}>Riscos evitados</h3>
         <ul className="mt-2 flex flex-col gap-1.5">
           {front.risks.slice(0, maxRisks).map((risk) => (
-            <li key={risk} className="flex gap-2.5 text-sm leading-snug text-fg/85">
+            <li key={risk} className={`flex gap-2.5 leading-snug text-fg/85 ${quiet ? 'text-sm' : 'text-sm lg:text-base'}`}>
               <span aria-hidden="true" className="mt-[0.45rem] size-1.5 shrink-0 bg-alert" />
               {risk}
             </li>
@@ -56,12 +56,12 @@ function Facts({ front, layout = 'row', maxRisks = 3, quiet = false }: { front: 
         </ul>
       </div>
       <div>
-        <h3 className="label-mono text-muted">Normas aplicáveis</h3>
-        <p className="mt-2 text-sm">{front.norms.length ? front.norms.join(' · ') : <Pending value={null} />}</p>
+        <h3 className={`label-mono text-muted ${quiet ? '' : 'lg:text-sm'}`}>Normas aplicáveis</h3>
+        <p className={`mt-2 ${quiet ? 'text-sm' : 'text-sm lg:text-base'}`}>{front.norms.length ? front.norms.join(' · ') : <Pending value={null} />}</p>
       </div>
       <div>
-        <h3 className="label-mono text-muted">Mini case</h3>
-        <p className="mt-2 text-sm">
+        <h3 className={`label-mono text-muted ${quiet ? '' : 'lg:text-sm'}`}>Mini case</h3>
+        <p className={`mt-2 ${quiet ? 'text-sm' : 'text-sm lg:text-base'}`}>
           <Pending value={front.miniCase.title} />
         </p>
       </div>
@@ -84,12 +84,12 @@ function Envoltoria({ front }: { front: TechnicalFront }) {
         />
         <div className="relative flex flex-col lg:col-span-5 lg:pl-12">
           <FrontTag front={front} />
-          <div className="relative mt-5 bg-paper lg:-ml-48 lg:py-6 lg:pl-12 lg:pr-6">
+          <div className="relative mt-5 bg-paper lg:-ml-48 lg:py-5 lg:pl-12 lg:pr-6">
             <span aria-hidden="true" className="absolute left-0 top-0 hidden h-full w-[3px] bg-accent lg:block" />
-            <Headline id={titleId(front.id)} size="lg" text={front.headline} className="max-w-[14ch] lg:text-[3.4rem]" />
+            <Headline id={titleId(front.id)} size="lg" text={front.headline} className="max-w-[14ch] lg:max-w-[19ch] lg:text-[4rem]" />
           </div>
           <Reveal delay={0.2}>
-            <p className="lede mt-4 max-w-[40ch] lg:text-lg">{front.description}</p>
+            <p className="lede mt-4 max-w-[42ch] lg:text-[1.3rem] lg:leading-relaxed">{front.description}</p>
           </Reveal>
           <div className="mt-5">
             <Services front={front} compact />
