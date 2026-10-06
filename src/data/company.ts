@@ -7,8 +7,6 @@ export const company = {
   legalName: TBC,
   cnpj: TBC,
   documentRevision: 'REV. 00',
-  preparedFor: TBC,
-  presentationDate: TBC,
   contact: {
     whatsapp: null as string | null,
     phone: null as string | null,

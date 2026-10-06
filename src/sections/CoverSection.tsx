@@ -5,7 +5,6 @@ import { cover } from '../data/content'
 import { titleId } from '../components/layout/Screen'
 import { BlueprintPlant } from '../components/technical/BlueprintPlant'
 import { Logo } from '../components/ui/Logo'
-import { Pending } from '../components/ui/Pending'
 import { usePresentationMode } from '../hooks/usePresentationMode'
 import { gsap } from '../lib/gsap'
 
@@ -47,7 +46,6 @@ function useCoverIntro(root: React.RefObject<HTMLElement | null>, parallax: bool
         tl.from(item.querySelector('[data-cover="rule"]'), { scaleX: 0, transformOrigin: 'left center', duration: 0.35, ease: 'power2.inOut' }, at)
         tl.from(item.querySelector('[data-cover="label"]'), { autoAlpha: 0, x: -4, duration: 0.4 }, at + 0.2)
       })
-      tl.from(q('[data-cover="sheet"]'), { autoAlpha: 0, duration: 0.8, ease: 'power1.out' }, 3.8)
     }, el)
     return () => ctx.revert()
   }, [root, reduced])
@@ -86,12 +84,6 @@ export function CoverSection() {
   const root = useRef<HTMLElement>(null)
   useCoverIntro(root, deck)
   const [lead, tail] = company.slogan.split('. ')
-  const sheet = [
-    { label: 'Preparado para', value: company.preparedFor },
-    { label: 'Data', value: company.presentationDate },
-    { label: 'Documento', value: cover.documentLabel },
-    { label: 'Revisão', value: company.documentRevision },
-  ]
 
   return (
     <section ref={root} id={deck ? 'capa' : undefined} data-screen aria-labelledby={titleId('capa')} className={`relative grid bg-paper ${deck ? 'h-full grid-cols-12' : 'min-h-svh grid-rows-[auto_1fr] pt-16'}`}>
@@ -122,7 +114,7 @@ export function CoverSection() {
           <span aria-hidden="true" className="size-2 bg-accent" />
           {cover.eyebrow}
         </p>
-        <div>
+        <div className="my-auto">
           <h1 id={titleId('capa')} className="display-xl">
             <span data-cover="lead" className="block">
               {lead}.
@@ -135,16 +127,6 @@ export function CoverSection() {
             {cover.subtitle}
           </p>
         </div>
-        <dl data-cover="sheet" className="grid grid-cols-2 gap-x-6 gap-y-5 border-t border-line-strong pt-6 lg:grid-cols-4">
-          {sheet.map((row) => (
-            <div key={row.label}>
-              <dt className="label-mono text-faint">{row.label}</dt>
-              <dd className="mt-1.5 text-sm text-fg">
-                <Pending value={row.value} />
-              </dd>
-            </div>
-          ))}
-        </dl>
       </div>
     </section>
   )

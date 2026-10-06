@@ -7,7 +7,6 @@ export const ambient = {
 export const cover = {
   eyebrow: 'Apresentação técnica',
   subtitle: 'Manutenção, infraestrutura e serviços especiais para operações críticas.',
-  documentLabel: 'Apresentação técnica',
   disciplines: ['Manutenção', 'Infraestrutura', 'Serviços especiais'],
 }
 
