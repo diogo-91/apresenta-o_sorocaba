@@ -1,5 +1,3 @@
-import { TBC } from '../lib/placeholder'
-
 export type CaseStudy = {
   id: string
   label: string
@@ -9,7 +7,6 @@ export type CaseStudy = {
   constraint: string
   solution: string
   result: string
-  sheet: { label: string; value: string }[]
   before: { src: string | null; alt: string }
   after: { src: string | null; alt: string }
 }
@@ -25,13 +22,6 @@ function placeholderCase(n: number): CaseStudy {
     constraint: '[RESTRIÇÃO]',
     solution: '[SOLUÇÃO]',
     result: '[RESULTADO]',
-    sheet: [
-      { label: 'Prazo', value: TBC },
-      { label: 'Equipe', value: TBC },
-      { label: 'Serviço', value: TBC },
-      { label: 'Normas', value: TBC },
-      { label: 'ART relacionada', value: TBC },
-    ],
     before: { src: null, alt: `${label} — registro antes da intervenção` },
     after: { src: null, alt: `${label} — registro depois da intervenção` },
   }

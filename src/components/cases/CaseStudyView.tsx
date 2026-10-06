@@ -14,8 +14,6 @@ export function CaseStudyView({ study }: { study: CaseStudy }) {
     { label: 'Solução', value: study.solution },
     { label: 'Resultado', value: study.result },
   ]
-  const art = study.sheet.find((row) => row.label === 'ART relacionada')
-  const sheet = study.sheet.filter((row) => row !== art)
 
   return (
     <article aria-labelledby={`${study.id}-title`} className="grid flex-1 gap-8 lg:grid-cols-12 lg:gap-12">
@@ -53,26 +51,6 @@ export function CaseStudyView({ study }: { study: CaseStudy }) {
             )
           })}
         </ol>
-
-        <div className={`mt-auto pt-5 transition-opacity duration-500 ${current >= 3 ? 'opacity-100' : 'opacity-30'}`}>
-          <p className="label-mono text-sm text-muted">Ficha técnica</p>
-          <dl className="mt-2 grid grid-cols-2 gap-x-6 gap-y-2">
-            {sheet.map((row) => (
-              <div key={row.label} className="flex items-baseline justify-between gap-3 border-b border-line pb-1.5">
-                <dt className="label-mono text-xs text-muted">{row.label}</dt>
-                <dd className="text-sm">
-                  <Pending value={row.value} />
-                </dd>
-              </div>
-            ))}
-          </dl>
-          {art && (
-            <p className="mt-3 flex items-center gap-3 border border-line-strong px-3 py-2">
-              <span className="label-mono text-xs text-accent-ink">ART associada</span>
-              <Pending value={art.value} className="text-sm" />
-            </p>
-          )}
-        </div>
       </div>
     </article>
   )
