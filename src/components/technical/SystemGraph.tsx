@@ -24,12 +24,13 @@ type Props = {
   target?: number | null
   scrollRange?: readonly [number, number]
   stretch?: number
+  large?: boolean
   className?: string
 }
 
 const MID = GRAPH_SIZE / 2
 
-export function SystemGraph({ target = null, scrollRange, stretch = 1, className = '' }: Props) {
+export function SystemGraph({ target = null, scrollRange, stretch = 1, large = false, className = '' }: Props) {
   const root = useRef<HTMLElement>(null)
   const camera = useRef<SVGGElement>(null)
   const interfaces = useRef<(SVGLineElement | null)[]>([])
@@ -85,7 +86,7 @@ export function SystemGraph({ target = null, scrollRange, stretch = 1, className
       const centered = Math.abs(offset) < 30
       set(labels.current[i], {
         x: side && !centered ? (offset > 0 ? 16 : -16) : 0,
-        y: side ? (centered ? -16 : 6) : 30,
+        y: side ? (centered ? -16 : 6) : large ? 38 : 30,
         'text-anchor': side && !centered ? (offset > 0 ? 'start' : 'end') : 'middle',
       })
     })
@@ -120,14 +121,14 @@ export function SystemGraph({ target = null, scrollRange, stretch = 1, className
         : `Modelo fragmentado: ${f.counters.suppliers} fornecedores e ${f.counters.interfaces} interfaces com a sua operação.`
       if (svg.current.getAttribute('aria-label') !== text) svg.current.setAttribute('aria-label', text)
     }
-  }, [stretch])
+  }, [stretch, large])
 
   useTweenedProgress(target, render)
   useScrollProgress(root, render, Boolean(scrollRange), scrollRange)
 
   return (
     <figure ref={root} className={`relative flex w-full flex-col ${className}`}>
-      <p ref={phase} className="label-mono mb-3 text-faint" aria-hidden="true">
+      <p ref={phase} className={`label-mono mb-3 text-faint ${large ? 'text-sm' : ''}`} aria-hidden="true">
         Cenário fragmentado · ilustrativo
       </p>
       <svg ref={svg} viewBox={`${MID - MID * stretch} 0 ${GRAPH_SIZE * stretch} ${GRAPH_SIZE}`} role="img" className="h-auto w-full overflow-visible">
@@ -164,18 +165,18 @@ export function SystemGraph({ target = null, scrollRange, stretch = 1, className
           {graphNodes.map((node, i) => (
             <g key={node.id} ref={(el) => void (nodes.current[i] = el)} opacity="0">
               <rect ref={(el) => void (nodeBoxes.current[i] = el)} x="-7" y="-7" width="14" height="14" className="stroke-fg" strokeWidth="1.25" fill="var(--color-paper)" />
-              <text ref={(el) => void (tags.current[i] = el)} y="-18" textAnchor="middle" className="fill-faint font-mono text-[11px] tracking-[0.14em] max-sm:hidden">
+              <text ref={(el) => void (tags.current[i] = el)} y={large ? -22 : -18} textAnchor="middle" className={`fill-faint font-mono tracking-[0.14em] max-sm:hidden ${large ? 'text-[15px]' : 'text-[11px]'}`}>
                 {node.supplier.toUpperCase()} · {contractCodes[i]}
               </text>
-              <text ref={(el) => void (labels.current[i] = el)} y="30" textAnchor="middle" className="fill-fg font-sans text-[15px] font-medium max-sm:text-[24px]">
+              <text ref={(el) => void (labels.current[i] = el)} y={large ? 38 : 30} textAnchor="middle" className={`fill-fg font-sans font-medium max-sm:text-[24px] ${large ? 'text-[22px]' : 'text-[15px]'}`}>
                 {node.specialty}
               </text>
             </g>
           ))}
 
           <g ref={client} opacity="0">
-            <rect x="-86" y="-21" width="172" height="42" className="fill-surface stroke-fg" strokeWidth="1.25" />
-            <text y="5" textAnchor="middle" className="fill-fg font-mono text-[12px] tracking-[0.2em] max-sm:text-[17px] max-sm:tracking-[0.08em]">
+            <rect x={large ? -118 : -86} y={large ? -27 : -21} width={large ? 236 : 172} height={large ? 54 : 42} className="fill-surface stroke-fg" strokeWidth="1.25" />
+            <text y={large ? 6 : 5} textAnchor="middle" className={`fill-fg font-mono tracking-[0.2em] max-sm:text-[17px] max-sm:tracking-[0.08em] ${large ? 'text-[17px]' : 'text-[12px]'}`}>
               {clientNode.label.toUpperCase()}
             </text>
           </g>
@@ -185,14 +186,14 @@ export function SystemGraph({ target = null, scrollRange, stretch = 1, className
       <dl className="mt-4 grid grid-cols-4 border-t border-line" aria-hidden="true">
         {[0, 1, 2, 3].map((i) => (
           <div key={i} className="border-r border-line px-3 pt-3 last:border-r-0">
-            <dt ref={(el) => void (counterLabels.current[i] = el)} className="label-mono text-[0.625rem] text-faint" />
+            <dt ref={(el) => void (counterLabels.current[i] = el)} className={`label-mono text-faint ${large ? 'text-xs' : 'text-[0.625rem]'}`} />
             <dd ref={(el) => void (counters.current[i] = el)} className="mt-1 font-mono text-2xl tabular-nums text-fg data-[alert=true]:text-alert lg:text-4xl">
               00
             </dd>
           </div>
         ))}
       </dl>
-      <figcaption className="label-mono mt-3 text-faint">Interfaces = n + n(n−1)/2 · n = {graphNodes.length}</figcaption>
+      <figcaption className={`label-mono mt-3 text-faint ${large ? 'text-sm' : ''}`}>Interfaces = n + n(n−1)/2 · n = {graphNodes.length}</figcaption>
     </figure>
   )
 }

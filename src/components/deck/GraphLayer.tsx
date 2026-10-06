@@ -38,7 +38,7 @@ export function GraphLayer() {
           exit={{ opacity: 0 }}
           transition={{ duration: DURATION.base }}
         >
-          <SystemGraph target={keyframes[Math.min(step, keyframes.length - 1)]} stretch={wide ? stretch : 1} className={wide ? 'w-full' : 'mx-auto w-[470px]'} />
+          <SystemGraph target={keyframes[Math.min(step, keyframes.length - 1)]} stretch={wide ? stretch : 1} large={wide} className={wide ? 'w-full' : 'mx-auto w-[470px]'} />
         </m.div>
       )}
     </AnimatePresence>
