@@ -3,6 +3,7 @@ import { cta } from '../data/content'
 import { Screen, titleId } from '../components/layout/Screen'
 import { BlueprintPlant } from '../components/technical/BlueprintPlant'
 import { Pending } from '../components/ui/Pending'
+import { isPending } from '../lib/placeholder'
 import { Reveal } from '../components/motion/Reveal'
 import { WordReveal } from '../components/motion/WordReveal'
 
@@ -13,7 +14,7 @@ export function CTASection() {
     { label: 'WhatsApp', value: contact.whatsapp, href: whatsapp },
     { label: 'Telefone', value: contact.phone, href: contact.phone ? `tel:${contact.phone.replace(/[^\d+]/g, '')}` : null },
     { label: 'E-mail', value: contact.email, href: contact.email ? `mailto:${contact.email}` : null },
-    { label: 'Endereço', value: contact.address, href: null },
+    { label: 'Endereço', value: contact.address, href: isPending(contact.address) ? null : `https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(contact.address)}` },
     { label: 'CNPJ', value: company.cnpj, href: null },
   ]
 
@@ -42,9 +43,9 @@ export function CTASection() {
       <Reveal delay={0.9}>
         <dl className="grid grid-cols-2 gap-x-6 gap-y-4 border-t border-line pt-5 sm:grid-cols-5">
           {channels.map((c) => (
-            <div key={c.label}>
+            <div key={c.label} className="min-w-0">
               <dt className="label-mono text-faint">{c.label}</dt>
-              <dd className="mt-1 text-sm">
+              <dd className="mt-1 text-sm [overflow-wrap:anywhere]">
                 {c.href && c.value ? (
                   <a href={c.href} className="link-underline">
                     {c.value}

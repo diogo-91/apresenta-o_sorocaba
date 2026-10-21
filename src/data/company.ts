@@ -8,10 +8,10 @@ export const company = {
   cnpj: TBC,
   documentRevision: 'REV. 00',
   contact: {
-    whatsapp: null as string | null,
+    whatsapp: '+55 (15) 99696-8450' as string | null,
     phone: null as string | null,
-    email: null as string | null,
-    address: TBC,
+    email: 'info@sorocabamotores.com.br' as string | null,
+    address: 'Av. Conde Zeppelin, 3300 - Jardim Eden Ville, Sorocaba - SP, 18103-008, Brasil',
   },
 }
 
