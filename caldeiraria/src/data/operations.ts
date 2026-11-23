@@ -66,7 +66,7 @@ export const operations: Operation[] = [
       { label: 'Equipamentos', value: TBC },
     ],
     checkpoint: 'Medição de furos e faces',
-    photo: { src: null, alt: 'Registro de campo: usinagem de peça' },
+    photo: { src: '/images/operacoes/usinagem.webp', alt: 'Operador no painel de um centro de usinagem, com a ferramenta trabalhando a peça e peças usinadas na bancada' },
   },
   {
     id: 'montagem',
