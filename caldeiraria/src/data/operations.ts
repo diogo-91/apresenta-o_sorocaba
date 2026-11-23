@@ -83,7 +83,7 @@ export const operations: Operation[] = [
       { label: 'Área de montagem', value: TBC },
     ],
     checkpoint: 'Esquadro e posição',
-    photo: { src: null, alt: 'Registro de campo: montagem de conjunto' },
+    photo: { src: '/images/operacoes/montagem.webp', alt: 'Soldador unindo chapas e reforços de um conjunto sobre a bancada de montagem' },
   },
   {
     id: 'solda',
