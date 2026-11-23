@@ -1,0 +1,147 @@
+import { TBC } from '../lib/placeholder'
+
+export type OperationId = 'corte' | 'dobra' | 'usinagem' | 'montagem' | 'solda' | 'acabamento' | 'pintura'
+
+export type Operation = {
+  id: OperationId
+  name: string
+  line: string
+  headline: string
+  description: string
+  input: string
+  output: string
+  processes: string[]
+  specs: { label: string; value: string }[]
+  checkpoint: string
+  photo: { src: string | null; alt: string }
+}
+
+export const operations: Operation[] = [
+  {
+    id: 'corte',
+    name: 'Corte',
+    line: 'Matéria-prima no contorno do desenho.',
+    headline: 'O desenho vira contorno.',
+    description: 'Chapas, perfis e tubos cortados na geometria do projeto, prontos para conformar.',
+    input: 'Chapa, perfil ou tubo',
+    output: 'Peças no contorno',
+    processes: ['Laser', 'Plasma', 'Oxicorte', 'Guilhotina', 'Serra'],
+    specs: [
+      { label: 'Espessura máxima', value: TBC },
+      { label: 'Área útil de corte', value: TBC },
+      { label: 'Materiais', value: TBC },
+    ],
+    checkpoint: 'Conferência dimensional',
+    photo: { src: null, alt: 'Registro de campo: corte de chapa' },
+  },
+  {
+    id: 'dobra',
+    name: 'Dobra',
+    line: 'Ângulos e raios conforme o projeto.',
+    headline: 'A chapa ganha forma.',
+    description: 'Dobra e calandragem dão à peça os ângulos e os raios previstos no desenho.',
+    input: 'Peças cortadas',
+    output: 'Peças conformadas',
+    processes: ['Dobradeira', 'Calandra', 'Prensa'],
+    specs: [
+      { label: 'Comprimento máximo de dobra', value: TBC },
+      { label: 'Capacidade da prensa', value: TBC },
+      { label: 'Espessura máxima', value: TBC },
+    ],
+    checkpoint: 'Ângulos e raios',
+    photo: { src: null, alt: 'Registro de campo: dobra de chapa' },
+  },
+  {
+    id: 'usinagem',
+    name: 'Usinagem',
+    line: 'Furos, faces e ajustes com tolerância.',
+    headline: 'Onde o encaixe é decidido.',
+    description: 'Torneamento, fresamento e furação garantem as faces, os furos e os ajustes que a montagem precisa.',
+    input: 'Peças conformadas',
+    output: 'Peças com furos, faces e ajustes',
+    processes: ['Torneamento', 'Fresamento', 'Furação', 'Mandrilhamento'],
+    specs: [
+      { label: 'Dimensão máxima da peça', value: TBC },
+      { label: 'Tolerância de trabalho', value: TBC },
+      { label: 'Equipamentos', value: TBC },
+    ],
+    checkpoint: 'Medição de furos e faces',
+    photo: { src: null, alt: 'Registro de campo: usinagem de peça' },
+  },
+  {
+    id: 'montagem',
+    name: 'Montagem',
+    line: 'Peças posicionadas, esquadrejadas e ponteadas.',
+    headline: 'Cada peça no seu lugar.',
+    description: 'Traçagem, gabaritos e ponteamento posicionam o conjunto conforme o desenho antes da solda definitiva.',
+    input: 'Peças usinadas',
+    output: 'Conjunto ponteado',
+    processes: ['Traçagem', 'Gabaritos e dispositivos', 'Esquadrejamento', 'Ponteamento'],
+    specs: [
+      { label: 'Dimensão máxima de conjunto', value: TBC },
+      { label: 'Capacidade de içamento', value: TBC },
+      { label: 'Área de montagem', value: TBC },
+    ],
+    checkpoint: 'Esquadro e posição',
+    photo: { src: null, alt: 'Registro de campo: montagem de conjunto' },
+  },
+  {
+    id: 'solda',
+    name: 'Solda',
+    line: 'União definitiva do conjunto.',
+    headline: 'A união que segura a estrutura.',
+    description: 'O conjunto recebe a solda definitiva, no processo e na sequência definidos para o material e a espessura.',
+    input: 'Conjunto ponteado',
+    output: 'Conjunto soldado',
+    processes: ['MIG/MAG', 'TIG', 'Eletrodo revestido', 'Arco submerso'],
+    specs: [
+      { label: 'Procedimentos qualificados', value: TBC },
+      { label: 'Soldadores qualificados', value: TBC },
+      { label: 'Materiais', value: TBC },
+    ],
+    checkpoint: 'Inspeção visual de solda',
+    photo: { src: null, alt: 'Registro de campo: soldagem de conjunto' },
+  },
+  {
+    id: 'acabamento',
+    name: 'Acabamento',
+    line: 'Rebarbas, respingos e cordões tratados.',
+    headline: 'O detalhe que prepara a superfície.',
+    description: 'Esmerilhamento, lixamento e jateamento removem rebarbas e respingos e deixam a superfície pronta para a pintura.',
+    input: 'Conjunto soldado',
+    output: 'Superfície preparada',
+    processes: ['Esmerilhamento', 'Lixamento', 'Jateamento abrasivo'],
+    specs: [
+      { label: 'Grau de limpeza de superfície', value: TBC },
+      { label: 'Área de jateamento', value: TBC },
+      { label: 'Equipamentos', value: TBC },
+    ],
+    checkpoint: 'Limpeza de superfície',
+    photo: { src: null, alt: 'Registro de campo: acabamento de superfície' },
+  },
+  {
+    id: 'pintura',
+    name: 'Pintura',
+    line: 'Proteção anticorrosiva e acabamento final.',
+    headline: 'A última camada protege todas as outras.',
+    description: 'Fundo, intermediária e acabamento aplicados conforme o esquema de pintura especificado no projeto.',
+    input: 'Superfície preparada',
+    output: 'Peça pronta',
+    processes: ['Fundo anticorrosivo', 'Intermediária', 'Acabamento', 'Medição de espessura'],
+    specs: [
+      { label: 'Sistemas de pintura', value: TBC },
+      { label: 'Cabine e cura', value: TBC },
+      { label: 'Cores e padrões', value: TBC },
+    ],
+    checkpoint: 'Espessura de camada',
+    photo: { src: null, alt: 'Registro de campo: pintura industrial' },
+  },
+]
+
+export const OPERATION_COUNT = operations.length
+export const PROCESS_FINAL = OPERATION_COUNT + 1
+export const PROCESS_STEPS = PROCESS_FINAL + 1
+
+export function operationById(id: OperationId) {
+  return operations.find((op) => op.id === id)!
+}
