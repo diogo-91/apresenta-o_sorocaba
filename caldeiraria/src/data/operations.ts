@@ -117,7 +117,7 @@ export const operations: Operation[] = [
       { label: 'Equipamentos', value: TBC },
     ],
     checkpoint: 'Limpeza de superfície',
-    photo: { src: null, alt: 'Registro de campo: acabamento de superfície' },
+    photo: { src: '/images/operacoes/acabamento.webp', alt: 'Operador esmerilhando os cordões de solda de uma estrutura metálica' },
   },
   {
     id: 'pintura',
