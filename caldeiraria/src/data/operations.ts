@@ -49,7 +49,7 @@ export const operations: Operation[] = [
       { label: 'Espessura máxima', value: TBC },
     ],
     checkpoint: 'Ângulos e raios',
-    photo: { src: null, alt: 'Registro de campo: dobra de chapa' },
+    photo: { src: '/images/operacoes/dobra.webp', alt: 'Operador posicionando uma chapa na dobradeira, com peças dobradas ao lado' },
   },
   {
     id: 'usinagem',
