@@ -134,7 +134,7 @@ export const operations: Operation[] = [
       { label: 'Cores e padrões', value: TBC },
     ],
     checkpoint: 'Espessura de camada',
-    photo: { src: null, alt: 'Registro de campo: pintura industrial' },
+    photo: { src: '/images/operacoes/pintura.webp', alt: 'Pintor com macacão e máscara aplicando tinta azul com pistola em uma estrutura metálica dentro da cabine' },
   },
 ]
 
