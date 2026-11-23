@@ -23,7 +23,10 @@ function Field({ op, className = '' }: { op: Operation; className?: string }) {
   return (
     <figure className={`relative overflow-hidden bg-night text-night-fg ${className}`}>
       {op.photo.src ? (
-        <img src={op.photo.src} alt={op.photo.alt} loading="lazy" decoding="async" className="absolute inset-0 size-full object-cover" />
+        <>
+          <img src={op.photo.src} alt={op.photo.alt} loading="lazy" decoding="async" className="absolute inset-0 size-full object-cover" />
+          <span aria-hidden="true" className="absolute inset-x-0 bottom-0 h-1/4 bg-[linear-gradient(to_top,rgb(8_10_12/0.7),transparent)]" />
+        </>
       ) : (
         <div role="img" aria-label={`${op.photo.alt} (foto a inserir)`} className="absolute inset-0">
           <div aria-hidden="true" className="blueprint-grid absolute inset-0 opacity-70" />

@@ -32,7 +32,7 @@ export const operations: Operation[] = [
       { label: 'Materiais', value: TBC },
     ],
     checkpoint: 'Conferência dimensional',
-    photo: { src: null, alt: 'Registro de campo: corte de chapa' },
+    photo: { src: '/images/operacoes/corte.webp', alt: 'Operador acompanhando o corte a laser de chapa no painel da máquina' },
   },
   {
     id: 'dobra',
