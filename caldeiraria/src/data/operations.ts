@@ -100,7 +100,7 @@ export const operations: Operation[] = [
       { label: 'Materiais', value: TBC },
     ],
     checkpoint: 'Inspeção visual de solda',
-    photo: { src: null, alt: 'Registro de campo: soldagem de conjunto' },
+    photo: { src: '/images/operacoes/solda.webp', alt: 'Soldador fazendo a solda definitiva de uma estrutura metálica de grande porte' },
   },
   {
     id: 'acabamento',
